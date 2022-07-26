@@ -1,0 +1,23 @@
+<svg id="LadderFlip" xmlns="http://www.w3.org/2000/svg" width="350" height="409" viewBox="0 0 350 409">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-width: 0.96px;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path class="cls-1" d="M13,72V208"/>
+  <path class="cls-1" d="M54,126V262"/>
+  <path id="ToBePutBack" class="cls-1" d="M94,72V316"/>
+  <path class="cls-1" d="M134,234v82"/>
+  <path class="cls-1" d="M175,72V316"/>
+  <path class="cls-1" d="M215,180v82"/>
+  <path class="cls-1" d="M256,73V316"/>
+  <path class="cls-1" d="M296,72V208"/>
+  <path class="cls-1" d="M337,72v82"/>
+  <path class="cls-1" d="M337,207V316"/>
+  <path class="cls-1" d="M14,261v55"/>
+</svg>

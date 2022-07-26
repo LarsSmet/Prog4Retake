@@ -1,0 +1,30 @@
+<svg id="ladderpoints" xmlns="http://www.w3.org/2000/svg" width="350" height="409" viewBox="0 0 350 409">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-width: 0.96px;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path class="cls-1" d="M13,127h1"/>
+  <path class="cls-1" d="M54,208h1"/>
+  <path class="cls-1" d="M94,262h1"/>
+  <path class="cls-1" d="M94,235h1"/>
+  <path class="cls-1" d="M94,208h1"/>
+  <path class="cls-1" d="M94,181h1"/>
+  <path class="cls-1" d="M94,127h1"/>
+  <path class="cls-1" d="M175,127h1"/>
+  <path class="cls-1" d="M175,181h1"/>
+  <path class="cls-1" d="M175,235h1"/>
+  <path class="cls-1" d="M175,262h1"/>
+  <path class="cls-1" d="M256,127h1"/>
+  <path class="cls-1" d="M256,154h1"/>
+  <path class="cls-1" d="M256,181h1"/>
+  <path class="cls-1" d="M256,208h1"/>
+  <path class="cls-1" d="M256,262h1"/>
+  <path class="cls-1" d="M296,154h1"/>
+  <path class="cls-1" d="M337,262h1"/>
+</svg>

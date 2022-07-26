@@ -1,0 +1,3 @@
+C:/Users/larss/OneDrive/Desktop/Programming4/GoodVersion/Minigin_2022/Minigin/3rdParty/glm/glm/out/build/x64-Debug/CMakeFiles/glm_dummy.dir
+C:/Users/larss/OneDrive/Desktop/Programming4/GoodVersion/Minigin_2022/Minigin/3rdParty/glm/glm/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/larss/OneDrive/Desktop/Programming4/GoodVersion/Minigin_2022/Minigin/3rdParty/glm/glm/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
