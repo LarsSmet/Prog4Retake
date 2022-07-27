@@ -5,6 +5,7 @@
 #include "RenderComponent.h"
 #include "BaseColliderComponent.h"
 #include "RectangleColliderComponent.h"
+#include "TileMapComponent.h"
 
 dae::GameObject::GameObject(float xPos, float yPos) : m_TransformComp{ new TransformComponent{ this, xPos, yPos} }
 {
@@ -42,23 +43,29 @@ void dae::GameObject::Update(float deltaTime)
 void dae::GameObject::Render() const
 {
 
-
-
-	const auto& pos = m_TransformComp->GetPosition();
-
-	
-	std::shared_ptr<dae::Texture2D> texture;
-
-
-	auto renderComponent = GetComponent<RenderComponent>();
-	if (renderComponent != nullptr)
+	auto tileMapComponent = GetComponent<TileMapComponent>();
+	if (tileMapComponent != nullptr)
 	{
-		texture = renderComponent->GetTexture();
-		Renderer::GetInstance().RenderTexture(*texture, pos.x, pos.y);
+		tileMapComponent->Render();
 	}
-	
-	 
+	else
+	{
 
+		const auto& pos = m_TransformComp->GetPosition();
+
+
+		std::shared_ptr<dae::Texture2D> texture;
+
+
+		auto renderComponent = GetComponent<RenderComponent>();
+		if (renderComponent != nullptr)
+		{
+			texture = renderComponent->GetTexture();
+			Renderer::GetInstance().RenderTexture(*texture, pos.x, pos.y);
+		}
+
+
+	}
 
 }
 

@@ -26,6 +26,7 @@
 #include "Texture2D.h"
 #include <VerticesCollider.h>
 #include <SVGParser.cpp>
+#include <TileMapComponent.h>
 //#include "GameCommands.h"
 //#include "BurgerPartComponent.h"
 //#include "GameMode.h"
@@ -53,7 +54,7 @@ int main(int, char* [])
 
 void LoadGame()
 {
-	
+	ResourceManager::GetInstance().Init("../Data/");
 
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
@@ -69,21 +70,39 @@ void LoadGame()
 	float playerStartx = 0;
 	float playerStartY = 0;
 
+	//auto go = std::make_shared<GameObject>(playerStartx, playerStartY);
+
+	//RenderComponent* renderComponent = new RenderComponent{ go.get()};
+
+	//renderComponent->SetTexture("WallTile.png");
+	//go->AddComponent(renderComponent);
+
+	//scene.Add(go);
+
+
 	auto go = std::make_shared<GameObject>(playerStartx, playerStartY);
 
-	RenderComponent* renderComponent = new RenderComponent{ go.get()};
 
-	renderComponent->SetTexture("WallTile.png");
-	go->AddComponent(renderComponent);
+	
 
-	scene.Add(go);
+	TileMapComponent* tileMapComponent = new TileMapComponent{ go.get(), "../Data/TileMap.txt" };
 
-	go = std::make_shared<GameObject>(playerStartx + 16, playerStartY);
+	//std::ifstream input;
+	//
+	//input.open("../Data/TileMap.txt");
 
-	renderComponent = new RenderComponent{ go.get() };
+	//if (!input.is_open())
+	//{
+	//	std::cout << "Opening file failedsssssssssssssss";
+	//	return;
+	//}
 
-	renderComponent->SetTexture("RoadTile.png");
-	go->AddComponent(renderComponent);
+	//tileMapComponent;
+
+	tileMapComponent->ConvertFileToMap();
+
+	//tileMapComponent.ConvertFileToMap();
+	go->AddComponent(tileMapComponent);
 
 	scene.Add(go);
 
