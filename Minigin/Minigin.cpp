@@ -59,8 +59,8 @@ namespace dae
 			"Programming 4 assignment",
 			SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED,
-			350,
-			409,
+			480,
+			653,
 			SDL_WINDOW_OPENGL
 		);
 		if (m_Window == nullptr)

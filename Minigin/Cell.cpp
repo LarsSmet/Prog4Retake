@@ -17,4 +17,16 @@ namespace dae
 		//Renderer::GetInstance().RenderTexture(*texture, pos.x, pos.y);
 	}
 
+	void Cell::SetTexture(const std::string& filename)
+	{
+		//m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
+		filename;
+	}
+
+	void Cell::SetCollision(bool hasCol)
+	{
+		//m_HasCollision = isCol;
+		hasCol;
+	}
+
 }

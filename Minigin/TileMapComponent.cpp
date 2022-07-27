@@ -20,11 +20,14 @@ namespace dae
 
 	void TileMapComponent::ConvertFileToMap()
 	{
-		int mapSizeX;
-		int mapSizeY;
+		size_t mapSizeX;
+		size_t mapSizeY;
 
-		mapSizeX;
-		mapSizeY;
+		int value;
+
+		//TODO: REMOVE = 1, temp for warining
+		mapSizeX = 1;
+		mapSizeY = 1;
 
 		glm::vec2 position; //change to transform component later
 
@@ -36,8 +39,39 @@ namespace dae
 			return;
 		}
 
+		Cell cellToAdd;
 
 		//create nested for loops to intialize each cell
+
+		for (size_t row = 0; row < mapSizeY; ++row)
+		{
+			for (size_t col = 0; col < mapSizeX; ++col)
+			{
+
+				input >> value;
+
+				if (value == 0)
+				{
+					//set col is false
+					cellToAdd.SetCollision(false);
+				}
+				else if (value == 1)
+				{
+					//set col to true
+					cellToAdd.SetCollision(true);
+				}
+
+				input >> value;
+
+				//if .. if.. -> set texture
+
+
+
+
+			}
+		}
+
+		input.close();
 
 	}
 

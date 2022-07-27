@@ -15,7 +15,8 @@ namespace dae
 
 
 		void Render();
-
+		void SetTexture(const std::string& filename);
+		void SetCollision(bool hasCol);
 
 	private:
 

@@ -66,15 +66,26 @@ void LoadGame()
 
 
 
-	//float playerStartx = 0;
-	//float playerStartY = 110;
+	float playerStartx = 0;
+	float playerStartY = 0;
 
-	//auto go = std::make_shared<GameObject>(playerStartx, playerStartY);
+	auto go = std::make_shared<GameObject>(playerStartx, playerStartY);
 
-	//RenderComponent* renderComponent = new RenderComponent{ go.get()};
+	RenderComponent* renderComponent = new RenderComponent{ go.get()};
 
-	//renderComponent->SetTexture("PeterPepper.png");
-	//go->AddComponent(renderComponent);
+	renderComponent->SetTexture("WallTile.png");
+	go->AddComponent(renderComponent);
+
+	scene.Add(go);
+
+	go = std::make_shared<GameObject>(playerStartx + 16, playerStartY);
+
+	renderComponent = new RenderComponent{ go.get() };
+
+	renderComponent->SetTexture("RoadTile.png");
+	go->AddComponent(renderComponent);
+
+	scene.Add(go);
 
 	////auto test = go->GetComponent<RenderComponent>();
 	////go->RemoveComponent<RenderComponent>(renderComponent);
