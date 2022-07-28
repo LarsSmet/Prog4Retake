@@ -7,7 +7,7 @@
 namespace dae
 {
 
-	LivesDisplayComponent::LivesDisplayComponent(GameObject* go, TextComponent* textComp, PlayerComponent* peterPepperComponent) : BaseComponent{ go }, m_pTextComp { textComp }, m_PlayerComp{ peterPepperComponent }
+	LivesDisplayComponent::LivesDisplayComponent(GameObject* go, TextComponent* textComp/*,*/ /*PlayerComponent* peterPepperComponent*/) : BaseComponent{ go }, m_pTextComp { textComp }/* m_PlayerComp{ peterPepperComponent }*/
 	{
 
 	}
@@ -25,7 +25,7 @@ namespace dae
 		case Event::PlayerDied:
 		
 
-			m_pTextComp->SetText("Lives: " +  std::to_string( m_PlayerComp->GetLives()));
+			//m_pTextComp->SetText("Lives: " +  std::to_string( m_PlayerComp->GetLives()));
 	
 			break;
 		case Event::EnemyDied:

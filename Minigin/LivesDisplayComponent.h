@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseComponent.h"
 #include "Observer.h"
-#include "PlayerComponent.h"
+//#include "PlayerComponent.h"
 
 namespace dae
 {
@@ -12,7 +12,7 @@ namespace dae
 	{
 	public:
 
-		LivesDisplayComponent(GameObject* go, TextComponent* textComp, PlayerComponent* peterPepperComponent);
+		LivesDisplayComponent(GameObject* go, TextComponent* textComp/*,*/ /*PlayerComponent* peterPepperComponent*/);
 		void onNotify(Event event);
 		void Update(float);
 
@@ -23,7 +23,7 @@ namespace dae
 		
 
 
-		PlayerComponent* m_PlayerComp;
+		//PlayerComponent* m_PlayerComp;
 
 	};
 

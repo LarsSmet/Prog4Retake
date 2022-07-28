@@ -15,7 +15,7 @@
 #include <LivesDisplayComponent.h>
 #include <PointDisplayComponent.h>
 #include <InputManager.cpp>
-#include <RectangleColliderComponent.h>
+//#include <RectangleColliderComponent.h>
 #include <cmath>
 #include <algorithm>
 #include <iostream>

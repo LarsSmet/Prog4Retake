@@ -4,7 +4,7 @@
 #include "Renderer.h"
 #include "RenderComponent.h"
 #include "BaseColliderComponent.h"
-#include "RectangleColliderComponent.h"
+//#include "RectangleColliderComponent.h"
 #include "TileMapComponent.h"
 
 dae::GameObject::GameObject(float xPos, float yPos) : m_TransformComp{ new TransformComponent{ this, xPos, yPos} }

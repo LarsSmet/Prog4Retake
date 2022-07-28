@@ -3,7 +3,7 @@
 #include "xinput.h"
 #include <iostream>
 #include "GameObject.h"
-#include "PlayerComponent.h"
+//#include "PlayerComponent.h"
 
 #include "SoundSystem.h"
 #include "PhysicsComponent.h"

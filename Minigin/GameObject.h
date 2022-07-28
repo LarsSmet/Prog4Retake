@@ -6,7 +6,7 @@
 #include "TransformComponent.h"
 #include <vector>
 #include "BaseColliderComponent.h"
-#include "RectangleColliderComponent.h"
+//#include "RectangleColliderComponent.h"
 #include "utils.h"
 
 namespace dae

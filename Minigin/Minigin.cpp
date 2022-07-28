@@ -15,7 +15,7 @@
 #include "Font.h"
 #include "TransformComponent.h"
 #include "RenderComponent.h"
-#include "PlayerComponent.h"
+//#include "PlayerComponent.h"
 #include "LivesDisplayComponent.h"
 #include "PointDisplayComponent.h"
 

@@ -245,9 +245,8 @@
     <ClInclude Include="MiniginPCH.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="PhysicsComponent.h" />
-    <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="PointDisplayComponent.h" />
-    <ClInclude Include="RectangleColliderComponent.h" />
+    <ClInclude Include="RectColliderComponent.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="Renderer.h" />
@@ -280,7 +279,6 @@
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="LivesDisplayComponent.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="MiniginPCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -291,9 +289,8 @@
     </ClCompile>
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
-    <ClCompile Include="PlayerComponent.cpp" />
     <ClCompile Include="PointDisplayComponent.cpp" />
-    <ClCompile Include="RectangleColliderComponent.cpp" />
+    <ClCompile Include="RectColliderComponent.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
