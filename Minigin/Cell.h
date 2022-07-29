@@ -17,10 +17,14 @@ namespace dae
 
 		void Render();
 		void SetTexture(const std::string& filename);
+		void SetCollision(bool hasCol, RectColliderComponent colliderComp);
 		void SetCollision(bool hasCol);
 		void SetPos(float x, float y);
 		bool HasCollision();
-		RectColliderComponent* GetCollider();
+		void SetSize(float width, float height);
+
+
+		std::shared_ptr<RectColliderComponent> GetCollider();
 
 
 
@@ -36,7 +40,8 @@ namespace dae
 		float m_Height;
 
 		std::shared_ptr<dae::Texture2D> m_Texture;
-		RectColliderComponent* m_pColliderComp;
+
+		std::shared_ptr < RectColliderComponent> m_pColliderComp;
 
 
 		//render

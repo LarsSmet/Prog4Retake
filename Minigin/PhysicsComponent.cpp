@@ -11,8 +11,13 @@ namespace dae
 
 	PhysicsComponent::~PhysicsComponent()
 	{
+	/*	delete m_pTransformComp;
+		m_pTransformComp = nullptr;*/
+
 		delete m_pColliderComp;
 		m_pColliderComp = nullptr;
+
+	
 	}
 
 	void PhysicsComponent::Update(float deltaTime)
@@ -54,6 +59,13 @@ namespace dae
 
 	void PhysicsComponent::HandleCollision(RectColliderComponent* collision)
 	{
+
+		auto colInfo = m_pColliderComp->OnCollision(collision);
+
+		if (colInfo.leftColBotIsHit)
+		{
+			std::cout << "COL";
+		}
 
 		collision;
 	}

@@ -28,6 +28,8 @@ namespace dae
 
 		State GetState();
 
+		PhysicsComponent* GetPhysicsComp();
+
 
 	private:
 

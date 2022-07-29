@@ -30,7 +30,8 @@ namespace dae
 		{
 			if (map[i].HasCollision())
 			{
-				m_pPhysicsComponent->HandleCollision(map[i].GetCollider());
+				//std::cout << "called before handlecol func";
+				m_pPhysicsComponent->HandleCollision(map[i].GetCollider().get());
 			}
 		}
 
@@ -48,5 +49,10 @@ namespace dae
 	{
 		return m_State;
 	}
+	PhysicsComponent* PlayerComponent::GetPhysicsComp()
+	{
+		return m_pPhysicsComponent;
+	}
+
 
 }

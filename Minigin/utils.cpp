@@ -549,6 +549,7 @@ bool utils::Raycast( const Point2f* vertices, const size_t nrVertices, const Poi
 		hits.begin( ), hits.end( ),
 		[]( const HitInfo& first, const HitInfo& last ) 
 		{
+
 			return first.lambda < last.lambda; 
 		} 
 	);

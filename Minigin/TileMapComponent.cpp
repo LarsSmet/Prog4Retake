@@ -2,10 +2,11 @@
 #include "TileMapComponent.h"
 #include <fstream>
 #include"ResourceManager.h"
+#include "GameObject.h"
 
 namespace dae
 {
-	TileMapComponent::TileMapComponent(GameObject* go, const char* filename): BaseComponent{go}, m_File{filename}
+	TileMapComponent::TileMapComponent(GameObject* go, const char* filename): BaseComponent{go}, m_File{filename}, m_Go{go}
 	{
 		//ConvertFileToMap();
 	}
@@ -13,7 +14,8 @@ namespace dae
 	TileMapComponent::~TileMapComponent()
 	{
 
-	
+		//delete m_File;
+		//m_File = nullptr;
 
 	}
 
@@ -21,6 +23,8 @@ namespace dae
 
 	void TileMapComponent::ConvertFileToMap()
 	{
+
+
 		ResourceManager::GetInstance().Init("../Data/");
 
 		size_t amountOfCol;
@@ -31,8 +35,9 @@ namespace dae
 
 		int value;
 
-
-		glm::vec2 position{0,0}; //change to transform component later
+		auto transformCompPos = m_Go->GetTransformComp()->GetPosition();
+		
+		glm::vec2 position{ transformCompPos.x, transformCompPos.y}; //change to transform component later
 
 		std::ifstream input(m_File);
 
@@ -49,9 +54,10 @@ namespace dae
 		input >> cellWidth;
 		input >> cellHeight;
 
-		Cell cellToAdd;
+		//Cell m_CellToAdd;
+		//Rectf* rectCollider = nullptr;
 
-
+		//RectColliderComponent* colliderComp = nullptr;
 
 		//create nested for loops to intialize each cell
 
@@ -59,6 +65,17 @@ namespace dae
 		{
 			for (size_t col = 0; col < amountOfCol; ++col)
 			{
+				//set size
+				m_CellToAdd.SetSize(cellWidth, cellHeight);
+				
+				//set pos
+
+				float xPos = (col * cellWidth) + position.x;
+				float yPos = (row * cellHeight) + position.y;
+
+				m_CellToAdd.SetPos(xPos,yPos) ;
+
+
 				//get input for col
 				input >> value;
 
@@ -68,12 +85,17 @@ namespace dae
 				if (value == 0)
 				{
 					//set col is false
-					cellToAdd.SetCollision(false);
+					m_CellToAdd.SetCollision(false);
 				}
 				else if (value == 1)
 				{
 					//set col to true
-					cellToAdd.SetCollision(true);
+					//rectCollider = new Rectf{ xPos, yPos, cellWidth, cellHeight };
+					//colliderComp = new RectColliderComponent{ m_Go, rectCollider };
+					//cellToAdd.SetCollision(true, new RectColliderComponent{ m_Go, new Rectf{ xPos, yPos, cellWidth, cellHeight } });
+			
+					m_CellToAdd.SetCollision(true,  RectColliderComponent{ m_Go,  Rectf{ xPos, yPos, cellWidth, cellHeight } });
+				
 				}
 
 				//get input for texture
@@ -84,18 +106,18 @@ namespace dae
 				{
 				case 2:
 					//set to road
-					cellToAdd.SetTexture("RoadTile.png");
+					m_CellToAdd.SetTexture("RoadTile.png");
 					break;
 				case 3:
 					//set to wall
-					cellToAdd.SetTexture("WallTile.png");
+					m_CellToAdd.SetTexture("WallTile.png");
 					break;
 				}
 
 				
-				cellToAdd.SetPos((col * cellWidth) + position.x, (row * cellHeight) + position.y);
-
-				m_Map.emplace_back(cellToAdd);
+				
+				//std::cout << "emplace";
+				m_Map.emplace_back(m_CellToAdd);
 
 
 			

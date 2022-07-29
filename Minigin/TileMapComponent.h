@@ -28,6 +28,10 @@ namespace dae
 
 		std::vector<Cell> m_Map;
 
+		GameObject* m_Go;
+
+
+		Cell m_CellToAdd;
 
 	};
 

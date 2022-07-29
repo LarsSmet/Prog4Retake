@@ -9,20 +9,27 @@ namespace dae
 	
 		//left col hitinfo
 		utils::HitInfo leftColBot;
+		bool leftColBotIsHit = false;
 		utils::HitInfo leftColTop;
+		bool leftColTopIsHit = false;
 
 		//top col hitinfo
 		utils::HitInfo topColLeft;
+		bool topColLeftIsHit = false;
 		utils::HitInfo topColRight;
+		bool topColRightIsHit = false;
 
 		//right col hitinfo
 		utils::HitInfo rightColTop;
+		bool rightColTopIsHit = false;
 		utils::HitInfo rightColBot;
+		bool rightColBotIsHit = false;
 
 		//bot col hitinfo
 		utils::HitInfo botColRight;
+		bool botColRightIsHit = false;
 		utils::HitInfo botColLeft;
-
+		bool botColLeftIsHit = false;
 
 	};
 
@@ -32,23 +39,23 @@ namespace dae
 
 	public:
 
-		RectColliderComponent(GameObject* go);
+		RectColliderComponent(GameObject* go, Rectf rectCollider);
 		~RectColliderComponent();
 
 		CollisionHitInfo OnCollision(RectColliderComponent* collision);
 
-		void SetPosition();
+		void SetPosition(float x, float y);
 		Point2f GetPosition() const;
 		void Move(float xOffSet, float yOffSet);
 
-		Rectf* GetRectCollider();
+		Rectf GetRectCollider();
 
 
 	private:
 
 
 
-		Rectf* m_RectCollider;
+		Rectf m_RectCollider;
 
 
 	};

@@ -13,7 +13,7 @@ namespace dae
     };
 
 
-    class PhysicsComponent : BaseComponent
+    class PhysicsComponent : public BaseComponent
     {
 
     public:
