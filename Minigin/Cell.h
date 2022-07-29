@@ -1,5 +1,6 @@
 #pragma once
 #include "Texture2D.h"
+#include "RectColliderComponent.h"
 
 namespace dae
 {
@@ -18,7 +19,10 @@ namespace dae
 		void SetTexture(const std::string& filename);
 		void SetCollision(bool hasCol);
 		void SetPos(float x, float y);
-		
+		bool HasCollision();
+		RectColliderComponent* GetCollider();
+
+
 
 	private:
 
@@ -32,7 +36,7 @@ namespace dae
 		float m_Height;
 
 		std::shared_ptr<dae::Texture2D> m_Texture;
-
+		RectColliderComponent* m_pColliderComp;
 
 
 		//render

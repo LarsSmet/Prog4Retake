@@ -6,7 +6,7 @@
 //#include "PlayerComponent.h"
 
 #include "SoundSystem.h"
-#include "PhysicsComponent.h"
+//#include "PhysicsComponent.h"
 
 namespace dae
 {

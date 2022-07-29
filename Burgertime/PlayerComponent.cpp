@@ -2,12 +2,13 @@
 #include "PlayerComponent.h"
 #include "GameObject.h"
 
+
 namespace dae
 {
 
 
 
-	PlayerComponent::PlayerComponent(GameObject* go, RectColliderComponent collider): BaseComponent{ go }, m_Collider{collider}
+	PlayerComponent::PlayerComponent(GameObject* go, PhysicsComponent* physComp, TileMapComponent* tileMap): BaseComponent{ go }, m_pPhysicsComponent{ physComp }, m_pTileMapComponent{tileMap}
 	{
 
 	}
@@ -23,6 +24,18 @@ namespace dae
 		//handle collision
 		//handle move commands
 
+		auto map = m_pTileMapComponent->GetMap();
+
+		for (size_t i = 0; i < map.size(); i++)
+		{
+			if (map[i].HasCollision())
+			{
+				m_pPhysicsComponent->HandleCollision(map[i].GetCollider());
+			}
+		}
+
+	
+		m_pPhysicsComponent->Update(elapsedSec);
 
 	}
 

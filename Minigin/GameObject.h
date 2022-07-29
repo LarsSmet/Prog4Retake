@@ -5,7 +5,7 @@
 #include "BaseComponent.h"
 #include "TransformComponent.h"
 #include <vector>
-#include "BaseColliderComponent.h"
+//#include "BaseColliderComponent.h"
 //#include "RectangleColliderComponent.h"
 #include "utils.h"
 
@@ -13,7 +13,7 @@ namespace dae
 {
 	class Texture2D;
 
-	// todo: this should become final.
+	
 	class GameObject final 
 	{
 	public:

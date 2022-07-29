@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseComponent.h"
 #include <RectColliderComponent.h>
+#include <PhysicsComponent.h>
+#include <TileMapComponent.h>
 
 
 namespace dae
@@ -16,7 +18,7 @@ namespace dae
 
 	public:
 
-		PlayerComponent(GameObject* go, RectColliderComponent collider);
+		PlayerComponent(GameObject* go, PhysicsComponent* physComp, TileMapComponent* tileMap);
 		~PlayerComponent();
 
 		virtual void Update(float elapsedSec);
@@ -32,7 +34,11 @@ namespace dae
 
 		// add transform component
 
-		RectColliderComponent m_Collider;
+		PhysicsComponent* m_pPhysicsComponent;
+		//TransformComponent* m_pTransformComp;
+
+
+		TileMapComponent* m_pTileMapComponent;
 		State m_State;
 
 

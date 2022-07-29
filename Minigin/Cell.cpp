@@ -39,6 +39,15 @@ namespace dae
 
 	}
 
-	
+	bool Cell::HasCollision()
+	{
+		return true;
+	}
+
+	RectColliderComponent* Cell::GetCollider()
+	{
+		return m_pColliderComp;
+	}
+
 
 }

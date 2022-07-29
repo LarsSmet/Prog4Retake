@@ -1,22 +1,24 @@
 #pragma once
 #include "BaseComponent.h"
 #include "TransformComponent.h"
-#include "BaseColliderComponent.h"
+#include "RectColliderComponent.h"
+
 namespace dae
 {
     struct Velocity
     {
         float x;
         float y;
-        
+
     };
 
-    class PhysicsComponent final: public BaseComponent
+
+    class PhysicsComponent : BaseComponent
     {
 
     public:
 
-        PhysicsComponent(GameObject* go, TransformComponent* transformComp, BaseColliderComponent* colliderComp);
+        PhysicsComponent(GameObject* go, TransformComponent* transformComp, RectColliderComponent* colliderComp);
         ~PhysicsComponent();
 
         virtual void Update(float deltaTime) override;
@@ -27,20 +29,22 @@ namespace dae
 
         void SetYVelocity(float yVelocity);
 
-       BaseColliderComponent* GetColliderComponent();
-       
-       Velocity GetVelocity();
+        RectColliderComponent* GetColliderComponent();
+
+        Velocity GetVelocity();
+
+        void HandleCollision(RectColliderComponent* collision);
+
 
     private:
 
 
         Velocity m_Velocity;
         TransformComponent* m_pTransformComp;
-        BaseColliderComponent* m_pColliderComp;
-      
+        RectColliderComponent* m_pColliderComp;
+
 
 
     };
 
 }
-

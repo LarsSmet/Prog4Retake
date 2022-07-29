@@ -118,4 +118,10 @@ namespace dae
 
 	}
 
+	std::vector<Cell> TileMapComponent::GetMap()
+	{
+		return m_Map;
+
+	}
+
 }

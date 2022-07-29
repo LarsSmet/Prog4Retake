@@ -3,7 +3,7 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 #include "RenderComponent.h"
-#include "BaseColliderComponent.h"
+//#include "BaseColliderComponent.h"
 //#include "RectangleColliderComponent.h"
 #include "TileMapComponent.h"
 

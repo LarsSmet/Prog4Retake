@@ -18,6 +18,9 @@ namespace dae
 		void ConvertFileToMap();
 		void Render();
 
+		std::vector<Cell> GetMap();
+
+
 
 	private:
 

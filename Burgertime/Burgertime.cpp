@@ -21,10 +21,10 @@
 #include <iostream>
 #include "SDL_opengl.h"
 #include "utils.h"
-#include <PhysicsComponent.h>
+//#include <PhysicsComponent.h>
 //#include "CharacterComponent.h"
 #include "Texture2D.h"
-#include <VerticesCollider.h>
+//#include <VerticesCollider.h>
 #include <SVGParser.cpp>
 #include <TileMapComponent.h>
 //#include "GameCommands.h"
