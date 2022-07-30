@@ -98,8 +98,8 @@ void LoadGame()
 
 	scene.Add(go);
 
-	float playerStartX = 50;
-	float playerStartY = 100;
+	float playerStartX = 0;
+	float playerStartY = 0;
 	
 	auto player = std::make_shared<GameObject>(playerStartX, playerStartY);
 

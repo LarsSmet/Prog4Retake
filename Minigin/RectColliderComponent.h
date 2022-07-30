@@ -44,6 +44,9 @@ namespace dae
 
 		CollisionHitInfo OnCollision(RectColliderComponent* collision);
 
+		void SetXPosition(float x);
+		void SetYPosition(float y);
+
 		void SetPosition(float x, float y);
 		Point2f GetPosition() const;
 		void Move(float xOffSet, float yOffSet);

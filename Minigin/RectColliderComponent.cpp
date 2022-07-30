@@ -51,28 +51,37 @@ namespace dae
 
 			//create raycast points
 
-			Point2f midTop{ m_RectCollider.left + m_RectCollider.width / 2, m_RectCollider.bottom + m_RectCollider.height };
-			Point2f midBot{ m_RectCollider.left + m_RectCollider.width / 2, m_RectCollider.bottom };
-			Point2f midLeft{ m_RectCollider.left, m_RectCollider.bottom + m_RectCollider.height / 2 };
-			Point2f midRight{ m_RectCollider.left + m_RectCollider.width, m_RectCollider.bottom + m_RectCollider.height / 2 };
-			Point2f leftBot{ m_RectCollider.left, m_RectCollider.bottom };
-			Point2f leftTop{ m_RectCollider.left, m_RectCollider.bottom + m_RectCollider.height };
-			Point2f rightTop{ m_RectCollider.left + m_RectCollider.width, m_RectCollider.bottom + m_RectCollider.height };
-			Point2f rightBot{ m_RectCollider.left + m_RectCollider.width, m_RectCollider.bottom };
+			//Point2f midTop{ m_RectCollider.left + m_RectCollider.width / 2, m_RectCollider.bottom - m_RectCollider.height };
+			//Point2f midBot{ m_RectCollider.left + m_RectCollider.width / 2, m_RectCollider.bottom };
+			//Point2f midLeft{ m_RectCollider.left, m_RectCollider.bottom + m_RectCollider.height / 2 };
+			//Point2f midRight{ m_RectCollider.left + m_RectCollider.width, m_RectCollider.bottom + m_RectCollider.height / 2 };
+			//Point2f leftBot{ m_RectCollider.left, m_RectCollider.bottom };
+			//Point2f leftTop{ m_RectCollider.left, m_RectCollider.bottom - m_RectCollider.height };
+			//Point2f rightTop{ m_RectCollider.left + m_RectCollider.width, m_RectCollider.bottom - m_RectCollider.height };
+			//Point2f rightBot{ m_RectCollider.left + m_RectCollider.width, m_RectCollider.bottom };
 
+
+
+			Point2f midTop{ m_RectCollider.left + m_RectCollider.width / 2, m_RectCollider.bottom - m_RectCollider.height };
+			Point2f midBot{ m_RectCollider.left + m_RectCollider.width / 2, m_RectCollider.bottom };
+			Point2f midLeft{ m_RectCollider.left, m_RectCollider.bottom - (m_RectCollider.height / 2) };
+			Point2f midRight{ m_RectCollider.left + m_RectCollider.width, m_RectCollider.bottom - ( m_RectCollider.height / 2) };
+			Point2f leftBot{ m_RectCollider.left, m_RectCollider.bottom };
+			Point2f leftTop{ m_RectCollider.left, m_RectCollider.bottom - m_RectCollider.height };
+			Point2f rightTop{ m_RectCollider.left + m_RectCollider.width, m_RectCollider.bottom - m_RectCollider.height };
+			Point2f rightBot{ m_RectCollider.left + m_RectCollider.width, m_RectCollider.bottom };
 
 
 			//left col
 			if (utils::Raycast(vertices, leftBot, midBot, collisionInfo.leftColBot))
 			{
-				std::cout << "raycast correct";
+				//std::cout << "raycast correct";
 				collisionInfo.leftColBotIsHit = true;
 			}
 			if (utils::Raycast(vertices, leftTop, midTop, collisionInfo.leftColTop))
 			{
 				collisionInfo.leftColTopIsHit = true;
 			}
-			
 
 			//right col
 
@@ -119,7 +128,17 @@ namespace dae
 
 
 	}
+	void RectColliderComponent::SetXPosition(float x)
+	{
+		m_RectCollider.left = x;
+		
+	}
 
+	void RectColliderComponent::SetYPosition(float y)
+	{
+
+		m_RectCollider.bottom = y;
+	}
 
 	void RectColliderComponent::SetPosition(float x, float y)
 	{
@@ -127,9 +146,13 @@ namespace dae
 		m_RectCollider.bottom = y;
 	}
 
+
+
+
+
 	Point2f RectColliderComponent::GetPosition() const
 	{
-		return Point2f();
+		return Point2f{ m_RectCollider.bottom, m_RectCollider.bottom };
 	}
 	void RectColliderComponent::Move(float xOffSet, float yOffSet)
 	{

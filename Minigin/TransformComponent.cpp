@@ -18,6 +18,19 @@ namespace dae
 		deltaTime;
 	}
 
+	void TransformComponent::SetXPosition(const float x)
+	{
+		m_Position.x = x;
+	
+	}
+	void TransformComponent::SetYPosition( const float y)
+	{
+
+		m_Position.y = y;
+
+	
+	}
+
 	void TransformComponent::SetPosition(const float x, const float y)
 	{
 		m_Position.x = x;

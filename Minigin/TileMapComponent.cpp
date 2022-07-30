@@ -71,7 +71,7 @@ namespace dae
 				//set pos
 
 				float xPos = (col * cellWidth) + position.x;
-				float yPos = (row * cellHeight) + position.y;
+				float yPos = (row * cellHeight) + position.y ;
 
 				m_CellToAdd.SetPos(xPos,yPos) ;
 
@@ -94,7 +94,7 @@ namespace dae
 					//colliderComp = new RectColliderComponent{ m_Go, rectCollider };
 					//cellToAdd.SetCollision(true, new RectColliderComponent{ m_Go, new Rectf{ xPos, yPos, cellWidth, cellHeight } });
 			
-					m_CellToAdd.SetCollision(true,  RectColliderComponent{ m_Go,  Rectf{ xPos, yPos, cellWidth, cellHeight } });
+					m_CellToAdd.SetCollision(true,  RectColliderComponent{ m_Go,  Rectf{ xPos, yPos /*+ cellHeight*/, cellWidth, cellHeight } });
 				
 				}
 

@@ -29,18 +29,18 @@ namespace dae
 			
 		//	auto yPosCharacter = m_PlayerComp->GetPhysicsComp()->GetColliderComponent()->GetRectCollider().bottom + 17 /*+ 16*/; //plus 16 because bottom is actually left top
 			//yPosCharacter;
-			
+			//std::cout << m_Velocity.y;
 
 
 			auto physComp = m_PlayerComp->GetPhysicsComp();
 
 			if (m_Velocity.y < 0)
 			{
-				//std::cout << "UP";
+				std::cout << "UP";
 			}
-			if (m_Velocity.x < 0)
+			if (m_Velocity.y > 0)
 			{
-				//std::cout << "left";
+				std::cout << "down";
 			}
 
 			
@@ -52,6 +52,8 @@ namespace dae
 				{*/
 					physComp->SetVelocity(m_Velocity);
 				//}
+
+					//std::cout << m_Velocity.y;
 			
 		}
 

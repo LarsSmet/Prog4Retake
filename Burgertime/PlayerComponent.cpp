@@ -21,6 +21,9 @@ namespace dae
 	{
 		elapsedSec;
 
+
+		m_pPhysicsComponent->Update(elapsedSec);
+
 		//handle collision
 		//handle move commands
 
@@ -36,7 +39,7 @@ namespace dae
 		}
 
 	
-		m_pPhysicsComponent->Update(elapsedSec);
+		//m_pPhysicsComponent->Update(elapsedSec);
 
 	}
 

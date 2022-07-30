@@ -11,6 +11,10 @@ namespace dae
 		TransformComponent(GameObject* go, float xPos, float yPos);
 		void Update(float deltaTime) override;
 
+		void SetXPosition(const float x);
+
+		void SetYPosition(const float y);
+
 		void SetPosition(const float x, const float y);
 		void Move(float xOffSet, float yOffSet);
 		glm::vec2 GetPosition() const;
