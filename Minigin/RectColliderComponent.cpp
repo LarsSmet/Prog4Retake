@@ -62,8 +62,10 @@ namespace dae
 
 
 
+
+
 			Point2f midTop{ m_RectCollider.left + m_RectCollider.width / 2, m_RectCollider.bottom - m_RectCollider.height };
-			Point2f midBot{ m_RectCollider.left + m_RectCollider.width / 2, m_RectCollider.bottom };
+			Point2f midBot{ m_RectCollider.left + (m_RectCollider.width / 2), m_RectCollider.bottom };
 			Point2f midLeft{ m_RectCollider.left, m_RectCollider.bottom - (m_RectCollider.height / 2) };
 			Point2f midRight{ m_RectCollider.left + m_RectCollider.width, m_RectCollider.bottom - ( m_RectCollider.height / 2) };
 			Point2f leftBot{ m_RectCollider.left, m_RectCollider.bottom };
@@ -73,41 +75,41 @@ namespace dae
 
 
 			//left col
-			if (utils::Raycast(vertices, leftBot, midBot, collisionInfo.leftColBot))
+			if (utils::Raycast(vertices, Point2f{ leftBot.x, leftBot.y - 3 }, Point2f{ midBot.x, midBot.y - 3 }, collisionInfo.leftColBot))
 			{
 				//std::cout << "raycast correct";
 				collisionInfo.leftColBotIsHit = true;
 			}
-			if (utils::Raycast(vertices, leftTop, midTop, collisionInfo.leftColTop))
+			if (utils::Raycast(vertices, Point2f{ leftTop.x, leftTop.y + 3 }, Point2f{ midTop.x, midTop.y + 3}, collisionInfo.leftColTop))
 			{
 				collisionInfo.leftColTopIsHit = true;
 			}
 
 			//right col
 
-			if (utils::Raycast(vertices, rightBot, midBot, collisionInfo.rightColBot))
+			if (utils::Raycast(vertices, Point2f{ rightBot.x, rightBot.y - 3 }, Point2f{ midBot.x, midBot.y - 3 }, collisionInfo.rightColBot))
 			{
 				collisionInfo.rightColBotIsHit = true;
 			}
-			if (utils::Raycast(vertices, rightTop, midTop, collisionInfo.rightColTop))
+			if (utils::Raycast(vertices, Point2f{ rightTop.x, rightTop.y + 3 }, Point2f{ midTop.x, midTop.y + 3 }, collisionInfo.rightColTop))
 			{
 				collisionInfo.rightColTopIsHit = true;
 			}
 			//bot col
-			if (utils::Raycast(vertices, leftBot, midLeft, collisionInfo.botColLeft))
+			if (utils::Raycast(vertices, Point2f{ leftBot.x + 3, leftBot.y }, Point2f{ midLeft.x + 3, midLeft.y }, collisionInfo.botColLeft))
 			{
 				collisionInfo.botColLeftIsHit = true;
 			}
-			if (utils::Raycast(vertices, rightBot, midRight, collisionInfo.botColRight))
+			if (utils::Raycast(vertices, Point2f{ rightBot.x - 3, rightBot.y }, Point2f{ midRight.x - 3,midRight.y }, collisionInfo.botColRight))
 			{
 				collisionInfo.botColRightIsHit = true;
 			}
 			//top col
-			if (utils::Raycast(vertices, leftTop, midLeft, collisionInfo.topColLeft))
+			if (utils::Raycast(vertices, Point2f{ leftTop.x + 3, leftTop.y }, Point2f{ midLeft.x + 3, midLeft.y }, collisionInfo.topColLeft))
 			{
 				collisionInfo.topColLeftIsHit = true;
 			}
-			if (utils::Raycast(vertices, rightTop, midRight, collisionInfo.topColRight))
+			if (utils::Raycast(vertices, Point2f{ rightTop.x - 3, rightTop.y }, Point2f{ midRight.x - 3, midRight.y }, collisionInfo.topColRight))
 			{
 				collisionInfo.topColRightIsHit = true;
 			}
@@ -152,7 +154,7 @@ namespace dae
 
 	Point2f RectColliderComponent::GetPosition() const
 	{
-		return Point2f{ m_RectCollider.bottom, m_RectCollider.bottom };
+		return Point2f{ m_RectCollider.left, m_RectCollider.bottom};
 	}
 	void RectColliderComponent::Move(float xOffSet, float yOffSet)
 	{

@@ -106,7 +106,7 @@ void LoadGame()
 
 	RenderComponent* renderComponent = new RenderComponent{ player.get() };
 
-	renderComponent->SetTexture("PeterPepper.png");
+	renderComponent->SetTexture("Tank.png");
 	player->AddComponent(renderComponent);
 	auto texture = renderComponent->GetTexture()->GetSDLTexture();
 	SDL_Point size;
