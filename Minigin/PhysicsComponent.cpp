@@ -29,7 +29,7 @@ namespace dae
 		m_pTransformComp->Move(m_Velocity.x * deltaTime, m_Velocity.y * deltaTime);
 		m_pColliderComp->Move(m_Velocity.x * deltaTime, m_Velocity.y * deltaTime);
 
-		std::cout << "coliderPos: " << m_pColliderComp->GetPosition().x;
+		//std::cout << "coliderPos: " << m_pColliderComp->GetPosition().x;
 
 	}
 
@@ -133,4 +133,9 @@ namespace dae
 
 	}
 
+
+	TransformComponent* PhysicsComponent::GetTransformComp()
+	{
+		return m_pTransformComp;
+	}
 }

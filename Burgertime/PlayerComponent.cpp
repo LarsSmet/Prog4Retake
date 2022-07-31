@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "PlayerComponent.h"
 #include "GameObject.h"
-
+#include "TransformComponent.h"
 
 namespace dae
 {

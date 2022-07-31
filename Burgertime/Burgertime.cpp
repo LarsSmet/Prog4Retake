@@ -29,6 +29,7 @@
 #include <TileMapComponent.h>
 #include "PlayerComponent.h"
 #include "GameCommands.h"
+#include "GunComponent.h"
 //#include "GameCommands.h"
 //#include "BurgerPartComponent.h"
 //#include "GameMode.h"
@@ -68,66 +69,50 @@ void LoadGame()
 
 
 
+	
 
+	
+
+	//create tilemap
 	float tileMapStartX = 300;
 	float tilemapStartY = 200;
-
-	//auto go = std::make_shared<GameObject>(playerStartx, playerStartY);
-
-	//RenderComponent* renderComponent = new RenderComponent{ go.get()};
-
-	//renderComponent->SetTexture("WallTile.png");
-	//go->AddComponent(renderComponent);
-
-	//scene.Add(go);
-
-
 	auto go = std::make_shared<GameObject>(tileMapStartX, tilemapStartY);
-
-
-	
-
 	TileMapComponent* tileMapComponent = new TileMapComponent{ go.get(), "../Data/TileMap.txt" };
-
-	
-
 	tileMapComponent->ConvertFileToMap();
-	
-	//tileMapComponent.ConvertFileToMap();
 	go->AddComponent(tileMapComponent);
-
 	scene.Add(go);
 
-	float playerStartX = 0;
-	float playerStartY = 0;
-	
+	//create player
+	float playerStartX = 50;
+	float playerStartY = 50;
 	auto player = std::make_shared<GameObject>(playerStartX, playerStartY);
-
-
 	RenderComponent* renderComponent = new RenderComponent{ player.get() };
-
 	renderComponent->SetTexture("Tank.png");
 	player->AddComponent(renderComponent);
 	auto texture = renderComponent->GetTexture()->GetSDLTexture();
 	SDL_Point size;
-
 	SDL_QueryTexture(texture, nullptr, nullptr, &size.x, &size.y);
 	Rectf playerShape{ playerStartX,playerStartY + float(size.y), float(size.x),float(size.y) }; //IMPORTANT! ypos needs to be + SIZE because of rect and render having dif starting points
 	RectColliderComponent* playerCollider = new RectColliderComponent{ player.get(), playerShape };
-
 	PhysicsComponent* myPlayerPhysicsComp = new PhysicsComponent{ player.get(), player->GetTransformComp(), playerCollider };
-
 	player->AddComponent(myPlayerPhysicsComp);
-
 	PlayerComponent* myPlayerComp = new PlayerComponent{ player.get(), myPlayerPhysicsComp , tileMapComponent};
-
 	player->AddComponent(myPlayerComp);
+	//create gun
+	float xOffSetGun = 10.0f;
+	float yOffSetGun = -3.0f;
+	float gunStartX = playerStartX + xOffSetGun;
+	float gunStartY = playerStartY + yOffSetGun;
+	auto gun = std::make_shared<GameObject>(gunStartX, gunStartY);
+	renderComponent = new RenderComponent{ gun.get() };
+	renderComponent->SetTexture("Gun.png");
+	gun->AddComponent(renderComponent);
+	GunComponent* myGunComponent = new GunComponent{ gun.get(), myPlayerComp };
+	gun->AddComponent(myGunComponent);
 
 
-
+	//commands
 	dae::InputManager& inputManager = dae::InputManager::GetInstance();
-
-
 	//make horizontal controls
 	ControllerKey leftKey{ int(dae::ControllerButton::ArrowLeft), dae::ControllerButton::ArrowLeft };
 	std::shared_ptr<MoveCommand> moveleft = std::make_shared<MoveCommand>(myPlayerComp, -50.0f, 0.f);
@@ -147,4 +132,5 @@ void LoadGame()
 	inputManager.BindKey(downKey, moveDown);
 
 	scene.Add(player);
+	scene.Add(gun);
 }
