@@ -89,10 +89,10 @@ namespace dae
             if (IsPressed(command.first.first))
             {
 
-                command.second->Execute(); //if pressed this will continue to execute
+              //  command.second->Execute(); //if pressed this will continue to execute
                 if (IsDownThisFrame(command.first.first))
                 {
-                    //command.second->Execute();
+                    command.second->Execute();
                 }
 
             }

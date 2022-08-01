@@ -107,8 +107,10 @@ void LoadGame()
 	renderComponent = new RenderComponent{ gun.get() };
 	renderComponent->SetTexture("Gun.png");
 	gun->AddComponent(renderComponent);
-	GunComponent* myGunComponent = new GunComponent{ gun.get(), myPlayerComp };
+	GunComponent* myGunComponent = new GunComponent{ gun.get(), myPlayerComp, scene };
 	gun->AddComponent(myGunComponent);
+
+
 
 
 	//commands
@@ -131,6 +133,12 @@ void LoadGame()
 	std::shared_ptr<MoveCommand> moveDown = std::make_shared<MoveCommand>(myPlayerComp, 0.0f, 50.f);
 	inputManager.BindKey(downKey, moveDown);
 
+	//gun command
+	ControllerKey shootKey{ int(dae::ControllerButton::ButtonX), dae::ControllerButton::ButtonX };
+	std::shared_ptr<ShootCommand> shoot = std::make_shared<ShootCommand>(myGunComponent);
+	inputManager.BindKey(shootKey, shoot);
 	scene.Add(player);
 	scene.Add(gun);
+
+	
 }

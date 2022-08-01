@@ -1,6 +1,7 @@
 #pragma once
 #include "Command.h"
 #include "PlayerComponent.h"
+#include "GunComponent.h"
 namespace dae
 {
 
@@ -20,16 +21,16 @@ namespace dae
 		};
 
 
-		~MoveCommand(){};
+		~MoveCommand() {};
 
 
 		void Execute()
 		{
 
-			
-		//	auto yPosCharacter = m_PlayerComp->GetPhysicsComp()->GetColliderComponent()->GetRectCollider().bottom + 17 /*+ 16*/; //plus 16 because bottom is actually left top
-			//yPosCharacter;
-			//std::cout << m_Velocity.y;
+
+			//	auto yPosCharacter = m_PlayerComp->GetPhysicsComp()->GetColliderComponent()->GetRectCollider().bottom + 17 /*+ 16*/; //plus 16 because bottom is actually left top
+				//yPosCharacter;
+				//std::cout << m_Velocity.y;
 
 
 			auto physComp = m_PlayerComp->GetPhysicsComp();
@@ -43,18 +44,18 @@ namespace dae
 				std::cout << "down";
 			}
 
-			
-			
 
-			
-				//m_CharacterComp->SetState(State::Normal);
-				/*if (m_Velocity.y == 0)
-				{*/
-					physComp->SetVelocity(m_Velocity);
-				//}
 
-					//std::cout << m_Velocity.y;
-			
+
+
+			//m_CharacterComp->SetState(State::Normal);
+			/*if (m_Velocity.y == 0)
+			{*/
+			physComp->SetVelocity(m_Velocity);
+			//}
+
+				//std::cout << m_Velocity.y;
+
 		}
 
 
@@ -64,4 +65,32 @@ namespace dae
 		PlayerComponent* m_PlayerComp;
 
 	};
+
+
+
+	class ShootCommand : public Command
+	{
+
+	public:
+
+
+		ShootCommand(GunComponent* gunComp) : m_GunComp{ gunComp }
+		{
+
+		};
+		~ShootCommand() {};
+
+		void Execute()
+		{
+			std::cout << "Shoot";
+			m_GunComp->Shoot();
+		}
+
+	private:
+
+		GunComponent* m_GunComp;
+
+	};
+
+
 }

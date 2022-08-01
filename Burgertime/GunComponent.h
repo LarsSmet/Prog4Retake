@@ -2,6 +2,7 @@
 #include <structs.h>
 #include <GameObject.h>
 #include "PlayerComponent.h"
+#include <Scene.h>
 
 namespace dae
 {
@@ -11,7 +12,7 @@ namespace dae
 	public:
 
 
-		GunComponent(GameObject* go, /*PhysicsComponent* physicsComp,*/ PlayerComponent* playerComp);
+		GunComponent(GameObject* go, /*PhysicsComponent* physicsComp,*/ PlayerComponent* playerComp, Scene& currentScene);
 		~GunComponent();
 
 
@@ -24,10 +25,15 @@ namespace dae
 
 		Point2f m_RotationPos;
 		Point2f m_ShootPos;
+		Point2f m_VectorStartPos;
 
 		PlayerComponent* m_pPlayerComp;
 		PhysicsComponent* m_pPhysicsComp;
 		TransformComponent* m_pTransformComp;
+
+		Scene& m_Scene;
+
+		bool test = false;
 
 	};
 
