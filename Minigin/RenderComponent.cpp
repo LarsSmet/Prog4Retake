@@ -4,14 +4,15 @@
 #include "ResourceManager.h"
 
 
-dae::RenderComponent::RenderComponent(GameObject* go) : BaseComponent{go}
+dae::RenderComponent::RenderComponent(GameObject* go, bool hasRotation, SDL_Point* rotationPoint) : BaseComponent{go}, m_HasRotation{ hasRotation }, m_Angle{0}, m_pRotationPoint{ rotationPoint }
 {
 
 }
 
 dae::RenderComponent::~RenderComponent()
 {
-
+	delete m_pRotationPoint;
+	m_pRotationPoint = nullptr;
 }
 void dae::RenderComponent::Update(float deltaTime)
 {
@@ -35,4 +36,30 @@ std::shared_ptr<dae::Texture2D> dae::RenderComponent::GetTexture()
 	return m_Texture;
 
 	
+}
+
+void dae::RenderComponent::RotateForward()
+{
+	m_Angle += 1;
+}
+
+void dae::RenderComponent::SetRotatePoint(Point2f point)
+{
+	m_pRotationPoint->x = int(point.x);
+	m_pRotationPoint->y = int(point.y);
+}
+
+bool dae::RenderComponent::HasRotation()
+{
+	return m_HasRotation;
+}
+
+double dae::RenderComponent::GetAngle()
+{
+	return m_Angle;
+}
+
+SDL_Point* dae::RenderComponent::GetRotationPoint()
+{
+	return m_pRotationPoint;
 }

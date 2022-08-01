@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseComponent.h"
-
+#include "utils.h"
 
 namespace dae
 {
@@ -11,7 +11,7 @@ namespace dae
 	{
 
 	public:
-		RenderComponent(GameObject* go);
+		RenderComponent(GameObject* go, bool hasRotation,SDL_Point* rotationPoint);
 		~RenderComponent();
 		void Update(float deltaTime) override;
 
@@ -20,10 +20,19 @@ namespace dae
 
 		std::shared_ptr<Texture2D> GetTexture();
 
+		void RotateForward();
+		void SetRotatePoint(Point2f point);
+
+		bool HasRotation();
+		double GetAngle();
+		SDL_Point* GetRotationPoint();
+
 	private:
 
 
-
+		bool m_HasRotation = false;
+		double m_Angle = 0;
+		SDL_Point* m_pRotationPoint;
 		std::shared_ptr<Texture2D> m_Texture{};
 
 	};

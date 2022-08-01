@@ -86,7 +86,7 @@ void LoadGame()
 	float playerStartX = 50;
 	float playerStartY = 50;
 	auto player = std::make_shared<GameObject>(playerStartX, playerStartY);
-	RenderComponent* renderComponent = new RenderComponent{ player.get() };
+	RenderComponent* renderComponent = new RenderComponent{ player.get() , false,nullptr}; //maybe change to true if we want the player to rotate
 	renderComponent->SetTexture("Tank.png");
 	player->AddComponent(renderComponent);
 	auto texture = renderComponent->GetTexture()->GetSDLTexture();
@@ -104,7 +104,8 @@ void LoadGame()
 	float gunStartX = playerStartX + xOffSetGun;
 	float gunStartY = playerStartY + yOffSetGun;
 	auto gun = std::make_shared<GameObject>(gunStartX, gunStartY);
-	renderComponent = new RenderComponent{ gun.get() };
+	SDL_Point* sdlPoint = new SDL_Point{0,0};
+	renderComponent = new RenderComponent{ gun.get() , true, sdlPoint};
 	renderComponent->SetTexture("Gun.png");
 	gun->AddComponent(renderComponent);
 	GunComponent* myGunComponent = new GunComponent{ gun.get(), myPlayerComp, scene };

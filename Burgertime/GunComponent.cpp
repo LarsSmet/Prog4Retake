@@ -8,6 +8,8 @@ namespace dae
 {
 	GunComponent::GunComponent(GameObject* go,/* PhysicsComponent* physicsComp,*/ PlayerComponent* playerComp, Scene& currentScene): BaseComponent{go},/* m_pPhysicsComp{physicsComp},*/ m_pPlayerComp{playerComp}, m_Scene{ currentScene }
 	{
+		m_pRenderComp = m_Owner->GetComponent<RenderComponent>();
+
 	}
 	GunComponent::~GunComponent()
 	{
@@ -24,30 +26,27 @@ namespace dae
 		auto playerTransformPos = m_pPlayerComp->GetPhysicsComp()->GetTransformComp()->GetPosition();
 		m_Owner->SetPosition(playerTransformPos.x + 10, playerTransformPos.y -3);
 
-		/*shootpos = player + 13
-		or
-		gunrender +x*/
-
-		//shootpos x + 13
-
-
+	
 
 		//middle of tank
 		m_RotationPos = Point2f{ playerTransformPos.x + 16, playerTransformPos.y + 19 };
 
 
-
+		//change this to be based on the gun render pos + offset
 		m_ShootPos = Point2f{ playerTransformPos.x + 13, playerTransformPos.y -3 };
 
 		m_VectorStartPos = Point2f{ playerTransformPos.x + 13, playerTransformPos.y - 3 + 28 };
 
 
+
+		m_pRenderComp->SetRotatePoint(Point2f{ 6, 22 });
+		RotateGun();
 		elapsedSec;
 	}
 	void GunComponent::Shoot()
 	{
 		auto bullet = std::make_shared<GameObject>(m_ShootPos.x, m_ShootPos.y);
-		RenderComponent* renderComponent = new RenderComponent{ bullet.get() };
+		RenderComponent* renderComponent = new RenderComponent{ bullet.get(), false , nullptr};
 		renderComponent->SetTexture("Bullet.png");
 		bullet->AddComponent(renderComponent);
 
@@ -73,10 +72,16 @@ namespace dae
 		//set velocity based on calculations for direction(normalize) from pos under shoot pos
 		bulletComponent->SetVelocity(Velocity{ directionVecNormalized.x * speed, directionVecNormalized.y * speed});
 
+
+		
+
 	}
 	void GunComponent::RotateGun()
 	{
 		//calc offset for rot
+
+		m_pRenderComp->RotateForward();
+
 	}
 
 

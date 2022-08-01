@@ -3,6 +3,7 @@
 #include <GameObject.h>
 #include "PlayerComponent.h"
 #include <Scene.h>
+#include "RenderComponent.h"
 
 namespace dae
 {
@@ -33,7 +34,7 @@ namespace dae
 
 		Scene& m_Scene;
 
-	
+		RenderComponent* m_pRenderComp;
 
 	};
 

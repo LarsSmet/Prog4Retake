@@ -51,6 +51,7 @@ void dae::GameObject::Render() const
 	else
 	{
 
+
 		const auto& pos = m_TransformComp->GetPosition();
 
 
@@ -58,10 +59,24 @@ void dae::GameObject::Render() const
 
 
 		auto renderComponent = GetComponent<RenderComponent>();
+
+
 		if (renderComponent != nullptr)
 		{
+
 			texture = renderComponent->GetTexture();
-			Renderer::GetInstance().RenderTexture(*texture, pos.x, pos.y);
+
+			if (renderComponent->HasRotation())
+			{
+				
+				Renderer::GetInstance().RenderTexture(*texture, pos.x, pos.y, renderComponent->GetAngle(), renderComponent->GetRotationPoint());
+				std::cout << renderComponent->GetRotationPoint()->x << "   y: " << renderComponent->GetRotationPoint()->y << "   }";
+			}
+			else
+			{
+				Renderer::GetInstance().RenderTexture(*texture, pos.x, pos.y);
+
+			}
 		}
 
 
