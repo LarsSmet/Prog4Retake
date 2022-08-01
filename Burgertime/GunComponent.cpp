@@ -62,7 +62,16 @@ namespace dae
 		bullet->AddComponent(bulletComponent);
 		m_Scene.Add(bullet);
 	
-		bulletComponent->SetVelocity(Velocity{50.0f, 50.0f});
+		//do point - point then put it in a vec and normalize *  speed;
+
+		float xPosVec = m_ShootPos.x - m_VectorStartPos.x;
+		float yPosVec = m_ShootPos.y - m_VectorStartPos.y;
+		glm::vec2 directionVec{ xPosVec, yPosVec };
+
+		glm::vec2 directionVecNormalized = glm::normalize( directionVec );
+		float speed = 50.0f;
+		//set velocity based on calculations for direction(normalize) from pos under shoot pos
+		bulletComponent->SetVelocity(Velocity{ directionVecNormalized.x * speed, directionVecNormalized.y * speed});
 
 	}
 	void GunComponent::RotateGun()
