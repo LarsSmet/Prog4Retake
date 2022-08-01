@@ -33,7 +33,7 @@ namespace dae
 
 		Scene& m_Scene;
 
-		bool test = false;
+	
 
 	};
 

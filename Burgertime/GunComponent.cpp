@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "GunComponent.h"
 #include <RenderComponent.h>
-
+#include "PhysicsComponent.h"
+#include "BulletComponent.h"
 
 namespace dae
 {
@@ -40,10 +41,7 @@ namespace dae
 
 		m_VectorStartPos = Point2f{ playerTransformPos.x + 13, playerTransformPos.y - 3 + 28 };
 
-	/*	if (test == false)
-		{
-			Shoot();
-		}*/
+
 		elapsedSec;
 	}
 	void GunComponent::Shoot()
@@ -52,8 +50,19 @@ namespace dae
 		RenderComponent* renderComponent = new RenderComponent{ bullet.get() };
 		renderComponent->SetTexture("Bullet.png");
 		bullet->AddComponent(renderComponent);
+
+		auto texture = renderComponent->GetTexture()->GetSDLTexture();
+		SDL_Point size;
+		SDL_QueryTexture(texture, nullptr, nullptr, &size.x, &size.y);
+		Rectf bulletShape{ m_ShootPos.x,m_ShootPos.y + float(size.y), float(size.x),float(size.y) };
+		RectColliderComponent* bulletCollider = new RectColliderComponent{ bullet.get(), bulletShape };
+		PhysicsComponent* physicsComp = new PhysicsComponent{ bullet.get(), bullet->GetTransformComp(), bulletCollider };
+		bullet->AddComponent(physicsComp);
+		BulletComponent* bulletComponent = new BulletComponent{ bullet.get(), physicsComp };
+		bullet->AddComponent(bulletComponent);
 		m_Scene.Add(bullet);
-		test = true;
+	
+		bulletComponent->SetVelocity(Velocity{50.0f, 50.0f});
 
 	}
 	void GunComponent::RotateGun()
