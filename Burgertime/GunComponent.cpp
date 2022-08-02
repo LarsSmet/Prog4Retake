@@ -58,10 +58,7 @@ namespace dae
 
 
 		glm::vec2 directionVec{ directionX, directionY };
-		std::cout << " direction x: " << directionX;
 		
-
-
 
 		auto absoluteVecX = glm::abs(directionVec.x);
 		auto absoluteVecY = glm::abs(directionVec.y);
@@ -95,15 +92,10 @@ namespace dae
 		m_Scene.Add(bullet);
 	
 
-
-
-;
 		float speed = 150.0f;
 		//set velocity based on calculations for direction from pos under shoot pos
 		bulletComponent->SetVelocity(Velocity{ directionVec.x * speed, directionVec.y * speed});
 
-
-		
 
 	}
 	void GunComponent::RotateGun()

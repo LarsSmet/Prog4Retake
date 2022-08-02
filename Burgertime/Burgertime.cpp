@@ -74,17 +74,17 @@ void LoadGame()
 	
 
 	//create tilemap
-	float tileMapStartX = 300;
+	float tileMapStartX = 0;
 	float tilemapStartY = 200;
 	auto go = std::make_shared<GameObject>(tileMapStartX, tilemapStartY);
-	TileMapComponent* tileMapComponent = new TileMapComponent{ go.get(), "../Data/TileMap.txt" };
+	TileMapComponent* tileMapComponent = new TileMapComponent{ go.get(), "../Data/TileMap2.txt" };
 	tileMapComponent->ConvertFileToMap();
 	go->AddComponent(tileMapComponent);
 	scene.Add(go);
 
 	//create player
 	float playerStartX = 50;
-	float playerStartY = 50;
+	float playerStartY = 250;
 	auto player = std::make_shared<GameObject>(playerStartX, playerStartY);
 	RenderComponent* renderComponent = new RenderComponent{ player.get() , false,nullptr}; //maybe change to true if we want the player to rotate
 	renderComponent->SetTexture("Tank.png");
