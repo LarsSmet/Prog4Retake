@@ -40,7 +40,7 @@ std::shared_ptr<dae::Texture2D> dae::RenderComponent::GetTexture()
 
 void dae::RenderComponent::RotateForward()
 {
-	m_Angle += 1;
+	m_Angle += 0.1;
 }
 
 void dae::RenderComponent::SetRotatePoint(Point2f point)

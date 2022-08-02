@@ -70,7 +70,7 @@ void dae::GameObject::Render() const
 			{
 				
 				Renderer::GetInstance().RenderTexture(*texture, pos.x, pos.y, renderComponent->GetAngle(), renderComponent->GetRotationPoint());
-				std::cout << renderComponent->GetRotationPoint()->x << "   y: " << renderComponent->GetRotationPoint()->y << "   }";
+				//std::cout << renderComponent->GetRotationPoint()->x << "   y: " << renderComponent->GetRotationPoint()->y << "   }";
 			}
 			else
 			{

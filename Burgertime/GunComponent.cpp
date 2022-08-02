@@ -33,11 +33,13 @@ namespace dae
 
 
 		//change this to be based on the gun render pos + offset
-		m_ShootPos = Point2f{ playerTransformPos.x + 13, playerTransformPos.y -3 };
-
-		m_VectorStartPos = Point2f{ playerTransformPos.x + 13, playerTransformPos.y - 3 + 28 };
+		//m_ShootPos = Point2f{ playerTransformPos.x + 13, playerTransformPos.y -3 };
 
 
+
+		//m_VectorStartPos = Point2f{ playerTransformPos.x + 13, playerTransformPos.y - 3 + 28 };
+
+		//std::cout << m_Owner->GetTransformComp()->GetPosition().x << "   }";
 
 		m_pRenderComp->SetRotatePoint(Point2f{ 6, 22 });
 		RotateGun();
@@ -45,7 +47,38 @@ namespace dae
 	}
 	void GunComponent::Shoot()
 	{
-		auto bullet = std::make_shared<GameObject>(m_ShootPos.x, m_ShootPos.y);
+
+
+		//do direction
+		float degreeOffset = -90;
+		auto radians = glm::radians(float(m_pRenderComp->GetAngle()) + degreeOffset);
+		float directionX = glm::cos(radians);
+		float directionY = glm::sin(radians);
+
+
+
+		glm::vec2 directionVec{ directionX, directionY };
+		std::cout << " direction x: " << directionX;
+		
+
+
+
+		auto absoluteVecX = glm::abs(directionVec.x);
+		auto absoluteVecY = glm::abs(directionVec.y);
+	
+
+
+		//because of -90 x and y are swapped for absolute vec
+		float offSetX = -3;
+		float offSetY = 19;
+
+		Point2f shootPos;
+		shootPos.x = m_RotationPos.x + offSetX * absoluteVecY  + offSetY * directionX;
+		shootPos.y = m_RotationPos.y  + offSetX * absoluteVecX + offSetY * directionY;
+
+
+
+		auto bullet = std::make_shared<GameObject>(shootPos.x, shootPos.y);
 		RenderComponent* renderComponent = new RenderComponent{ bullet.get(), false , nullptr};
 		renderComponent->SetTexture("Bullet.png");
 		bullet->AddComponent(renderComponent);
@@ -61,16 +94,13 @@ namespace dae
 		bullet->AddComponent(bulletComponent);
 		m_Scene.Add(bullet);
 	
-		//do point - point then put it in a vec and normalize *  speed;
 
-		float xPosVec = m_ShootPos.x - m_VectorStartPos.x;
-		float yPosVec = m_ShootPos.y - m_VectorStartPos.y;
-		glm::vec2 directionVec{ xPosVec, yPosVec };
 
-		glm::vec2 directionVecNormalized = glm::normalize( directionVec );
-		float speed = 50.0f;
-		//set velocity based on calculations for direction(normalize) from pos under shoot pos
-		bulletComponent->SetVelocity(Velocity{ directionVecNormalized.x * speed, directionVecNormalized.y * speed});
+
+;
+		float speed = 150.0f;
+		//set velocity based on calculations for direction from pos under shoot pos
+		bulletComponent->SetVelocity(Velocity{ directionVec.x * speed, directionVec.y * speed});
 
 
 		
@@ -80,6 +110,8 @@ namespace dae
 	{
 		//calc offset for rot
 
+
+		
 		m_pRenderComp->RotateForward();
 
 	}
