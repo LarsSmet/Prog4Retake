@@ -75,9 +75,19 @@ namespace dae
 		m_Height = height;
 	}
 
+	void Cell::SetType(CellType type)
+	{
+		m_CellType = type;
+	}
+
 	std::shared_ptr<RectColliderComponent> Cell::GetCollider()
 	{
 		return m_pColliderComp;
+	}
+
+	CellType Cell::GetCellType()
+	{
+		return m_CellType;
 	}
 
 

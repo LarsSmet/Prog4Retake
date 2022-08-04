@@ -4,6 +4,13 @@
 
 namespace dae
 {
+	enum class CellType
+	{
+		spawnable,
+		unspawnable,
+		teleport
+
+	};
 
 	class Cell
 	{
@@ -22,11 +29,12 @@ namespace dae
 		void SetPos(float x, float y);
 		bool HasCollision();
 		void SetSize(float width, float height);
+		void SetType(CellType type);
 
 
 		std::shared_ptr<RectColliderComponent> GetCollider();
 
-
+		CellType GetCellType();
 
 	private:
 
@@ -43,6 +51,8 @@ namespace dae
 
 		std::shared_ptr < RectColliderComponent> m_pColliderComp;
 
+
+		CellType m_CellType;
 
 		//render
 

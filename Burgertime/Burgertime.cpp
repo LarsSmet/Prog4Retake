@@ -77,7 +77,7 @@ void LoadGame()
 	float tileMapStartX = 0;
 	float tilemapStartY = 200;
 	auto go = std::make_shared<GameObject>(tileMapStartX, tilemapStartY);
-	TileMapComponent* tileMapComponent = new TileMapComponent{ go.get(), "../Data/TileMap2.txt" };
+	TileMapComponent* tileMapComponent = new TileMapComponent{ go.get(), "../Data/TileMap3.txt" };
 	tileMapComponent->ConvertFileToMap();
 	go->AddComponent(tileMapComponent);
 	scene.Add(go);

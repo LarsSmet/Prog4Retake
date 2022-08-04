@@ -30,6 +30,8 @@ namespace dae
 
 		PhysicsComponent* GetPhysicsComp();
 
+		void Teleport();
+
 
 	private:
 
