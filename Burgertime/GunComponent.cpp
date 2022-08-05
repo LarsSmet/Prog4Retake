@@ -6,7 +6,7 @@
 
 namespace dae
 {
-	GunComponent::GunComponent(GameObject* go,/* PhysicsComponent* physicsComp,*/ PlayerComponent* playerComp, Scene& currentScene): BaseComponent{go},/* m_pPhysicsComp{physicsComp},*/ m_pPlayerComp{playerComp}, m_Scene{ currentScene }
+	GunComponent::GunComponent(GameObject* go, PlayerComponent* playerComp, Scene& currentScene, TileMapComponent* tileMap): BaseComponent{go}, m_pPlayerComp{playerComp}, m_Scene{ currentScene }, m_pTileMap{tileMap}
 	{
 		m_pRenderComp = m_Owner->GetComponent<RenderComponent>();
 
@@ -83,11 +83,11 @@ namespace dae
 		auto texture = renderComponent->GetTexture()->GetSDLTexture();
 		SDL_Point size;
 		SDL_QueryTexture(texture, nullptr, nullptr, &size.x, &size.y);
-		Rectf bulletShape{ m_ShootPos.x,m_ShootPos.y + float(size.y), float(size.x),float(size.y) };
+		Rectf bulletShape{ shootPos.x,shootPos.y + float(size.y), float(size.x),float(size.y) };
 		RectColliderComponent* bulletCollider = new RectColliderComponent{ bullet.get(), bulletShape };
 		PhysicsComponent* physicsComp = new PhysicsComponent{ bullet.get(), bullet->GetTransformComp(), bulletCollider };
 		bullet->AddComponent(physicsComp);
-		BulletComponent* bulletComponent = new BulletComponent{ bullet.get(), physicsComp };
+		BulletComponent* bulletComponent = new BulletComponent{ bullet.get(), physicsComp, m_pTileMap };
 		bullet->AddComponent(bulletComponent);
 		m_Scene.Add(bullet);
 	

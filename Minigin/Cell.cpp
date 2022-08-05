@@ -51,6 +51,19 @@ namespace dae
 		
 	}
 
+	void Cell::SetCollision(bool hasCol, Rectf collider)
+	{
+		m_HasCollision = hasCol;
+
+		if (hasCol)
+		{
+			m_RectCollider = collider;
+		}
+
+	}
+
+
+
 	void Cell::SetCollision(bool hasCol)
 	{
 		m_HasCollision = hasCol;
@@ -83,6 +96,11 @@ namespace dae
 	std::shared_ptr<RectColliderComponent> Cell::GetCollider()
 	{
 		return m_pColliderComp;
+	}
+
+	Rectf Cell::GetRectCollider()
+	{
+		return m_RectCollider;
 	}
 
 	CellType Cell::GetCellType()

@@ -33,8 +33,10 @@ namespace dae
 
         Velocity GetVelocity();
 
-        void HandleCollision(RectColliderComponent* collision);
+        bool HandleCollision(RectColliderComponent* collision);
         TransformComponent* GetTransformComp();
+
+        bool HandleCollision(Rectf collision);
 
 
     private:

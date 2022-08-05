@@ -6,7 +6,8 @@ namespace dae
 
 	struct CollisionHitInfo
 	{
-	
+		bool hit = false;
+
 		//left col hitinfo
 		utils::HitInfo leftColBot;
 		bool leftColBotIsHit = false;
@@ -41,6 +42,8 @@ namespace dae
 
 		RectColliderComponent(GameObject* go, Rectf rectCollider);
 		~RectColliderComponent();
+
+		CollisionHitInfo OnCollision(Rectf collision);
 
 		CollisionHitInfo OnCollision(RectColliderComponent* collision);
 

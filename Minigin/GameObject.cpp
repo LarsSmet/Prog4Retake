@@ -17,14 +17,16 @@ dae::GameObject::~GameObject()
 	
 	//delete all components
 
+	
+
 	for (size_t i = 0; i < m_Components.size(); i++)
 	{
 		delete m_Components[i];
 		m_Components[i] = nullptr;
 	}
 
-	delete m_TransformComp;
-	m_TransformComp = nullptr;
+	/*delete m_TransformComp;
+	m_TransformComp = nullptr;*/
 
 
 }
@@ -144,5 +146,5 @@ void dae::GameObject::AddChild(std::shared_ptr<GameObject> go)
 
 dae::TransformComponent* dae::GameObject::GetTransformComp()
 {
-	return m_TransformComp;
+	return m_TransformComp.get();
 }

@@ -221,12 +221,14 @@ namespace dae
 					//set to wall
 					m_CellToAdd.SetTexture("WallTile.png");
 					m_CellToAdd.SetCollision(true, RectColliderComponent{ m_Go,  Rectf{ xPos, yPos /*+ cellHeight*/, cellWidth, cellHeight } });
+					m_CellToAdd.SetCollision(true, Rectf{ xPos, yPos /*+ cellHeight*/, cellWidth, cellHeight });
 					m_CollisionMap.emplace_back(m_CellToAdd);
 					break;
 				case 7:
 					//set to tele[prt
 					m_CellToAdd.SetTexture("Teleport.png");
 					m_CellToAdd.SetCollision(true, RectColliderComponent{ m_Go,  Rectf{ xPos, yPos /*+ cellHeight*/, cellWidth, cellHeight } });
+					m_CellToAdd.SetCollision(true, Rectf{ xPos, yPos /*+ cellHeight*/, cellWidth, cellHeight });
 					m_CollisionMap.emplace_back(m_CellToAdd); //maybe change this?
 					break;
 				}

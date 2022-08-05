@@ -60,12 +60,22 @@ namespace dae
 		return m_Velocity;
 	}
 
-	void PhysicsComponent::HandleCollision(RectColliderComponent* collision)
+	bool PhysicsComponent::HandleCollision(RectColliderComponent* collision)
 	{
 		//TODO: when landing vertically it also uses the horizontal movement causing the player to tp to the side of the cell. 
 		//OR  -> left and right side get triggered by the raycast, causing these teleporting movements
 
 		auto colInfo = m_pColliderComp->OnCollision(collision);
+
+		if (colInfo.hit)
+		{
+			std::cout << "TESTER";
+		}
+
+		if (!colInfo.hit)
+		{
+			return false;
+		}
 
 		if (colInfo.leftColBotIsHit) 
 		{
@@ -130,7 +140,7 @@ namespace dae
 			m_pColliderComp->SetYPosition(hitPoint.y + m_pColliderComp->GetRectCollider().height + 1);
 		}
 
-
+		return true;
 	}
 
 
@@ -138,4 +148,93 @@ namespace dae
 	{
 		return m_pTransformComp;
 	}
+
+
+	bool PhysicsComponent::HandleCollision(Rectf collision)
+	{
+		//TODO: when landing vertically it also uses the horizontal movement causing the player to tp to the side of the cell. 
+		//OR  -> left and right side get triggered by the raycast, causing these teleporting movements
+
+		auto colInfo = m_pColliderComp->OnCollision(collision);
+
+		if (colInfo.hit)
+		{
+			std::cout << "TESTER";
+		}
+
+		if (!colInfo.hit)
+		{
+			return false;
+		}
+
+		if (colInfo.leftColBotIsHit)
+		{
+			auto hitPoint = colInfo.leftColBot.intersectPoint;
+
+			m_pTransformComp->SetXPosition(hitPoint.x + 1);
+			m_pColliderComp->SetXPosition(hitPoint.x + 1);
+
+		}
+		else if (colInfo.leftColTopIsHit)
+		{
+			auto hitPoint = colInfo.leftColTop.intersectPoint;
+
+			m_pTransformComp->SetXPosition(hitPoint.x + 1);
+			m_pColliderComp->SetXPosition(hitPoint.x + 1);
+
+		}
+		else if (colInfo.rightColBotIsHit)
+		{
+			auto hitPoint = colInfo.rightColBot.intersectPoint;
+
+			m_pTransformComp->SetXPosition(hitPoint.x - m_pColliderComp->GetRectCollider().width - 1);
+			m_pColliderComp->SetXPosition(hitPoint.x - m_pColliderComp->GetRectCollider().width - 1);
+
+		}
+		else if (colInfo.rightColTopIsHit)
+		{
+			auto hitPoint = colInfo.rightColTop.intersectPoint;
+
+			m_pTransformComp->SetXPosition(hitPoint.x - m_pColliderComp->GetRectCollider().width - 1);
+			m_pColliderComp->SetXPosition(hitPoint.x - m_pColliderComp->GetRectCollider().width - 1);
+		}
+
+		////vertical
+		if (colInfo.botColLeftIsHit)
+		{
+			auto hitPoint = colInfo.botColLeft.intersectPoint;
+
+			m_pTransformComp->SetYPosition(hitPoint.y - m_pColliderComp->GetRectCollider().height - 1);
+			m_pColliderComp->SetYPosition(hitPoint.y - 1);
+
+		}
+		else if (colInfo.botColRightIsHit)
+		{
+			auto hitPoint = colInfo.botColRight.intersectPoint;
+
+			m_pTransformComp->SetYPosition(hitPoint.y - m_pColliderComp->GetRectCollider().height - 1);
+			m_pColliderComp->SetYPosition(hitPoint.y - 1);
+		}
+		else if (colInfo.topColLeftIsHit)
+		{
+			auto hitPoint = colInfo.topColLeft.intersectPoint;
+
+			m_pTransformComp->SetYPosition(hitPoint.y + 1);
+			m_pColliderComp->SetYPosition(hitPoint.y + m_pColliderComp->GetRectCollider().height + 1);
+		}
+		else if (colInfo.topColRightIsHit)
+		{
+			auto hitPoint = colInfo.topColRight.intersectPoint;
+
+			m_pTransformComp->SetYPosition(hitPoint.y + 1);
+			m_pColliderComp->SetYPosition(hitPoint.y + m_pColliderComp->GetRectCollider().height + 1);
+		}
+
+		return true;
+	}
+
+
+
 }
+
+

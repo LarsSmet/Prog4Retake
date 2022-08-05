@@ -108,10 +108,10 @@ void LoadGame()
 	renderComponent = new RenderComponent{ gun.get() , true, sdlPoint};
 	renderComponent->SetTexture("Gun.png");
 	gun->AddComponent(renderComponent);
-	GunComponent* myGunComponent = new GunComponent{ gun.get(), myPlayerComp, scene };
+	GunComponent* myGunComponent = new GunComponent{ gun.get(), myPlayerComp, scene, tileMapComponent };
 	gun->AddComponent(myGunComponent);
 
-
+	
 
 
 	//commands

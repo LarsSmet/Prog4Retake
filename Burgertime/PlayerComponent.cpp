@@ -41,17 +41,25 @@ namespace dae
 				{
 					auto rectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
 
-					float offset = 32;
+					float offset = 32; //has to be changed later
 
 					Rectf rect{ rectCol.left, rectCol.bottom - offset, rectCol.width, rectCol.height };
 
 
-					if (utils::IsOverlapping(rect, map[i].GetCollider().get()->GetRectCollider()))
+			/*		if (utils::IsOverlapping(rect, map[i].GetCollider().get()->GetRectCollider()))
+					{
+
+						Teleport();
+
+					}*/
+
+					if (utils::IsOverlapping(rect, map[i].GetRectCollider())) //still chage
 					{
 
 						Teleport();
 
 					}
+
 				}
 				else
 				{

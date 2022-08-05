@@ -114,7 +114,7 @@ namespace dae
 		std::weak_ptr<GameObject> m_pParent;
 		std::vector<std::shared_ptr<GameObject>> m_pChildren;
 
-		TransformComponent* m_TransformComp;
+		std::shared_ptr<TransformComponent> m_TransformComp;
 
 	};
 }

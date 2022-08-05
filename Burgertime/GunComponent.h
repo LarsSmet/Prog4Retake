@@ -13,7 +13,7 @@ namespace dae
 	public:
 
 
-		GunComponent(GameObject* go, /*PhysicsComponent* physicsComp,*/ PlayerComponent* playerComp, Scene& currentScene);
+		GunComponent(GameObject* go, PlayerComponent* playerComp, Scene& currentScene, TileMapComponent* tileMap);
 		~GunComponent();
 
 
@@ -35,6 +35,8 @@ namespace dae
 		Scene& m_Scene;
 
 		RenderComponent* m_pRenderComp;
+
+		TileMapComponent* m_pTileMap;
 
 	};
 
