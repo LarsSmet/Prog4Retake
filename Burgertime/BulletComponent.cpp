@@ -41,7 +41,7 @@ namespace dae
 				//get hitinfo from hit, check which side is hit then adjust velocity accordingly
 			
 
-				auto info = m_pPhysicsComp->GetColliderComponent()->OnCollision((colMap[i].GetRectCollider()));
+				auto info = m_pPhysicsComp->GetColliderComponent()->OnCollision((colMap[i]->GetRectCollider()));
 				if (!info.hit)
 				{
 					

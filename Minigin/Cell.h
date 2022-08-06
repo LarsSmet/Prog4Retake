@@ -32,8 +32,9 @@ namespace dae
 		void SetSize(float width, float height);
 		void SetType(CellType type);
 
+		Point2f GetPosition();
 
-		std::shared_ptr<RectColliderComponent> GetCollider();
+		//std::shared_ptr<RectColliderComponent> GetCollider();
 
 		Rectf GetRectCollider();
 
@@ -44,8 +45,7 @@ namespace dae
 		int m_Id;
 		bool m_HasCollision;
 
-		float m_xPos;
-		float m_yPos;
+		Point2f m_Pos;
 
 		float m_Width;
 		float m_Height;

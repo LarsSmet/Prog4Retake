@@ -167,15 +167,17 @@ namespace dae
 		{
 			for (size_t col = 0; col < amountOfCol; ++col)
 			{
+				std::shared_ptr<Cell> cellToAdd = std::make_shared<Cell>();
+
 				//set size
-				m_CellToAdd.SetSize(cellWidth, cellHeight);
+				cellToAdd->SetSize(cellWidth, cellHeight);
 
 				//set pos
 
 				float xPos = (col * cellWidth) + position.x;
 				float yPos = (row * cellHeight) + position.y;
 
-				m_CellToAdd.SetPos(xPos, yPos);
+				cellToAdd->SetPos(xPos, yPos);
 
 
 				//get input for col
@@ -187,13 +189,13 @@ namespace dae
 				switch (value)
 				{
 				case 0:
-					m_CellToAdd.SetType(CellType::spawnable);
+					cellToAdd->SetType(CellType::spawnable);
 					break;
 				case 1:
-					m_CellToAdd.SetType(CellType::unspawnable);
+					cellToAdd->SetType(CellType::unspawnable);
 					break;
 				case 2:
-					m_CellToAdd.SetType(CellType::teleport);
+					cellToAdd->SetType(CellType::teleport);
 					break;
 				}
 
@@ -210,33 +212,33 @@ namespace dae
 				{
 				case 5:
 					//set to road
-					m_CellToAdd.SetTexture("RoadTile.png");
-					m_CellToAdd.SetCollision(false);
-					if (m_CellToAdd.GetCellType() == CellType::spawnable)
+					cellToAdd->SetTexture("RoadTile.png");
+					cellToAdd->SetCollision(false);
+					if (cellToAdd->GetCellType() == CellType::spawnable)
 					{
-						m_SpawnMap.emplace_back(m_CellToAdd);
+						m_SpawnMap.emplace_back(cellToAdd);
 					}
 					break;
 				case 6:
 					//set to wall
-					m_CellToAdd.SetTexture("WallTile.png");
-					m_CellToAdd.SetCollision(true, RectColliderComponent{ m_Go,  Rectf{ xPos, yPos /*+ cellHeight*/, cellWidth, cellHeight } });
-					m_CellToAdd.SetCollision(true, Rectf{ xPos, yPos /*+ cellHeight*/, cellWidth, cellHeight });
-					m_CollisionMap.emplace_back(m_CellToAdd);
+					cellToAdd->SetTexture("WallTile.png");
+				//	cellToAdd->SetCollision(true, RectColliderComponent{ m_Go,  Rectf{ xPos, yPos /*+ cellHeight*/, cellWidth, cellHeight } });
+					cellToAdd->SetCollision(true, Rectf{ xPos, yPos /*+ cellHeight*/, cellWidth, cellHeight });
+					m_CollisionMap.emplace_back(cellToAdd);
 					break;
 				case 7:
 					//set to tele[prt
-					m_CellToAdd.SetTexture("Teleport.png");
-					m_CellToAdd.SetCollision(true, RectColliderComponent{ m_Go,  Rectf{ xPos, yPos /*+ cellHeight*/, cellWidth, cellHeight } });
-					m_CellToAdd.SetCollision(true, Rectf{ xPos, yPos /*+ cellHeight*/, cellWidth, cellHeight });
-					m_CollisionMap.emplace_back(m_CellToAdd); //maybe change this?
+					cellToAdd->SetTexture("Teleport.png");
+					//cellToAdd->SetCollision(true, RectColliderComponent{ m_Go,  Rectf{ xPos, yPos /*+ cellHeight*/, cellWidth, cellHeight } });
+					cellToAdd->SetCollision(true, Rectf{ xPos, yPos /*+ cellHeight*/, cellWidth, cellHeight });
+					m_CollisionMap.emplace_back(cellToAdd); //maybe change this?
 					break;
 				}
 
 
 
 	
-				m_Map.emplace_back(m_CellToAdd);
+				m_Map.emplace_back(cellToAdd);
 
 
 
@@ -256,23 +258,23 @@ namespace dae
 
 		for (size_t i = 0; i < m_Map.size(); ++i)
 		{
-			m_Map[i].Render();
+			m_Map[i]->Render();
 		}
 
 	}
 
-	std::vector<Cell> TileMapComponent::GetMap()
+	std::vector<std::shared_ptr<Cell>> TileMapComponent::GetMap()
 	{
 		return m_Map;
 
 	}
 
-	std::vector<Cell> TileMapComponent::GetCollisionMap()
+	std::vector<std::shared_ptr<Cell>> TileMapComponent::GetCollisionMap()
 	{
 		return m_CollisionMap;
 	}
 
-	std::vector<Cell> TileMapComponent::GetSpawnMap()
+	std::vector<std::shared_ptr<Cell>> TileMapComponent::GetSpawnMap()
 	{
 		return m_SpawnMap;
 	}

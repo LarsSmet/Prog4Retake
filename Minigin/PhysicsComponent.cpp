@@ -234,7 +234,63 @@ namespace dae
 	}
 
 
+	//bool PhysicsComponent::HandleCollision(Rectf other)
+	//{
 
+	//	auto collider = m_pColliderComp->GetRectCollider();
+
+	//	Point2f newPos{ collider.left, collider.bottom };
+
+
+	//	//collider hits left side of other obj
+	//	if ((collider.left <= other.left + other.width) && (collider.left + collider.width > other.left + other.width) &&
+	//		(((collider.bottom >= other.bottom) && (collider.bottom <= (other.bottom + other.height))) ||
+	//			((collider.bottom + collider.height >= other.bottom) && ((collider.bottom + collider.height) <= other.bottom + other.height)) ||
+	//			((collider.bottom <= other.bottom) && ((collider.bottom + collider.height) >= other.bottom + other.height))))
+	//			
+	//	{
+	//	/*	m_pColliderComp->SetPosition(other.left + other.width, collider.bottom);
+	//		m_pTransformComp->SetPosition(other.left + other.width, collider.bottom);*/
+
+	//		newPos.x = other.left + other.width;
+
+	//		std::cout << "left col";
+	//		//return true;
+	//	}
+	//	
+
+	//
+	//	//right collision
+	//	
+	//	//bot collision
+	//	if ((collider.bottom <= other.bottom + other.height) && (collider.bottom + collider.height > other.bottom + other.height) &&
+	//		(((collider.left >= other.left) && (collider.left <= (other.left + other.width))) ||
+	//			((collider.left + collider.width >= other.left) && ((collider.left + collider.width) <= other.left + other.width)) ||
+	//			((collider.left <= other.left) && ((collider.left + collider.width) >= other.left + other.width))))
+	//	{
+	//	/*	m_pColliderComp->SetPosition(collider.left, other.bottom + other.height);
+	//		m_pTransformComp->SetPosition(collider.left, other.bottom + other.height);*/
+
+	//		newPos.y = other.bottom + other.height;
+
+
+	//		std::cout << "TOP col";
+	//		//return true;
+	//	}
+
+
+	//	//top collision
+
+
+	//	m_pColliderComp->SetPosition(newPos.x, newPos.y);
+	//	m_pTransformComp->SetPosition(newPos.x, newPos.y);
+
+
+
+	//	return false;
+
+
+	//}
 }
 
 

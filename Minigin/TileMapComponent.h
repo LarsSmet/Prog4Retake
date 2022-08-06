@@ -20,24 +20,24 @@ namespace dae
 		void ConvertFileToMap();
 		void Render();
 
-		std::vector<Cell> GetMap();
-		std::vector<Cell> GetCollisionMap();
-		std::vector<Cell> GetSpawnMap();
+		std::vector<std::shared_ptr<Cell>> GetMap();
+		std::vector<std::shared_ptr<Cell>> GetCollisionMap();
+		std::vector<std::shared_ptr<Cell>> GetSpawnMap();
 
 
 	private:
 
 		const char* m_File;
 
-		std::vector<Cell> m_Map;
-		std::vector<Cell> m_CollisionMap;
-		std::vector<Cell> m_SpawnMap;
+		std::vector<std::shared_ptr<Cell>> m_Map;
+		std::vector<std::shared_ptr<Cell>> m_CollisionMap;
+		std::vector<std::shared_ptr<Cell>> m_SpawnMap;
 		
 
 		GameObject* m_Go;
 
 
-		Cell m_CellToAdd;
+		
 
 	};
 

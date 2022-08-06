@@ -84,7 +84,7 @@ void LoadGame()
 
 	//create player
 	float playerStartX = 50;
-	float playerStartY = 250;
+	float playerStartY = 450; //250
 	auto player = std::make_shared<GameObject>(playerStartX, playerStartY);
 	RenderComponent* renderComponent = new RenderComponent{ player.get() , false,nullptr}; //maybe change to true if we want the player to rotate
 	renderComponent->SetTexture("Tank.png");

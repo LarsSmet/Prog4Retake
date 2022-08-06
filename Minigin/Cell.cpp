@@ -31,7 +31,7 @@ namespace dae
 
 	void Cell::Render()
 	{
-		Renderer::GetInstance().RenderTexture(*m_Texture, m_xPos, m_yPos);
+		Renderer::GetInstance().RenderTexture(*m_Texture, m_Pos.x, m_Pos.y);
 	}
 
 	void Cell::SetTexture(const std::string& filename)
@@ -72,8 +72,8 @@ namespace dae
 	void Cell::SetPos(float x, float y)
 	{
 
-		m_xPos = x;
-		m_yPos = y;
+		m_Pos.x = x;
+		m_Pos.y = y;
 
 	}
 
@@ -93,10 +93,15 @@ namespace dae
 		m_CellType = type;
 	}
 
-	std::shared_ptr<RectColliderComponent> Cell::GetCollider()
+	Point2f Cell::GetPosition()
+	{
+		return m_Pos;
+	}
+
+	/*std::shared_ptr<RectColliderComponent> Cell::GetCollider()
 	{
 		return m_pColliderComp;
-	}
+	}*/
 
 	Rectf Cell::GetRectCollider()
 	{

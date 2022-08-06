@@ -37,7 +37,7 @@ namespace dae
 
 				//std::cout << "called before handlecol func";
 
-				if (map[i].GetCellType() == CellType::teleport)
+				if (map[i]->GetCellType() == CellType::teleport)
 				{
 					auto rectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
 
@@ -53,7 +53,7 @@ namespace dae
 
 					}*/
 
-					if (utils::IsOverlapping(rect, map[i].GetRectCollider())) //still chage
+					if (utils::IsOverlapping(rect, map[i]->GetRectCollider())) //still chage
 					{
 
 						Teleport();
@@ -64,7 +64,7 @@ namespace dae
 				else
 				{
 
-					m_pPhysicsComponent->HandleCollision(map[i].GetCollider().get());
+					m_pPhysicsComponent->HandleCollision(map[i]->GetRectCollider());
 				}
 			//}
 		}
@@ -100,7 +100,8 @@ namespace dae
 
 		//do teleport
 
-		auto posToTeleportTo = spawnMap[randomCell].GetCollider()->GetPosition();
+	/*	auto posToTeleportTo = spawnMap[randomCell]->GetCollider()->GetPosition();*/
+		auto posToTeleportTo = spawnMap[randomCell]->GetPosition();
 
 		m_pPhysicsComponent->GetColliderComponent()->SetPosition(posToTeleportTo.x, posToTeleportTo.y);
 		m_pPhysicsComponent->GetTransformComp()->SetPosition(posToTeleportTo.x, posToTeleportTo.y);
