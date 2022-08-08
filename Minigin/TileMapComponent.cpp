@@ -8,7 +8,8 @@ namespace dae
 {
 	TileMapComponent::TileMapComponent(GameObject* go, const char* filename): BaseComponent{go}, m_File{filename}, m_Go{go}
 	{
-		//ConvertFileToMap();
+
+	
 	}
 
 	TileMapComponent::~TileMapComponent()
@@ -21,110 +22,6 @@ namespace dae
 
 
 
-	//void TileMapComponent::ConvertFileToMap()
-	//{
-
-
-	//	ResourceManager::GetInstance().Init("../Data/");
-
-	//	size_t amountOfCol;
-	//	size_t amountOfRows;
-
-	//	float cellWidth;
-	//	float cellHeight;
-
-	//	int value;
-
-	//	auto transformCompPos = m_Go->GetTransformComp()->GetPosition();
-	//	
-	//	glm::vec2 position{ transformCompPos.x, transformCompPos.y}; //change to transform component later
-
-	//	std::ifstream input(m_File);
-
-	//	if (!input.is_open())
-	//	{
-	//		std::cout << "Opening file failed";
-	//		return;
-	//	}
-
-	//	//first value read is the amount of col, second value is the amount of rows
-	//	//third value is the cell width, fourth value is the cell height
-	//	input >> amountOfCol;
-	//	input >> amountOfRows;
-	//	input >> cellWidth;
-	//	input >> cellHeight;
-
-
-	//	//create nested for loops to intialize each cell
-
-	//	for (size_t row = 0; row < amountOfRows; ++row)
-	//	{
-	//		for (size_t col = 0; col < amountOfCol; ++col)
-	//		{
-	//			//set size
-	//			m_CellToAdd.SetSize(cellWidth, cellHeight);
-	//			
-	//			//set pos
-
-	//			float xPos = (col * cellWidth) + position.x;
-	//			float yPos = (row * cellHeight) + position.y ;
-
-	//			m_CellToAdd.SetPos(xPos,yPos) ;
-
-
-	//			//get input for col
-	//			input >> value;
-
-
-	//			//std::cout << value;
-
-	//			if (value == 0)
-	//			{
-	//				//set col is false
-	//				m_CellToAdd.SetCollision(false);
-	//			}
-	//			else if (value == 1)
-	//			{
-	//				//set col to true
-	//				//rectCollider = new Rectf{ xPos, yPos, cellWidth, cellHeight };
-	//				//colliderComp = new RectColliderComponent{ m_Go, rectCollider };
-	//				//cellToAdd.SetCollision(true, new RectColliderComponent{ m_Go, new Rectf{ xPos, yPos, cellWidth, cellHeight } });
-	//		
-	//				m_CellToAdd.SetCollision(true,  RectColliderComponent{ m_Go,  Rectf{ xPos, yPos /*+ cellHeight*/, cellWidth, cellHeight } });
-	//			
-	//			}
-
-	//			//get input for texture
-	//			input >> value;
-	//			//std::cout << value;
-
-	//			switch (value)
-	//			{
-	//			case 2:
-	//				//set to road
-	//				m_CellToAdd.SetTexture("RoadTile.png");
-	//				break;
-	//			case 3:
-	//				//set to wall
-	//				m_CellToAdd.SetTexture("WallTile.png");
-	//				break;
-	//			}
-
-	//			
-	//			
-	//			//std::cout << "emplace";
-	//			m_Map.emplace_back(m_CellToAdd);
-
-
-	//		
-
-
-	//		}
-	//	}
-
-	//	input.close();
-
-	//}
 
 
 	void TileMapComponent::ConvertFileToMap()
@@ -133,8 +30,7 @@ namespace dae
 
 		ResourceManager::GetInstance().Init("../Data/");
 
-		size_t amountOfCol;
-		size_t amountOfRows;
+	
 
 		float cellWidth;
 		float cellHeight;
@@ -143,7 +39,11 @@ namespace dae
 
 		auto transformCompPos = m_Go->GetTransformComp()->GetPosition();
 
+		m_Pos.x = transformCompPos.x;
+		m_Pos.y = transformCompPos.y;
 		glm::vec2 position{ transformCompPos.x, transformCompPos.y }; //change to transform component later
+
+		
 
 		std::ifstream input(m_File);
 
@@ -155,22 +55,24 @@ namespace dae
 
 		//first value read is the amount of col, second value is the amount of rows
 		//third value is the cell width, fourth value is the cell height
-		input >> amountOfCol;
-		input >> amountOfRows;
+		input >> m_AmountOfCol;
+		input >> m_AmountOfRows;
 		input >> cellWidth;
 		input >> cellHeight;
-
+		m_CellWidth = cellWidth;
+		m_CellHeight = cellHeight;
 
 		//create nested for loops to intialize each cell
 
-		for (size_t row = 0; row < amountOfRows; ++row)
+		for (size_t row = 0; row < m_AmountOfRows; ++row)
 		{
-			for (size_t col = 0; col < amountOfCol; ++col)
+			for (size_t col = 0; col < m_AmountOfCol; ++col)
 			{
 				std::shared_ptr<Cell> cellToAdd = std::make_shared<Cell>();
 
 				//set size
 				cellToAdd->SetSize(cellWidth, cellHeight);
+			
 
 				//set pos
 
@@ -263,20 +165,67 @@ namespace dae
 
 	}
 
-	std::vector<std::shared_ptr<Cell>> TileMapComponent::GetMap()
+	std::vector<std::shared_ptr<Cell>> TileMapComponent::GetMap() const
 	{
 		return m_Map;
 
 	}
 
-	std::vector<std::shared_ptr<Cell>> TileMapComponent::GetCollisionMap()
+	std::vector<std::shared_ptr<Cell>> TileMapComponent::GetCollisionMap() const
 	{
 		return m_CollisionMap;
 	}
 
-	std::vector<std::shared_ptr<Cell>> TileMapComponent::GetSpawnMap()
+	std::vector<std::shared_ptr<Cell>> TileMapComponent::GetSpawnMap() const
 	{
 		return m_SpawnMap;
+	}
+
+	std::shared_ptr<Cell> TileMapComponent::GetCell(Point2f pos)
+	{
+		//grid doesnt necessarily have to start at 0,0 in the console
+		pos.x -= m_Pos.x;
+
+		pos.y -= m_Pos.y;
+
+
+
+
+		
+
+		return GetCell(int(pos.x / m_CellWidth) , int(pos.y / m_CellHeight));
+	}
+
+	std::shared_ptr<Cell> TileMapComponent::GetCell(int col, int row)
+	{
+		if (col < 0)
+		{
+			col = 0;
+		}
+
+		if (col >= m_AmountOfCol)
+		{
+			col = m_AmountOfCol - 1;
+		}
+
+		if (row < 0)
+		{
+			row = 0;
+		}
+
+		if (row >= m_AmountOfRows)
+		{
+			row = m_AmountOfRows - 1;
+		}
+
+
+		int index = row * m_AmountOfCol + col;
+		std::cout << " Index: " << index;
+
+		return m_Map[index];
+
+
+		 
 	}
 
 }

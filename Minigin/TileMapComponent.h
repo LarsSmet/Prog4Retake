@@ -20,9 +20,13 @@ namespace dae
 		void ConvertFileToMap();
 		void Render();
 
-		std::vector<std::shared_ptr<Cell>> GetMap();
-		std::vector<std::shared_ptr<Cell>> GetCollisionMap();
-		std::vector<std::shared_ptr<Cell>> GetSpawnMap();
+		std::vector<std::shared_ptr<Cell>> GetMap() const;
+		std::vector<std::shared_ptr<Cell>> GetCollisionMap() const;
+		std::vector<std::shared_ptr<Cell>> GetSpawnMap() const;
+
+		std::shared_ptr<Cell> GetCell(Point2f pos);
+		std::shared_ptr<Cell> GetCell(int col, int row);
+
 
 
 	private:
@@ -36,8 +40,13 @@ namespace dae
 
 		GameObject* m_Go;
 
-
+		int m_AmountOfRows;
+		int m_AmountOfCol;
 		
+		Point2f m_Pos;
+
+		float m_CellWidth;
+		float m_CellHeight;
 
 	};
 

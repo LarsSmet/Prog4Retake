@@ -159,7 +159,7 @@ namespace dae
 
 		if (colInfo.hit)
 		{
-			std::cout << "TESTER";
+			//std::cout << "TESTER";
 		}
 
 		if (!colInfo.hit)

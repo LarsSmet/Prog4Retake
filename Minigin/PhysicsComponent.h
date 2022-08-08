@@ -2,6 +2,7 @@
 #include "BaseComponent.h"
 #include "TransformComponent.h"
 #include "RectColliderComponent.h"
+#include "Cell.h"
 
 namespace dae
 {
@@ -46,7 +47,7 @@ namespace dae
         TransformComponent* m_pTransformComp;
         RectColliderComponent* m_pColliderComp;
 
-
+        std::vector<std::shared_ptr<Cell>> m_CellsToCheck;
 
     };
 

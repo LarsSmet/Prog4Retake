@@ -28,6 +28,9 @@ namespace dae
 		//handle move commands
 
 		auto map = m_pTileMapComponent->GetCollisionMap();
+		/*std::cout << map.size();*/
+		
+		m_pTileMapComponent->GetCell(Point2f{16,450});
 
 		for (size_t i = 0; i < map.size(); i++)
 		{
