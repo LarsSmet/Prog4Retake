@@ -45,6 +45,10 @@ namespace dae
 		TileMapComponent* m_pTileMapComponent;
 		State m_State;
 
+		std::vector<std::shared_ptr<Cell>> m_CellsToCheck;
+
+		std::shared_ptr<Cell> m_CurrentCell;
+
 
 	};
 

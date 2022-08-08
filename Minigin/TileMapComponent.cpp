@@ -220,7 +220,7 @@ namespace dae
 
 
 		int index = row * m_AmountOfCol + col;
-		std::cout << " Index: " << index;
+		//std::cout << " Index: " << index;
 
 		return m_Map[index];
 
@@ -228,4 +228,104 @@ namespace dae
 		 
 	}
 
+	void TileMapComponent::GetCellsAroundRect(Rectf rect, std::vector<std::shared_ptr<Cell>>& vectorOfCells)
+	{
+		//TODO: Change this so it is calculated or emplace it instead if it exceeds the size. depending if it hurts the performance or not
+		//vectorOfCells.resize(30);
+
+		//add the offset to get cells around + dont forget - instea dof + for height
+		Point2f leftTop{rect.left - m_CellWidth, rect.bottom - rect.height - m_CellHeight};
+		Point2f rightTop{rect.left + rect.width + m_CellWidth, rect.bottom - rect.height - m_CellHeight};
+		Point2f leftBot{rect.left - m_CellWidth, rect.bottom + m_CellHeight};
+
+		//Point2f rightBot{}
+
+		int leftTopIndex = GetCellIndex(leftTop);
+		int rightTopIndex = GetCellIndex(rightTop);
+		int leftBotIndex = GetCellIndex(leftBot);
+
+		//get the amount of cells between left and right corner
+		int amountOfCols = (rightTopIndex  - leftTopIndex) + 1;
+		int amountOfRows = (leftBotIndex - leftTopIndex) / m_AmountOfCol + 1;
+
+		//put current element to 0 to overwrite
+		int currentElement = 0;
+		int currentIndex = leftTopIndex;
+
+		std::cout << " NEWEST CELLS CALCULATED: ";
+
+		for (int row = 0; row < amountOfRows; ++row)
+		{
+			currentIndex = leftTopIndex + m_AmountOfCol * row;
+
+			for (int col = 0; col < amountOfCols; ++col)
+			{
+		
+				if (currentElement >= vectorOfCells.size())
+				{
+					vectorOfCells.emplace_back(m_Map[currentIndex]);
+				}
+				else
+				{
+					//std::cout << "called";
+					vectorOfCells[currentElement] = m_Map[currentIndex];
+				}
+			
+				
+				std::cout << " INDEX: " << currentIndex;
+
+					++currentIndex;
+					++currentElement;
+			}
+			
+			
+
+
+		}
+		
+		std::cout << " Amountofcellstocheck: " << vectorOfCells.size();
+
+	}
+
+	int TileMapComponent::GetCellIndex(int col, int row)
+	{
+		if (col < 0)
+		{
+			col = 0;
+		}
+
+		if (col >= m_AmountOfCol)
+		{
+			col = m_AmountOfCol - 1;
+		}
+
+		if (row < 0)
+		{
+			row = 0;
+		}
+
+		if (row >= m_AmountOfRows)
+		{
+			row = m_AmountOfRows - 1;
+		}
+
+
+		int index = row * m_AmountOfCol + col;
+		return index;
+	}
+
+
+	int  TileMapComponent::GetCellIndex(Point2f pos)
+	{
+		pos.x -= m_Pos.x;
+
+		pos.y -= m_Pos.y;
+
+
+
+
+
+
+		return GetCellIndex(int(pos.x / m_CellWidth), int(pos.y / m_CellHeight));
+	}
 }

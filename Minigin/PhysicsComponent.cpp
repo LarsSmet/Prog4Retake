@@ -149,6 +149,12 @@ namespace dae
 		return m_pTransformComp;
 	}
 
+	void PhysicsComponent::HandleLevelCollision()
+	{
+
+
+
+	}
 
 	bool PhysicsComponent::HandleCollision(Rectf collision)
 	{

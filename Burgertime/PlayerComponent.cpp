@@ -10,11 +10,13 @@ namespace dae
 
 	PlayerComponent::PlayerComponent(GameObject* go, PhysicsComponent* physComp, TileMapComponent* tileMap): BaseComponent{ go }, m_pPhysicsComponent{ physComp }, m_pTileMapComponent{tileMap}
 	{
-
+		auto playerPos = m_pPhysicsComponent->GetTransformComp()->GetPosition();
+		m_CurrentCell = m_pTileMapComponent->GetCell(Point2f{playerPos.x, playerPos.y});
 	}
 
 	PlayerComponent::~PlayerComponent()
 	{
+
 	}
 
 	void PlayerComponent::Update(float elapsedSec)
@@ -27,20 +29,33 @@ namespace dae
 		//handle collision
 		//handle move commands
 
-		auto map = m_pTileMapComponent->GetCollisionMap();
+		//auto map = m_pTileMapComponent->GetCollisionMap();
 		/*std::cout << map.size();*/
 		
-		m_pTileMapComponent->GetCell(Point2f{16,450});
+		//m_pTileMapComponent->GetCell(Point2f{16,450});
 
-		for (size_t i = 0; i < map.size(); i++)
+
+		auto playerPos = m_pPhysicsComponent->GetTransformComp()->GetPosition();
+		auto playerRectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
+		//auto playerPos = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
+
+		if (m_CurrentCell != m_pTileMapComponent->GetCell(Point2f{ playerPos.x, playerPos.y }))
 		{
-			/*if (map[i].HasCollision())
-			{*/
-				//add if cell is teleporter
+			//update cells arounnd rect
+			m_pTileMapComponent->GetCellsAroundRect(playerRectCol, m_CellsToCheck);
+			m_CurrentCell = m_pTileMapComponent->GetCell(Point2f{ playerPos.x, playerPos.y });
+		}
+		
 
-				//std::cout << "called before handlecol func";
+		//if old cell is not new cell, update
 
-				if (map[i]->GetCellType() == CellType::teleport)
+		for (size_t i = 0; i < m_CellsToCheck.size(); i++)
+		{
+			//std::cout << "SIZE OF CELL VEC " << m_CellsToCheck.size();
+			if (m_CellsToCheck[i]->HasCollision())
+			{
+				//handle collision
+				if (m_CellsToCheck[i]->GetCellType() == CellType::teleport)
 				{
 					auto rectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
 
@@ -49,14 +64,7 @@ namespace dae
 					Rectf rect{ rectCol.left, rectCol.bottom - offset, rectCol.width, rectCol.height };
 
 
-			/*		if (utils::IsOverlapping(rect, map[i].GetCollider().get()->GetRectCollider()))
-					{
-
-						Teleport();
-
-					}*/
-
-					if (utils::IsOverlapping(rect, map[i]->GetRectCollider())) //still chage
+					if (utils::IsOverlapping(rect, m_CellsToCheck[i]->GetRectCollider())) //still chage
 					{
 
 						Teleport();
@@ -67,10 +75,51 @@ namespace dae
 				else
 				{
 
-					m_pPhysicsComponent->HandleCollision(map[i]->GetRectCollider());
+					m_pPhysicsComponent->HandleCollision(m_CellsToCheck[i]->GetRectCollider());
 				}
-			//}
+			}
 		}
+
+
+		//for (size_t i = 0; i < map.size(); i++)
+		//{
+		//	/*if (map[i].HasCollision())
+		//	{*/
+		//		//add if cell is teleporter
+
+		//		//std::cout << "called before handlecol func";
+
+		//		if (map[i]->GetCellType() == CellType::teleport)
+		//		{
+		//			auto rectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
+
+		//			float offset = 32; //has to be changed later
+
+		//			Rectf rect{ rectCol.left, rectCol.bottom - offset, rectCol.width, rectCol.height };
+
+
+		//	/*		if (utils::IsOverlapping(rect, map[i].GetCollider().get()->GetRectCollider()))
+		//			{
+
+		//				Teleport();
+
+		//			}*/
+
+		//			if (utils::IsOverlapping(rect, map[i]->GetRectCollider())) //still chage
+		//			{
+
+		//				Teleport();
+
+		//			}
+
+		//		}
+		//		else
+		//		{
+
+		//			m_pPhysicsComponent->HandleCollision(map[i]->GetRectCollider());
+		//		}
+		//	//}
+		//}
 
 	
 		//m_pPhysicsComponent->Update(elapsedSec);

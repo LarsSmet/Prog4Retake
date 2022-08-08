@@ -37,6 +37,8 @@ namespace dae
         bool HandleCollision(RectColliderComponent* collision);
         TransformComponent* GetTransformComp();
 
+        void HandleLevelCollision();
+
         bool HandleCollision(Rectf collision);
 
 

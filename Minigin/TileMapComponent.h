@@ -19,6 +19,8 @@ namespace dae
 
 		void ConvertFileToMap();
 		void Render();
+		std::vector<std::shared_ptr<Cell>> GetCellsAroundRect(Rectf rect);
+		void GetCellsAroundRect(Rectf rect, std::vector<std::shared_ptr<Cell>>& vector);
 
 		std::vector<std::shared_ptr<Cell>> GetMap() const;
 		std::vector<std::shared_ptr<Cell>> GetCollisionMap() const;
@@ -26,8 +28,8 @@ namespace dae
 
 		std::shared_ptr<Cell> GetCell(Point2f pos);
 		std::shared_ptr<Cell> GetCell(int col, int row);
-
-
+		int GetCellIndex(int col, int row);
+		int GetCellIndex(Point2f pos);
 
 	private:
 
