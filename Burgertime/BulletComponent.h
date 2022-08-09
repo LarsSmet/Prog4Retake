@@ -21,12 +21,16 @@ namespace dae
 
 	private:
 
-		PhysicsComponent* m_pPhysicsComp;
+		PhysicsComponent* m_pPhysicsComponent;
 		Velocity m_Velocity;
 
 		int m_BounceCounter;
 
-		TileMapComponent* m_pTileMapComp;
+		TileMapComponent* m_pTileMapComponent;
+
+		std::shared_ptr<Cell> m_CurrentCell;
+		std::vector<std::shared_ptr<Cell>> m_CellsToCheck;
+
 
 	};
 
