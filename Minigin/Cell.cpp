@@ -79,7 +79,7 @@ namespace dae
 
 	bool Cell::HasCollision()
 	{
-		return true;
+		return m_HasCollision;
 	}
 
 	void Cell::SetSize(float width, float height)
@@ -93,15 +93,25 @@ namespace dae
 		m_CellType = type;
 	}
 
+	void Cell::SetDirections(bool canGoUp, bool canGoDown, bool canGoLeft, bool canGoRight)
+	{
+		m_CanGoUp = canGoUp;
+		m_CanGoDown = canGoDown;
+		m_CanGoLeft = canGoLeft;
+		m_CanGoRight = canGoRight;
+
+	}
+
 	Point2f Cell::GetPosition()
 	{
 		return m_Pos;
 	}
 
-	/*std::shared_ptr<RectColliderComponent> Cell::GetCollider()
+	Point2f Cell::GetSize()
 	{
-		return m_pColliderComp;
-	}*/
+		return Point2f{ m_Width , m_Height };
+	}
+	
 
 	Rectf Cell::GetRectCollider()
 	{
@@ -111,6 +121,26 @@ namespace dae
 	CellType Cell::GetCellType()
 	{
 		return m_CellType;
+	}
+
+	bool Cell::CanGoUp()
+	{
+		return m_CanGoUp;
+	}
+
+	bool Cell::CanGoDown()
+	{
+		return m_CanGoDown;
+	}
+
+	bool Cell::CanGoLeft()
+	{
+		return m_CanGoLeft;
+	}
+
+	bool Cell::CanGoRight()
+	{
+		return m_CanGoRight;
 	}
 
 

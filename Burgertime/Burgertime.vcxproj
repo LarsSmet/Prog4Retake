@@ -193,6 +193,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll $(OutputPath) 
   <ItemGroup>
     <ClCompile Include="BulletComponent.cpp" />
     <ClCompile Include="Burgertime.cpp" />
+    <ClCompile Include="EnemyComponent.cpp" />
     <ClCompile Include="GameCommands.cpp" />
     <ClCompile Include="GunComponent.cpp" />
     <ClCompile Include="pch.cpp">
@@ -205,6 +206,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll $(OutputPath) 
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BulletComponent.h" />
+    <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="GameCommands.h" />
     <ClInclude Include="GunComponent.h" />
     <ClInclude Include="pch.h" />

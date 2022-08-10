@@ -50,7 +50,7 @@ namespace glm
 #				pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
 #				pragma clang diagnostic ignored "-Wnested-anon-types"
 #			endif
-		
+# pragma warning(disable:4201)
 			union
 			{
 				struct { T x, y, z, w;};

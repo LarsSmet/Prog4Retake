@@ -33,6 +33,8 @@ namespace dae
 
 	private:
 
+		void SetDirections();
+
 		const char* m_File;
 
 		std::vector<std::shared_ptr<Cell>> m_Map;

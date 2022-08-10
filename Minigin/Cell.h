@@ -32,13 +32,27 @@ namespace dae
 		void SetSize(float width, float height);
 		void SetType(CellType type);
 
+		void SetDirections(bool canGoUp, bool canGoDown, bool canGoLeft, bool canGoRight);
+
 		Point2f GetPosition();
+
+		Point2f GetSize();
 
 		//std::shared_ptr<RectColliderComponent> GetCollider();
 
 		Rectf GetRectCollider();
 
 		CellType GetCellType();
+
+
+
+		bool CanGoUp();
+		bool CanGoDown();
+		bool CanGoLeft();
+		bool CanGoRight();
+
+
+
 
 	private:
 
@@ -58,6 +72,13 @@ namespace dae
 
 
 		CellType m_CellType;
+
+
+		bool m_CanGoUp;
+		bool m_CanGoDown;
+		bool m_CanGoLeft;
+		bool m_CanGoRight;
+
 
 		//render
 

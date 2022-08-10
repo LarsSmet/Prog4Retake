@@ -166,13 +166,13 @@ namespace dae
 		//left col
 		if (utils::Raycast(vertices, Point2f{ leftBot.x, leftBot.y - rayOffSet }, Point2f{ midBot.x, midBot.y - rayOffSet }, collisionInfo.leftColBot))
 		{
-			std::cout << "left";
+			//std::cout << "left";
 			collisionInfo.leftColBotIsHit = true;
 			collisionInfo.hit = true;
 		}
 		else if (utils::Raycast(vertices, Point2f{ leftTop.x, leftTop.y + rayOffSet }, Point2f{ midTop.x, midTop.y + rayOffSet }, collisionInfo.leftColTop))
 		{
-			std::cout << "left";
+			//std::cout << "left";
 			collisionInfo.leftColTopIsHit = true;
 			collisionInfo.hit = true;
 		}
@@ -181,14 +181,14 @@ namespace dae
 
 		if (utils::Raycast(vertices, Point2f{ rightBot.x, rightBot.y - rayOffSet }, Point2f{ midBot.x, midBot.y - rayOffSet }, collisionInfo.rightColBot))
 		{
-			std::cout << "right";
+			//std::cout << "right";
 			collisionInfo.rightColBotIsHit = true;
 			collisionInfo.hit = true;
 
 		}
 		else if (utils::Raycast(vertices, Point2f{ rightTop.x, rightTop.y + rayOffSet }, Point2f{ midTop.x, midTop.y + rayOffSet }, collisionInfo.rightColTop))
 		{
-			std::cout << "right";
+			//std::cout << "right";
 			collisionInfo.rightColTopIsHit = true;
 			collisionInfo.hit = true;
 		}

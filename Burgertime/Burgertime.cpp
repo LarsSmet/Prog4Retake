@@ -30,6 +30,7 @@
 #include "PlayerComponent.h"
 #include "GameCommands.h"
 #include "GunComponent.h"
+#include "EnemyComponent.h"
 //#include "GameCommands.h"
 //#include "BurgerPartComponent.h"
 //#include "GameMode.h"
@@ -138,8 +139,28 @@ void LoadGame()
 	ControllerKey shootKey{ int(dae::ControllerButton::ButtonX), dae::ControllerButton::ButtonX };
 	std::shared_ptr<ShootCommand> shoot = std::make_shared<ShootCommand>(myGunComponent);
 	inputManager.BindKey(shootKey, shoot);
+
+	float enemyStartX = 420;
+	float enemyStartY = 450; //250
+	auto enemy = std::make_shared<GameObject>(enemyStartX, enemyStartY);
+	renderComponent = new RenderComponent{ enemy.get() , false,nullptr }; //maybe change to true if we want the player to rotate
+	renderComponent->SetTexture("Tank.png");
+	enemy->AddComponent(renderComponent);
+	texture = renderComponent->GetTexture()->GetSDLTexture();
+	SDL_Point enemySize;
+	SDL_QueryTexture(texture, nullptr, nullptr, &enemySize.x, &enemySize.y);
+	Rectf enemyShape{ enemyStartX,enemyStartY + float(enemySize.y), float(enemySize.x),float(enemySize.y) }; //IMPORTANT! ypos needs to be + SIZE because of rect and render having dif starting points
+	RectColliderComponent* enemyCollider = new RectColliderComponent{ enemy.get(), enemyShape };
+	PhysicsComponent* myEnemyPhysicsComp = new PhysicsComponent{ enemy.get(), enemy->GetTransformComp(), enemyCollider };
+	player->AddComponent(myEnemyPhysicsComp);
+	EnemyComponent* myEnemyComp = new EnemyComponent{ enemy.get(), myEnemyPhysicsComp , tileMapComponent, myPlayerComp };
+	player->AddComponent(myEnemyComp);
+
+
+
+
 	scene.Add(player);
 	scene.Add(gun);
-
+	scene.Add(enemy);
 	
 }

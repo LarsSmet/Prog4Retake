@@ -151,6 +151,80 @@ namespace dae
 
 		input.close();
 
+
+		for (size_t i = 0; i < m_Map.size(); ++i)
+		{
+			auto cell = m_Map[i];
+			auto cellPos = cell->GetPosition();
+
+			if (cell->HasCollision())
+			{
+				//cell->SetDirections(false, false, false, false);
+				cell->SetDirections(true, true, true, true); //set everything back to false when it works with collision
+			}
+			else
+			{
+				bool canGoUp = false;
+				bool canGoDown = false;
+				bool canGoLeft = false;
+				bool canGoRight = false;
+
+				//offset to make sure it is inside the cell, without it it sometimes gives a diff result a because of the collision when selecting a direction
+				float offSet = 0;
+
+				//left direction
+				if (GetCell(Point2f{ cellPos.x + offSet - m_CellWidth, cellPos.y + offSet })->HasCollision())
+				{
+				
+					canGoLeft = true;
+				}
+				else
+				{
+					canGoLeft = true;
+				}
+
+				//right direction
+				if (GetCell(Point2f{ cellPos.x + offSet + m_CellWidth, cellPos.y + offSet })->HasCollision())
+				{
+					canGoRight = true;
+					//std::cout << GetCellIndex(Point2f{ cellPos.x + offSet + m_CellWidth, cellPos.y + offSet }) << "   ";
+				}
+				else
+				{
+
+					canGoRight = true;
+					//std::cout << "IS:" << canGoRight;
+				}
+
+
+				//top direction
+				if (GetCell(Point2f{ cellPos.x + offSet, cellPos.y + offSet - m_CellHeight })->HasCollision())
+				{
+					canGoUp = true;
+				}
+				else
+				{
+					canGoUp = true;
+				}
+
+
+				//bot direction
+				if (GetCell(Point2f{ cellPos.x + offSet, cellPos.y + m_CellHeight + offSet })->HasCollision())
+				{
+					canGoDown = true;
+				}
+				else
+				{
+					canGoDown = true;
+				}
+
+				cell->SetDirections(canGoUp, canGoDown, canGoLeft, canGoRight);
+
+			}
+
+
+		}
+
 	}
 
 
@@ -252,7 +326,7 @@ namespace dae
 		int currentElement = 0;
 		int currentIndex = leftTopIndex;
 
-		std::cout << " NEWEST CELLS CALCULATED: ";
+	//	std::cout << " NEWEST CELLS CALCULATED: ";
 
 		for (int row = 0; row < amountOfRows; ++row)
 		{
@@ -272,7 +346,7 @@ namespace dae
 				}
 			
 				
-				std::cout << " INDEX: " << currentIndex;
+				//std::cout << " INDEX: " << currentIndex;
 
 					++currentIndex;
 					++currentElement;
@@ -283,7 +357,10 @@ namespace dae
 
 		}
 		
-		std::cout << " Amountofcellstocheck: " << vectorOfCells.size();
+		//std::cout << " Amountofcellstocheck: " << vectorOfCells.size();
+
+		
+
 
 	}
 
@@ -328,4 +405,17 @@ namespace dae
 
 		return GetCellIndex(int(pos.x / m_CellWidth), int(pos.y / m_CellHeight));
 	}
+
+	void TileMapComponent::SetDirections()
+	{
+		
+		//take cell
+		//get neighbor, check if has col
+		//if has col
+		//direction is false
+
+	}
+
+
+
 }

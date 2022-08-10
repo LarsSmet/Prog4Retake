@@ -37,13 +37,26 @@ namespace dae
 
 		auto playerPos = m_pPhysicsComponent->GetTransformComp()->GetPosition();
 		auto playerRectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
-		//auto playerPos = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
+		
+		//offset needed to make sure it is in the cell, because sometimes the collision would make it so that it would be in another cell
+		float offSet = 5;
+		playerPos.x += offSet;
+		playerPos.y += offSet;
+
+		//std::cout << " x value: " << playerPos.x << " y value: " << playerPos.y;
 
 		if (m_CurrentCell != m_pTileMapComponent->GetCell(Point2f{ playerPos.x, playerPos.y }))
 		{
 			//update cells arounnd rect
 			m_pTileMapComponent->GetCellsAroundRect(playerRectCol, m_CellsToCheck);
 			m_CurrentCell = m_pTileMapComponent->GetCell(Point2f{ playerPos.x, playerPos.y });
+		}
+		else
+		{
+			//std::cout << " Can go left is: " << m_pTileMapComponent->GetCell(Point2f{playerPos.x, playerPos.y})->CanGoLeft();
+			//std::cout << /*" Can go right is: " <<*/ m_pTileMapComponent->GetCell(Point2f{playerPos.x, playerPos.y})->CanGoRight();
+			//std::cout << " Can go up is: " << m_pTileMapComponent->GetCell(Point2f{playerPos.x, playerPos.y})->CanGoUp();
+			//std::cout << " Can go down is: " << m_pTileMapComponent->GetCell(Point2f{playerPos.x, playerPos.y})->CanGoDown();
 		}
 		
 
