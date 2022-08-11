@@ -140,8 +140,8 @@ void LoadGame()
 	std::shared_ptr<ShootCommand> shoot = std::make_shared<ShootCommand>(myGunComponent);
 	inputManager.BindKey(shootKey, shoot);
 
-	float enemyStartX = 420;
-	float enemyStartY = 450; //250
+	float enemyStartX = 16;
+	float enemyStartY = 232; //250
 	auto enemy = std::make_shared<GameObject>(enemyStartX, enemyStartY);
 	renderComponent = new RenderComponent{ enemy.get() , false,nullptr }; //maybe change to true if we want the player to rotate
 	renderComponent->SetTexture("Tank.png");

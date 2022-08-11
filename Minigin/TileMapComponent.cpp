@@ -159,8 +159,8 @@ namespace dae
 
 			if (cell->HasCollision())
 			{
-				//cell->SetDirections(false, false, false, false);
-				cell->SetDirections(true, true, true, true); //set everything back to false when it works with collision
+				cell->SetDirections(false, false, false, false);
+				//cell->SetDirections(true, true, true, true); //set everything back to false when it works with collision
 			}
 			else
 			{
@@ -176,7 +176,7 @@ namespace dae
 				if (GetCell(Point2f{ cellPos.x + offSet - m_CellWidth, cellPos.y + offSet })->HasCollision())
 				{
 				
-					canGoLeft = true;
+					canGoLeft = false;
 				}
 				else
 				{
@@ -186,7 +186,7 @@ namespace dae
 				//right direction
 				if (GetCell(Point2f{ cellPos.x + offSet + m_CellWidth, cellPos.y + offSet })->HasCollision())
 				{
-					canGoRight = true;
+					canGoRight = false;
 					//std::cout << GetCellIndex(Point2f{ cellPos.x + offSet + m_CellWidth, cellPos.y + offSet }) << "   ";
 				}
 				else
@@ -200,7 +200,7 @@ namespace dae
 				//top direction
 				if (GetCell(Point2f{ cellPos.x + offSet, cellPos.y + offSet - m_CellHeight })->HasCollision())
 				{
-					canGoUp = true;
+					canGoUp = false;
 				}
 				else
 				{
@@ -211,7 +211,7 @@ namespace dae
 				//bot direction
 				if (GetCell(Point2f{ cellPos.x + offSet, cellPos.y + m_CellHeight + offSet })->HasCollision())
 				{
-					canGoDown = true;
+					canGoDown = false;
 				}
 				else
 				{

@@ -37,11 +37,11 @@ namespace dae
 
 			if (m_Velocity.y < 0)
 			{
-				std::cout << "UP";
+				//std::cout << "UP";
 			}
 			if (m_Velocity.y > 0)
 			{
-				std::cout << "down";
+				//std::cout << "down";
 			}
 
 
