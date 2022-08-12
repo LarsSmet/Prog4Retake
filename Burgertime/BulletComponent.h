@@ -5,6 +5,12 @@
 #include "GameObject.h"
 namespace dae
 {
+	enum class GunOwner
+	{
+		player,
+		enemy
+	};
+
 
 	class BulletComponent : public BaseComponent 
 	{
@@ -16,7 +22,8 @@ namespace dae
 
 		void SetVelocity(Velocity velocity);
 
-		void HandleBounce();
+	
+		
 
 
 	private:
@@ -31,6 +38,12 @@ namespace dae
 		std::shared_ptr<Cell> m_CurrentCell;
 		std::vector<std::shared_ptr<Cell>> m_CellsToCheck;
 
+
+		bool m_KillBullet;
+
+		void HandleBounce();
+		void HandleDamage();
+		void KillBullet();
 
 	};
 

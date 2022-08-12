@@ -30,7 +30,7 @@ namespace dae
 
         void SetYVelocity(float yVelocity);
 
-        RectColliderComponent* GetColliderComponent();
+        std::shared_ptr<RectColliderComponent> GetColliderComponent();
 
         Velocity GetVelocity();
 
@@ -47,7 +47,7 @@ namespace dae
 
         Velocity m_Velocity;
         TransformComponent* m_pTransformComp;
-        RectColliderComponent* m_pColliderComp;
+        std::shared_ptr <RectColliderComponent> m_pColliderComp;
 
         std::vector<std::shared_ptr<Cell>> m_CellsToCheck;
 

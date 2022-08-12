@@ -1,22 +1,30 @@
 #include "pch.h"
 #include "BulletComponent.h"
-
+#include "EntityManager.h"
+#include "PlayerComponent.h"
+#include "EnemyComponent.h"
 
 namespace dae
 {
-	BulletComponent::BulletComponent(GameObject* go, PhysicsComponent* physicsComp, TileMapComponent* tileMap) : BaseComponent{ go }, m_pPhysicsComponent{ physicsComp }, m_pTileMapComponent{ tileMap }
+	BulletComponent::BulletComponent(GameObject* go, PhysicsComponent* physicsComp, TileMapComponent* tileMap) : BaseComponent{ go }, m_pPhysicsComponent{ physicsComp }, m_pTileMapComponent{ tileMap }, m_KillBullet{false}
 	{
 		m_BounceCounter = 0;
 	}
 	BulletComponent::~BulletComponent()
 	{
-
+		//std::cout << "DELEEEEEEEEEEEEEETE";
 	}
 
 	void BulletComponent::Update(float elapsedSec)
 	{
 		elapsedSec;
+		HandleDamage();
 		HandleBounce();
+	
+		if (m_KillBullet)
+		{
+			KillBullet();
+		}
 
 		//do movement
 		//m_pPhysicsComp->SetVelocity()
@@ -30,6 +38,8 @@ namespace dae
 
 	void BulletComponent::HandleBounce()
 	{
+
+
 		auto bulletPos = m_pPhysicsComponent->GetTransformComp()->GetPosition();
 		auto bulletRectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
 		
@@ -89,8 +99,9 @@ namespace dae
 					
 					if (m_BounceCounter >= 4)
 					{
-						std::cout << "KILL";
-						m_Owner->~GameObject();
+						//std::cout << "KILL";
+						
+						m_KillBullet = true;
 					}
 				
 			}
@@ -98,6 +109,64 @@ namespace dae
 
 
 
+	}
+
+	void BulletComponent::HandleDamage()
+	{
+
+		auto enemies = EntityManager::GetInstance().GetEnemies();
+
+		std::cout << " There are currently: " << enemies.size() << " enemies ";
+
+		for (size_t i = 0; i < enemies.size(); ++i)
+		{
+			auto rectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
+			float offset =  - 32; //has to be changed later
+
+			Rectf rect{ rectCol.left, rectCol.bottom - offset, rectCol.width, rectCol.height };
+
+
+			auto enemyComp = enemies[i]->GetComponent<EnemyComponent>();
+			
+			if (enemyComp == nullptr)
+			{
+				std::cout << "mistake";
+			}
+			else
+			{
+				std::cout << "no mistake";
+
+				if (utils::IsOverlapping(rect, enemyComp->GetPhysicsComp()->GetColliderComponent()->GetRectCollider())) //still chage
+				{
+					std::cout << "POG";
+					m_KillBullet = true;
+					enemies[i]->~GameObject();
+					//also delete it from vec.
+
+				}
+
+			}
+			
+			
+		}
+
+	
+		
+
+
+		//if (utils::IsOverlapping(rect, m_CellsToCheck[i]->GetRectCollider())) //still chage
+		//{
+
+		//	
+
+		//}
+
+		
+	}
+
+	void BulletComponent::KillBullet()
+	{
+		m_Owner->~GameObject();
 	}
 
 	//void BulletComponent::HandleBounce()

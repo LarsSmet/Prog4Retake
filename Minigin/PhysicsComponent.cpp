@@ -14,8 +14,8 @@ namespace dae
 	/*	delete m_pTransformComp;
 		m_pTransformComp = nullptr;*/
 
-		delete m_pColliderComp;
-		m_pColliderComp = nullptr;
+		/*delete m_pColliderComp;
+		m_pColliderComp = nullptr;*/
 
 	
 	}
@@ -35,7 +35,7 @@ namespace dae
 
 
 
-	RectColliderComponent* PhysicsComponent::GetColliderComponent()
+	std::shared_ptr <RectColliderComponent> PhysicsComponent::GetColliderComponent()
 	{
 		return m_pColliderComp;
 	}
@@ -69,7 +69,7 @@ namespace dae
 
 		if (colInfo.hit)
 		{
-			std::cout << "TESTER";
+			//std::cout << "TESTER";
 		}
 
 		if (!colInfo.hit)

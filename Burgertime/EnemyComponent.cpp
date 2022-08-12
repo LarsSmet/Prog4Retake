@@ -175,7 +175,7 @@ namespace dae
 			auto leftRectCol = m_pTileMapComponent->GetCell(leftCellToCheck)->GetRectCollider();
 
 
-			std::cout << m_pTileMapComponent->GetCellIndex(leftCellToCheck);
+		//	std::cout << m_pTileMapComponent->GetCellIndex(leftCellToCheck);
 
 			Point2f leftColLeftBot{ leftRectCol.left, leftRectCol.bottom };
 			Point2f leftColRightBot{ leftRectCol.left + leftRectCol.width, leftRectCol.bottom };
@@ -194,7 +194,7 @@ namespace dae
 			auto rightRectCol = m_pTileMapComponent->GetCell(rightCellToCheck)->GetRectCollider();
 
 
-			std::cout << m_pTileMapComponent->GetCellIndex(rightCellToCheck);
+			//std::cout << m_pTileMapComponent->GetCellIndex(rightCellToCheck);
 
 			Point2f rightColLeftBot{ rightRectCol.left, rightRectCol.bottom };
 			Point2f rightColRightBot{ rightRectCol.left + rightRectCol.width, rightRectCol.bottom };
@@ -256,7 +256,7 @@ namespace dae
 			auto leftRectCol = m_pTileMapComponent->GetCell(leftCellToCheck)->GetRectCollider();
 
 
-			std::cout << m_pTileMapComponent->GetCellIndex(leftCellToCheck);
+			//std::cout << m_pTileMapComponent->GetCellIndex(leftCellToCheck);
 
 			Point2f leftColLeftBot{ leftRectCol.left, leftRectCol.bottom };
 			Point2f leftColRightBot{ leftRectCol.left + leftRectCol.width, leftRectCol.bottom };
@@ -273,7 +273,7 @@ namespace dae
 			auto rightRectCol = m_pTileMapComponent->GetCell(rightCellToCheck)->GetRectCollider();
 
 
-			std::cout << m_pTileMapComponent->GetCellIndex(rightCellToCheck);
+			//std::cout << m_pTileMapComponent->GetCellIndex(rightCellToCheck);
 
 			Point2f rightColLeftBot{ rightRectCol.left, rightRectCol.bottom };
 			Point2f rightColRightBot{ rightRectCol.left + rightRectCol.width, rightRectCol.bottom };
@@ -477,6 +477,13 @@ namespace dae
 		velocity.y *= speed;
 		//std::cout << " Final result is: " << finalResult;
 		m_pPhysicsComponent->SetVelocity(velocity);
+	}
+
+	PhysicsComponent* EnemyComponent::GetPhysicsComp()
+	{
+		
+			return m_pPhysicsComponent;
+		
 	}
 
 }

@@ -21,12 +21,13 @@ namespace dae
 		void SetVelocity(Velocity newVelocity);
 
 
-
+		
+		
 	
 
 
 
-		PhysicsComponent* GetPhysicsComponent();
+		PhysicsComponent* GetPhysicsComp();
 
 	;
 

@@ -36,6 +36,7 @@
 //#include "GameMode.h"
 //#include "GameMode.h"
 //#include "EnemyComponent.h"
+#include "EntityManager.h"
 
 
 using namespace dae;
@@ -71,7 +72,7 @@ void LoadGame()
 
 
 	
-
+	
 	
 
 	//create tilemap
@@ -154,7 +155,7 @@ void LoadGame()
 	PhysicsComponent* myEnemyPhysicsComp = new PhysicsComponent{ enemy.get(), enemy->GetTransformComp(), enemyCollider };
 	player->AddComponent(myEnemyPhysicsComp);
 	EnemyComponent* myEnemyComp = new EnemyComponent{ enemy.get(), myEnemyPhysicsComp , tileMapComponent, myPlayerComp };
-	player->AddComponent(myEnemyComp);
+	enemy->AddComponent(myEnemyComp);
 
 
 
@@ -162,5 +163,11 @@ void LoadGame()
 	scene.Add(player);
 	scene.Add(gun);
 	scene.Add(enemy);
+
+	EntityManager& entityManager = EntityManager::GetInstance();
+
+	entityManager.AddPlayer(player);
+	entityManager.AddEnemy(enemy);
+
 	
 }
