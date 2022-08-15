@@ -56,7 +56,7 @@ namespace dae
 		}
 
 
-	/*	HandleAI();*/
+
 		m_pPhysicsComponent->Update(elapsedSec);
 			HandleAI();
 		

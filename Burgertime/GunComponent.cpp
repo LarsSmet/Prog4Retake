@@ -9,6 +9,15 @@ namespace dae
 	GunComponent::GunComponent(GameObject* go, PlayerComponent* playerComp, Scene& currentScene, TileMapComponent* tileMap): BaseComponent{go}, m_pPlayerComp{playerComp}, m_Scene{ currentScene }, m_pTileMap{tileMap}
 	{
 		m_pRenderComp = m_Owner->GetComponent<RenderComponent>();
+		if (m_Owner->GetComponent<PlayerComponent>() != nullptr)
+		{
+			m_OwnedByPlayer = true;
+		}
+		else
+		{
+			m_OwnedByPlayer = false;
+		}
+		
 
 	}
 	GunComponent::~GunComponent()
@@ -16,35 +25,35 @@ namespace dae
 	}
 	void GunComponent::Update(float elapsedSec)
 	{
-		/*m_pPhysicsComp->GetTransformComp();
-		m_pPlayerComp->GetPhysicsComp().*/
+		//if not enemy
 
+		Move();
+		RotateGun();
 
-		//get player transform component pos
-		//set gun transformcomp to this + offset for texture + offset for rotation
+		//if (m_OwnedByPlayer)
+		//{
+		//	Move();
+		//	RotateGun();
+		//}
+		//else
+		//{
+		//	//do state thingy from ENEMY
+		//}
+		elapsedSec;
+	}
 
+	void GunComponent::Move()
+	{
 		auto playerTransformPos = m_pPlayerComp->GetPhysicsComp()->GetTransformComp()->GetPosition();
-		m_Owner->SetPosition(playerTransformPos.x + 10, playerTransformPos.y -3);
-
-	
+		m_Owner->SetPosition(playerTransformPos.x + 10, playerTransformPos.y - 3);
 
 		//middle of tank
 		m_RotationPos = Point2f{ playerTransformPos.x + 16, playerTransformPos.y + 19 };
-
-
-		//change this to be based on the gun render pos + offset
-		//m_ShootPos = Point2f{ playerTransformPos.x + 13, playerTransformPos.y -3 };
-
-
-
-		//m_VectorStartPos = Point2f{ playerTransformPos.x + 13, playerTransformPos.y - 3 + 28 };
-
-		//std::cout << m_Owner->GetTransformComp()->GetPosition().x << "   }";
-
 		m_pRenderComp->SetRotatePoint(Point2f{ 6, 22 });
-		RotateGun();
-		elapsedSec;
+
 	}
+
+
 	void GunComponent::Shoot()
 	{
 

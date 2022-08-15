@@ -40,6 +40,9 @@ void dae::GameObject::Update(float deltaTime)
 	{
 		component->Update(deltaTime);
 	}
+
+	
+
 }
 
 void dae::GameObject::Render() const

@@ -1,6 +1,5 @@
 #pragma once
-#include "windows.h"
-#include "xinput.h"
+#include "windows.h" 
 #include "Command.h"
 #include <utility>
 #include <map>
@@ -15,24 +14,52 @@ namespace dae
 
 	enum class ControllerButton
 	{
-		ButtonA = XINPUT_GAMEPAD_A,
-		ButtonB = XINPUT_GAMEPAD_B,
-		ButtonX = XINPUT_GAMEPAD_X,
-		ButtonY = XINPUT_GAMEPAD_Y,
+		ButtonA = 0x1000,
+		ButtonB = 0x2000,
+		ButtonX = 0x4000,
+		ButtonY = 0x8000,
 
-		ArrowUp = XINPUT_GAMEPAD_DPAD_UP,
-		ArrowDown = XINPUT_GAMEPAD_DPAD_DOWN,
-		ArrowLeft = XINPUT_GAMEPAD_DPAD_LEFT,
-		ArrowRight = XINPUT_GAMEPAD_DPAD_RIGHT
+		ArrowUp = 0x0001,
+		ArrowDown = 0x0002,
+		ArrowLeft = 0x0004,
+		ArrowRight = 0x0008,
+		
+
+		Start = 0x0010,
+		Back = 0x0020
+		
 		
 	};
+
+
+
+	enum class ActionState
+	{
+		Up,
+		Down,
+		Hold
+		
+
+	};
+
+	struct ActionKey //got some help from Laurens Krikilion for this.
+	{
+		ActionState state{};
+		ControllerButton button{};
+
+		int controllerIndex = 0;
+
+		auto operator<=>(const ActionKey&) const = default;
+
+	};
+
 
 	class InputManager final : public Singleton<InputManager>
 	{
 
-		using ControllerKey = std::pair<unsigned, ControllerButton>;
-		using ControllerCommandsMap = std::map<ControllerKey, std::shared_ptr<Command>>;
-
+		
+		
+		using ControllerCommandsMap = std::map<ActionKey, std::shared_ptr<Command>>;
 
 
 	public:
@@ -42,9 +69,9 @@ namespace dae
 
 
 		bool ProcessInput();
-		bool IsPressed(unsigned int button) const;
+		bool IsHeld(unsigned int button) const;
 		void HandleInput();
-		void BindKey(ControllerKey key, std::shared_ptr<Command> command);
+		void BindKey(ActionKey key, std::shared_ptr<Command> command);
 
 		
 

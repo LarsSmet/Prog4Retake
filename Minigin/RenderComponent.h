@@ -21,6 +21,7 @@ namespace dae
 		std::shared_ptr<Texture2D> GetTexture();
 
 		void RotateForward();
+		void SetRotation(double angle);
 		void SetRotatePoint(Point2f point);
 
 		bool HasRotation();

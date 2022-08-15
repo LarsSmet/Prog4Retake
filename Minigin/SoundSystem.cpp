@@ -62,7 +62,7 @@ Mix_Chunk* SDLSoundSystem::LoadSound(SoundRequest request)
 
 }
 
-void SDLSoundSystem::StartSound(Mix_Chunk* soundChunk)
+void SDLSoundSystem::StartSound(Mix_Chunk* soundChunk)//remove this?
 {
 	Mix_PlayChannel(-1, soundChunk, 0);
 
@@ -71,6 +71,10 @@ void SDLSoundSystem::StartSound(Mix_Chunk* soundChunk)
 
 void SDLSoundSystem::Update() 
 {
+	//playsound called somewhere in the game
+	//adds it to the queue in playsound
+
+
 	if (s_Head == s_Tail) 
 	{
 		return;

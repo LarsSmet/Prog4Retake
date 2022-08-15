@@ -25,7 +25,7 @@
 //#include "CharacterComponent.h"
 #include "Texture2D.h"
 //#include <VerticesCollider.h>
-#include <SVGParser.cpp>
+
 #include <TileMapComponent.h>
 #include "PlayerComponent.h"
 #include "GameCommands.h"
@@ -119,25 +119,25 @@ void LoadGame()
 	//commands
 	dae::InputManager& inputManager = dae::InputManager::GetInstance();
 	//make horizontal controls
-	ControllerKey leftKey{ int(dae::ControllerButton::ArrowLeft), dae::ControllerButton::ArrowLeft };
+	ActionKey leftKey{ ActionState::Hold, dae::ControllerButton::ArrowLeft };
 	std::shared_ptr<MoveCommand> moveleft = std::make_shared<MoveCommand>(myPlayerComp, -50.0f, 0.f);
 	inputManager.BindKey(leftKey, moveleft);
 
-	ControllerKey rightKey{ int(dae::ControllerButton::ArrowRight), dae::ControllerButton::ArrowRight };
+	ActionKey rightKey{ ActionState::Hold, dae::ControllerButton::ArrowRight };
 	std::shared_ptr<MoveCommand> moveRight = std::make_shared<MoveCommand>(myPlayerComp, 50.0f, 0.f);
 	inputManager.BindKey(rightKey, moveRight);
 
 	//make vertical controls
-	ControllerKey upKey{ int(dae::ControllerButton::ArrowUp), dae::ControllerButton::ArrowUp };
+	ActionKey upKey{ ActionState::Hold, dae::ControllerButton::ArrowUp };
 	std::shared_ptr<MoveCommand> moveUp = std::make_shared<MoveCommand>(myPlayerComp, 0.f, -50.f);
 	inputManager.BindKey(upKey, moveUp);
 
-	ControllerKey downKey{ int(dae::ControllerButton::ArrowDown), dae::ControllerButton::ArrowDown };
+	ActionKey downKey{ ActionState::Hold, dae::ControllerButton::ArrowDown };
 	std::shared_ptr<MoveCommand> moveDown = std::make_shared<MoveCommand>(myPlayerComp, 0.0f, 50.f);
 	inputManager.BindKey(downKey, moveDown);
 
 	//gun command
-	ControllerKey shootKey{ int(dae::ControllerButton::ButtonX), dae::ControllerButton::ButtonX };
+	ActionKey shootKey{ ActionState::Down, dae::ControllerButton::ButtonX };
 	std::shared_ptr<ShootCommand> shoot = std::make_shared<ShootCommand>(myGunComponent);
 	inputManager.BindKey(shootKey, shoot);
 
@@ -153,7 +153,7 @@ void LoadGame()
 	Rectf enemyShape{ enemyStartX,enemyStartY + float(enemySize.y), float(enemySize.x),float(enemySize.y) }; //IMPORTANT! ypos needs to be + SIZE because of rect and render having dif starting points
 	RectColliderComponent* enemyCollider = new RectColliderComponent{ enemy.get(), enemyShape };
 	PhysicsComponent* myEnemyPhysicsComp = new PhysicsComponent{ enemy.get(), enemy->GetTransformComp(), enemyCollider };
-	player->AddComponent(myEnemyPhysicsComp);
+	enemy->AddComponent(myEnemyPhysicsComp);
 	EnemyComponent* myEnemyComp = new EnemyComponent{ enemy.get(), myEnemyPhysicsComp , tileMapComponent, myPlayerComp };
 	enemy->AddComponent(myEnemyComp);
 

@@ -116,7 +116,7 @@ namespace dae
 
 		auto enemies = EntityManager::GetInstance().GetEnemies();
 
-		std::cout << " There are currently: " << enemies.size() << " enemies ";
+		//std::cout << " There are currently: " << enemies.size() << " enemies ";
 
 		for (size_t i = 0; i < enemies.size(); ++i)
 		{
@@ -130,15 +130,15 @@ namespace dae
 			
 			if (enemyComp == nullptr)
 			{
-				std::cout << "mistake";
+				//std::cout << "mistake";
 			}
 			else
 			{
-				std::cout << "no mistake";
+			//	std::cout << "no mistake";
 
 				if (utils::IsOverlapping(rect, enemyComp->GetPhysicsComp()->GetColliderComponent()->GetRectCollider())) //still chage
 				{
-					std::cout << "POG";
+					//std::cout << "POG";
 					m_KillBullet = true;
 					enemies[i]->~GameObject();
 					//also delete it from vec.

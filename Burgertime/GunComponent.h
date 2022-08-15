@@ -18,6 +18,7 @@ namespace dae
 
 
 		void Update(float elapsedSec);
+		void Move();
 		void Shoot();
 		void RotateGun();
 
@@ -37,6 +38,8 @@ namespace dae
 		RenderComponent* m_pRenderComp;
 
 		TileMapComponent* m_pTileMap;
+
+		bool m_OwnedByPlayer;
 
 	};
 

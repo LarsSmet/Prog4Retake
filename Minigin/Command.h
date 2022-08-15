@@ -1,6 +1,5 @@
 #pragma once
 #include "windows.h"
-#include "xinput.h"
 #include <iostream>
 #include "GameObject.h"
 //#include "PlayerComponent.h"

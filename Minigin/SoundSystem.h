@@ -122,7 +122,7 @@ class ServiceLocator final
 
 class LoggingSoundSystem final : public  SoundSystem
 {
-	SoundSystem* s_RealInstance;
+	SoundSystem* s_RealInstance; //make ref? TODO:
 
 	public:
 	LoggingSoundSystem(SoundSystem* soundSystem) : s_RealInstance(soundSystem) {}

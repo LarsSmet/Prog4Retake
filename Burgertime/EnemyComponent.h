@@ -3,9 +3,11 @@
 #include <PhysicsComponent.h>
 #include <TileMapComponent.h>
 #include "PlayerComponent.h"
+#include "AIStates.h"
 
 namespace dae
 {
+	//class AIStates;
 
 	class EnemyComponent : public BaseComponent
 	{
@@ -29,7 +31,7 @@ namespace dae
 
 		PhysicsComponent* GetPhysicsComp();
 
-	;
+	
 
 		Velocity GetVelocity();
 
@@ -51,6 +53,13 @@ namespace dae
 		PlayerComponent* m_pPlayerComponent;
 
 
+		//AIState* m_State;
+
+
 	};
+
+
+
+
 
 }

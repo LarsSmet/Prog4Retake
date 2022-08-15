@@ -27,8 +27,7 @@ using namespace std;
 namespace dae
 {
 
-	using ControllerKey = std::pair<unsigned, dae::ControllerButton>;
-	using ControllerCommandsMap = std::map<ControllerKey, std::shared_ptr<Command>>;
+	
 
 	void PrintSDLVersion()
 	{

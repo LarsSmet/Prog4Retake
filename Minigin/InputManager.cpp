@@ -9,8 +9,7 @@
 namespace dae
 {
 
-    using ControllerKey = std::pair<unsigned, dae::ControllerButton>;
-    using ControllerCommandsMap = std::map<ControllerKey, std::shared_ptr<Command>>;
+   
 
     class dae::InputManager::Impl
     {
@@ -76,34 +75,63 @@ namespace dae
         return true;
     }
 
-    bool dae::InputManager::IsPressed(unsigned int button) const
-    {
-        return m_Impl->m_CurrentState.Gamepad.wButtons & button;
-    }
 
     void dae::InputManager::HandleInput()
     {
 
         for (auto command : m_Impl->m_ConsoleCommands) //go over all commands and do the one that matches the pressed button
         {
-            if (IsPressed(command.first.first))
+            
+            switch (command.first.state)
             {
+            case ActionState::Down:
 
-              //  command.second->Execute(); //if pressed this will continue to execute
-                if (IsDownThisFrame(command.first.first))
+                if (IsDownThisFrame(unsigned int(command.first.button)))
                 {
                     command.second->Execute();
                 }
 
+                break;
+            case ActionState::Up:
+
+                if (IsUpThisFrame(unsigned int(command.first.button)))
+                {
+                    command.second->Execute();
+                }
+
+                break;
+            case ActionState::Hold:
+
+                if (IsHeld(unsigned int(command.first.button)))
+                {
+                    command.second->Execute();
+                }
+
+                break;
+
             }
+
+            
+
+              
+              
+                
+
+            
         }
 
     }
 
-    void dae::InputManager::BindKey(ControllerKey key, std::shared_ptr<Command> command)
+    void dae::InputManager::BindKey(ActionKey key, std::shared_ptr<Command> command)
     {
 
-        m_Impl->m_ConsoleCommands.insert(std::pair<ControllerKey, std::shared_ptr<Command>>(key, command));
+        m_Impl->m_ConsoleCommands.insert({ key, command });
+    }
+
+
+    bool dae::InputManager::IsHeld(unsigned int button) const
+    {
+        return m_Impl->m_CurrentState.Gamepad.wButtons & button;
     }
 
     bool dae::InputManager::IsUpThisFrame(unsigned int button) const

@@ -43,6 +43,11 @@ void dae::RenderComponent::RotateForward()
 	m_Angle += 0.1;
 }
 
+void dae::RenderComponent::SetRotation(double angle)
+{
+	m_Angle = angle;
+}
+
 void dae::RenderComponent::SetRotatePoint(Point2f point)
 {
 	m_pRotationPoint->x = int(point.x);
