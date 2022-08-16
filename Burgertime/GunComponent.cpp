@@ -3,19 +3,24 @@
 #include <RenderComponent.h>
 #include "PhysicsComponent.h"
 #include "BulletComponent.h"
+#include "EnemyComponent.h"
 
 namespace dae
 {
-	GunComponent::GunComponent(GameObject* go, PlayerComponent* playerComp, Scene& currentScene, TileMapComponent* tileMap): BaseComponent{go}, m_pPlayerComp{playerComp}, m_Scene{ currentScene }, m_pTileMap{tileMap}
+	GunComponent::GunComponent(GameObject* go, PlayerComponent* playerComp, EnemyComponent* enemyComp, Scene& currentScene, TileMapComponent* tileMap): 
+		BaseComponent{ go }, m_pPlayerComp{ playerComp }, m_pEnemyComp{ enemyComp }, m_Scene{ currentScene }, m_pTileMap{ tileMap }
 	{
 		m_pRenderComp = m_Owner->GetComponent<RenderComponent>();
-		if (m_Owner->GetComponent<PlayerComponent>() != nullptr)
+		
+		if (m_pPlayerComp != nullptr)
 		{
-			m_OwnedByPlayer = true;
+			std::cout << "Is owned by player";
+			m_GunOwner = GunOwner::player;
 		}
-		else
+		else if (m_pEnemyComp != nullptr)
 		{
-			m_OwnedByPlayer = false;
+			std::cout << "Is owned by enemy";
+			m_GunOwner = GunOwner::enemy;
 		}
 		
 
@@ -26,10 +31,11 @@ namespace dae
 	void GunComponent::Update(float elapsedSec)
 	{
 		//if not enemy
-
-		Move();
-		RotateGun();
-
+		if (m_GunOwner == GunOwner::player) //TODO: in move replace playerphys comp to enemy comp when cowner is enemy
+		{
+			Move();
+			RotateGun();
+		}
 		//if (m_OwnedByPlayer)
 		//{
 		//	Move();
@@ -44,11 +50,21 @@ namespace dae
 
 	void GunComponent::Move()
 	{
-		auto playerTransformPos = m_pPlayerComp->GetPhysicsComp()->GetTransformComp()->GetPosition();
-		m_Owner->SetPosition(playerTransformPos.x + 10, playerTransformPos.y - 3);
+		glm::vec2 ownerTransformPos;
+
+		if (m_GunOwner == GunOwner::player)
+		{
+			ownerTransformPos = m_pPlayerComp->GetPhysicsComp()->GetTransformComp()->GetPosition();
+		}
+		else if (m_GunOwner == GunOwner::enemy)
+		{
+			ownerTransformPos = m_pEnemyComp->GetPhysicsComp()->GetTransformComp()->GetPosition();
+		}
+		/*auto playerTransformPos = m_pPlayerComp->GetPhysicsComp()->GetTransformComp()->GetPosition();*/
+		m_Owner->SetPosition(ownerTransformPos.x + 10, ownerTransformPos.y - 3);
 
 		//middle of tank
-		m_RotationPos = Point2f{ playerTransformPos.x + 16, playerTransformPos.y + 19 };
+		m_RotationPos = Point2f{ ownerTransformPos.x + 16, ownerTransformPos.y + 19 };
 		m_pRenderComp->SetRotatePoint(Point2f{ 6, 22 });
 
 	}

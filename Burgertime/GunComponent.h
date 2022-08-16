@@ -4,16 +4,19 @@
 #include "PlayerComponent.h"
 #include <Scene.h>
 #include "RenderComponent.h"
+#include "BulletComponent.h"
+//#include "EnemyComponent.h"
 
 namespace dae
 {
+	class EnemyComponent;
 
 	class GunComponent: public BaseComponent
 	{
 	public:
 
 
-		GunComponent(GameObject* go, PlayerComponent* playerComp, Scene& currentScene, TileMapComponent* tileMap);
+		GunComponent(GameObject* go, PlayerComponent* playerComp, EnemyComponent* enemyComp, Scene& currentScene, TileMapComponent* tileMap);
 		~GunComponent();
 
 
@@ -30,6 +33,7 @@ namespace dae
 		Point2f m_VectorStartPos;
 
 		PlayerComponent* m_pPlayerComp;
+		EnemyComponent* m_pEnemyComp;
 		PhysicsComponent* m_pPhysicsComp;
 		TransformComponent* m_pTransformComp;
 
@@ -40,6 +44,8 @@ namespace dae
 		TileMapComponent* m_pTileMap;
 
 		bool m_OwnedByPlayer;
+
+		GunOwner m_GunOwner;
 
 	};
 

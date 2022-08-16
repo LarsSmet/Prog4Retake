@@ -2,12 +2,14 @@
 #include "EnemyComponent.h"
 #include <glm/gtx/norm.hpp>
 #include <utils.cpp>
+#include "GunComponent.h"
 
 
 namespace dae
 {
 
-	EnemyComponent::EnemyComponent(GameObject* go, PhysicsComponent* physComp, TileMapComponent* tileMap, PlayerComponent* playerComp) : BaseComponent{ go }, m_pPhysicsComponent{ physComp }, m_pTileMapComponent{ tileMap }, m_pPlayerComponent{ playerComp }
+	EnemyComponent::EnemyComponent(GameObject* go, PhysicsComponent* physComp, TileMapComponent* tileMap, PlayerComponent* playerComp) :
+		BaseComponent{ go }, m_pPhysicsComponent{ physComp }, m_pTileMapComponent{ tileMap }, m_pPlayerComponent{ playerComp }
 	{
 		auto enemyPos = m_pPhysicsComponent->GetTransformComp()->GetPosition();
 		m_CurrentCell = m_pTileMapComponent->GetCell(Point2f{ enemyPos.x, enemyPos.y });
@@ -15,10 +17,15 @@ namespace dae
 		m_pTileMapComponent->GetCellsAroundRect(enemyrRectCol, m_CellsToCheck);
 		m_CurrentCell = m_pTileMapComponent->GetCell(Point2f{ enemyPos.x, enemyPos.y });
 
+		m_pAIState = new MoveState();
+
 	}
 
 	EnemyComponent::~EnemyComponent()
 	{
+		delete m_pAIState;
+		m_pAIState = nullptr;
+
 	}
 
 	void EnemyComponent::Update(float elapsedSec)
@@ -55,10 +62,30 @@ namespace dae
 			//std::cout << " Can go down is: " << m_pTileMapComponent->GetCell(Point2f{playerPos.x, playerPos.y})->CanGoDown();
 		}
 
+		auto childGun = m_Owner->GetChildAt(0);
+		auto gunComp = childGun->GetComponent<GunComponent>();
+
+
+		if (gunComp != nullptr)
+		{
+			std::cout << "Guncomp found";
+		}
+
+		AIState* state = m_pAIState->Update(this, gunComp);
+
+
+
+		//m_State->Update(this);
+		if (state != nullptr)
+		{
+			delete m_pAIState;
+			m_pAIState = state;
+			state->OnEnter(this, gunComp);
+		}
 
 
 		m_pPhysicsComponent->Update(elapsedSec);
-			HandleAI();
+			//HandleAI();
 		
 
 
@@ -479,11 +506,18 @@ namespace dae
 		m_pPhysicsComponent->SetVelocity(velocity);
 	}
 
+	void EnemyComponent::SetVelocity(Velocity newVelocity)
+	{
+		m_pPhysicsComponent->SetVelocity(newVelocity);
+		
+	}
+
 	PhysicsComponent* EnemyComponent::GetPhysicsComp()
 	{
 		
 			return m_pPhysicsComponent;
 		
 	}
+
 
 }

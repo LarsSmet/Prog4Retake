@@ -5,9 +5,13 @@
 #include "PlayerComponent.h"
 #include "AIStates.h"
 
+
+
 namespace dae
 {
-	//class AIStates;
+	class AIStates;
+	class GunComponent;
+	
 
 	class EnemyComponent : public BaseComponent
 	{
@@ -31,7 +35,7 @@ namespace dae
 
 		PhysicsComponent* GetPhysicsComp();
 
-	
+		void ResetVelocity();
 
 		Velocity GetVelocity();
 
@@ -52,8 +56,11 @@ namespace dae
 		
 		PlayerComponent* m_pPlayerComponent;
 
+		GunComponent* m_pGunComponent;
 
-		//AIState* m_State;
+		AIState* m_pAIState;
+
+		
 
 
 	};

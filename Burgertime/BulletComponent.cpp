@@ -167,6 +167,7 @@ namespace dae
 	void BulletComponent::KillBullet()
 	{
 		m_Owner->~GameObject();
+		
 	}
 
 	//void BulletComponent::HandleBounce()

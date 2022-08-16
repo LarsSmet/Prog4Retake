@@ -106,11 +106,11 @@ void LoadGame()
 	float gunStartX = playerStartX + xOffSetGun;
 	float gunStartY = playerStartY + yOffSetGun;
 	auto gun = std::make_shared<GameObject>(gunStartX, gunStartY);
-	SDL_Point* sdlPoint = new SDL_Point{0,0};
-	renderComponent = new RenderComponent{ gun.get() , true, sdlPoint};
+	SDL_Point* sdlGunPoint = new SDL_Point{0,0};
+	renderComponent = new RenderComponent{ gun.get() , true, sdlGunPoint};
 	renderComponent->SetTexture("Gun.png");
 	gun->AddComponent(renderComponent);
-	GunComponent* myGunComponent = new GunComponent{ gun.get(), myPlayerComp, scene, tileMapComponent };
+	GunComponent* myGunComponent = new GunComponent{ gun.get(), myPlayerComp, nullptr, scene, tileMapComponent };
 	gun->AddComponent(myGunComponent);
 
 	
@@ -119,25 +119,25 @@ void LoadGame()
 	//commands
 	dae::InputManager& inputManager = dae::InputManager::GetInstance();
 	//make horizontal controls
-	ActionKey leftKey{ ActionState::Hold, dae::ControllerButton::ArrowLeft };
+	ControllerAction leftKey{ ActionState::Hold, dae::ControllerButton::ArrowLeft };
 	std::shared_ptr<MoveCommand> moveleft = std::make_shared<MoveCommand>(myPlayerComp, -50.0f, 0.f);
 	inputManager.BindKey(leftKey, moveleft);
 
-	ActionKey rightKey{ ActionState::Hold, dae::ControllerButton::ArrowRight };
+	ControllerAction rightKey{ ActionState::Hold, dae::ControllerButton::ArrowRight };
 	std::shared_ptr<MoveCommand> moveRight = std::make_shared<MoveCommand>(myPlayerComp, 50.0f, 0.f);
 	inputManager.BindKey(rightKey, moveRight);
 
 	//make vertical controls
-	ActionKey upKey{ ActionState::Hold, dae::ControllerButton::ArrowUp };
+	ControllerAction upKey{ ActionState::Hold, dae::ControllerButton::ArrowUp };
 	std::shared_ptr<MoveCommand> moveUp = std::make_shared<MoveCommand>(myPlayerComp, 0.f, -50.f);
 	inputManager.BindKey(upKey, moveUp);
 
-	ActionKey downKey{ ActionState::Hold, dae::ControllerButton::ArrowDown };
+	ControllerAction downKey{ ActionState::Hold, dae::ControllerButton::ArrowDown };
 	std::shared_ptr<MoveCommand> moveDown = std::make_shared<MoveCommand>(myPlayerComp, 0.0f, 50.f);
 	inputManager.BindKey(downKey, moveDown);
 
 	//gun command
-	ActionKey shootKey{ ActionState::Down, dae::ControllerButton::ButtonX };
+	ControllerAction shootKey{ ActionState::Down, dae::ControllerButton::ButtonX };
 	std::shared_ptr<ShootCommand> shoot = std::make_shared<ShootCommand>(myGunComponent);
 	inputManager.BindKey(shootKey, shoot);
 
@@ -157,12 +157,25 @@ void LoadGame()
 	EnemyComponent* myEnemyComp = new EnemyComponent{ enemy.get(), myEnemyPhysicsComp , tileMapComponent, myPlayerComp };
 	enemy->AddComponent(myEnemyComp);
 
+	//create enemygun
+	float xOffSetEnemyGun = 10.0f;
+	float yOffSetEnemyGun = -3.0f;
+	float enemyGunStartX = enemyStartX + xOffSetEnemyGun;
+	float enemyGunStartY = enemyStartY + yOffSetEnemyGun;
+	auto enemyGun = std::make_shared<GameObject>(enemyGunStartX, enemyGunStartY);
+	SDL_Point* sdlEnemyGunPoint = new SDL_Point{ 0,0 };
+	renderComponent = new RenderComponent{ enemyGun.get() , true, sdlEnemyGunPoint };
+	renderComponent->SetTexture("Gun.png");
+	enemyGun->AddComponent(renderComponent);
+	GunComponent* myEnemyGunComponent = new GunComponent{ enemyGun.get(),  nullptr, myEnemyComp, scene, tileMapComponent };
+	enemyGun->AddComponent(myEnemyGunComponent);
 
-
+	enemy->AddChild(enemyGun);
 
 	scene.Add(player);
 	scene.Add(gun);
 	scene.Add(enemy);
+	scene.Add(enemyGun);
 
 	EntityManager& entityManager = EntityManager::GetInstance();
 

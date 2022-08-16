@@ -26,9 +26,9 @@ namespace dae
 		
 
 		Start = 0x0010,
-		Back = 0x0020
+		Back = 0x0020,
 		
-		
+		None = 0,
 	};
 
 
@@ -42,16 +42,25 @@ namespace dae
 
 	};
 
-	struct ActionKey //got some help from Laurens Krikilion for this.
+	struct ControllerAction //got some help from Laurens Krikilion for this.
 	{
 		ActionState state{};
 		ControllerButton button{};
-
 		int controllerIndex = 0;
 
-		auto operator<=>(const ActionKey&) const = default;
+		auto operator<=>(const ControllerAction&) const = default;
 
 	};
+
+	struct KeyBoardAction //got some help from Laurens Krikilion for this.
+	{
+		ActionState state{};
+		SDL_Keycode key{};
+
+		auto operator<=>(const KeyBoardAction&) const = default;
+
+	};
+
 
 
 	class InputManager final : public Singleton<InputManager>
@@ -59,7 +68,8 @@ namespace dae
 
 		
 		
-		using ControllerCommandsMap = std::map<ActionKey, std::shared_ptr<Command>>;
+		using ControllerCommandsMap = std::map<ControllerAction, std::shared_ptr<Command>>;
+		using KeyBoardCommandsMap = std::map<KeyBoardAction, std::shared_ptr<Command>>;
 
 
 	public:
@@ -71,7 +81,7 @@ namespace dae
 		bool ProcessInput();
 		bool IsHeld(unsigned int button) const;
 		void HandleInput();
-		void BindKey(ActionKey key, std::shared_ptr<Command> command);
+		void BindKey(ControllerAction key, std::shared_ptr<Command> command);
 
 		
 

@@ -21,6 +21,9 @@ void Scene::Update(float deltaTime)
 	{
 		object->Update(deltaTime);
 	}
+
+	//check if objects to delete, if so delete them and remove it from the vector with remove/erase
+	//also do it for entitymanager
 }
 
 void Scene::Render() const

@@ -22,7 +22,7 @@ namespace dae
 
 
         ControllerCommandsMap m_ConsoleCommands{};
-
+        KeyBoardCommandsMap m_KeyBoardCommands{};
 
         int m_ButtonsPressedThisFrame{};
         int m_ButtonsReleasedThisFrame{};
@@ -50,11 +50,14 @@ namespace dae
 
    
             switch (e.type) {
-           /* case SDL_SCANCODE_W:
-                std::cout << "w";
-                return true;
-                break;*/
-         
+           
+            case SDL_KEYDOWN:
+               // m_Impl->m_ConsoleCommands[ActionKey{ActionState::Down, ControllerButton::None, 0, e.key.keysym.sym}];
+                break;
+            case SDL_KEYUP:
+               // m_Impl->m_ConsoleCommands[ActionKey{ ActionState::Up, ControllerButton::None, 0, e.key.keysym.sym }];
+                break;
+
                 
             case SDL_QUIT:
                 return false;
@@ -91,6 +94,12 @@ namespace dae
                     command.second->Execute();
                 }
 
+               /* if (unsigned int(command.first.key))
+                {
+                    command.second->Execute();
+                }*/
+
+
                 break;
             case ActionState::Up:
 
@@ -98,6 +107,11 @@ namespace dae
                 {
                     command.second->Execute();
                 }
+
+               /* if (unsigned int(command.first.key))
+                {
+                    command.second->Execute();
+                }*/
 
                 break;
             case ActionState::Hold:
@@ -111,18 +125,50 @@ namespace dae
 
             }
 
-            
-
-              
-              
-                
-
-            
+     
         }
+
+        for (auto command : m_Impl->m_KeyBoardCommands) //go over all commands and do the one that matches the pressed button
+        {
+
+            switch (command.first.state)
+            {
+            case ActionState::Down:
+
+                if (IsDownThisFrame(unsigned int(command.first.key)))
+                {
+                    command.second->Execute();
+                }
+
+                break;
+            case ActionState::Up:
+
+                if (IsUpThisFrame(unsigned int(command.first.key)))
+                {
+                    command.second->Execute();
+                }
+
+             
+
+                break;
+            case ActionState::Hold:
+
+                if (IsHeld(unsigned int(command.first.key)))
+                {
+                    command.second->Execute();
+                }
+
+                break;
+
+            }
+
+
+        }
+
 
     }
 
-    void dae::InputManager::BindKey(ActionKey key, std::shared_ptr<Command> command)
+    void dae::InputManager::BindKey(ControllerAction key, std::shared_ptr<Command> command)
     {
 
         m_Impl->m_ConsoleCommands.insert({ key, command });

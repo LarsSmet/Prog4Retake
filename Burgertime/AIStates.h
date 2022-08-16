@@ -1,11 +1,12 @@
 #pragma once
-#include "EnemyComponent.h"
-#include "GunComponent.h"
+//#include "EnemyComponent.h"
+//#include "GunComponent.h"
 
 
 namespace dae
 {
 	class EnemyComponent;
+	class GunComponent;
 
 	class AIState
 	{
@@ -14,9 +15,9 @@ namespace dae
 
 		AIState() {};
 		virtual ~AIState() {};
-		virtual AIState* Update(EnemyComponent* comp, GunComponent* gun) { comp; gun; return nullptr; };
-		virtual void OnEnter(EnemyComponent* comp, GunComponent* gun) { comp; gun; };
-		virtual void OnExit(EnemyComponent* comp, GunComponent* gun) { comp; gun; };
+		virtual AIState* Update(EnemyComponent* enemyComp, GunComponent* gunComp) { enemyComp; gunComp; return nullptr; };
+		virtual void OnEnter(EnemyComponent* enemyComp, GunComponent* gunComp) { enemyComp; gunComp; };
+		virtual void OnExit(EnemyComponent* enemyComp, GunComponent* gunComp) { enemyComp; gunComp; };
 
 	private:
 
@@ -33,9 +34,9 @@ namespace dae
 		MoveState();
 		virtual ~MoveState();
 
-		virtual AIState* Update(EnemyComponent* comp, GunComponent* gun) override;
-		virtual void OnEnter(EnemyComponent* comp, GunComponent* gun) override;
-		virtual void OnExit(EnemyComponent* comp, GunComponent* gun) override;
+		virtual AIState* Update(EnemyComponent* enemyComp, GunComponent* gunComp) override;
+		virtual void OnEnter(EnemyComponent* enemyComp, GunComponent* gunComp) override;
+		virtual void OnExit(EnemyComponent* enemyComp, GunComponent* gunComp) override;
 		
 
 
@@ -56,9 +57,32 @@ namespace dae
 		ShootState();
 		virtual ~ShootState();
 
-		virtual AIState* Update(EnemyComponent* comp, GunComponent* gun) override;
-		virtual void OnEnter(EnemyComponent* comp, GunComponent* gun) override;
-		virtual void OnExit(EnemyComponent* comp, GunComponent* gun) override;
+		virtual AIState* Update(EnemyComponent* enemyComp, GunComponent* gunComp) override;
+		virtual void OnEnter(EnemyComponent* enemyComp, GunComponent* gunComp) override;
+		virtual void OnExit(EnemyComponent* enemyComp, GunComponent* gunComp) override;
+
+
+
+
+	private:
+
+
+
+	};
+
+	class EnemyComponent;
+
+	class MoveAndShootState : public AIState
+	{
+
+	public:
+
+		MoveAndShootState();
+		virtual ~MoveAndShootState();
+
+		virtual AIState* Update(EnemyComponent* enemyComp, GunComponent* gunComp) override;
+		virtual void OnEnter(EnemyComponent* enemyComp, GunComponent* gunComp) override;
+		virtual void OnExit(EnemyComponent* enemyComp, GunComponent* gunComp) override;
 
 
 

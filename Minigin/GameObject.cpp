@@ -19,7 +19,7 @@ dae::GameObject::~GameObject()
 
 	
 
-	for (size_t i = 0; i < m_Components.size(); i++)
+	for (size_t i = 0; i < m_Components.size(); i++) 
 	{
 		delete m_Components[i];
 		m_Components[i] = nullptr;
@@ -36,14 +36,16 @@ void dae::GameObject::Update(float deltaTime)
 
 	//update all components
 
-	for (auto& component : m_Components)
+	for (auto& component : m_Components)//error when deleting bullet -> still updates some component after delete. fix in scene
 	{
 		component->Update(deltaTime);
 	}
 
-	
+
 
 }
+
+
 
 void dae::GameObject::Render() const
 {
