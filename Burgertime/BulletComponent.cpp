@@ -6,9 +6,15 @@
 
 namespace dae
 {
-	BulletComponent::BulletComponent(GameObject* go, PhysicsComponent* physicsComp, TileMapComponent* tileMap) : BaseComponent{ go }, m_pPhysicsComponent{ physicsComp }, m_pTileMapComponent{ tileMap }, m_KillBullet{false}
+	BulletComponent::BulletComponent(GameObject* go, PhysicsComponent* physicsComp, TileMapComponent* tileMap, GunOwner gunOwner) : BaseComponent{ go },
+		m_pPhysicsComponent{ physicsComp }, m_pTileMapComponent{ tileMap }, m_KillBullet{false}, m_GunOwner{gunOwner}
 	{
+
+	
+		m_pPhysicsComponent->SetVelocity(m_Velocity);
 		m_BounceCounter = 0;
+		auto bulletPos = m_pPhysicsComponent->GetTransformComp()->GetPosition();
+		m_CurrentCell = m_pTileMapComponent->GetCell(Point2f{ bulletPos.x, bulletPos.y });
 	}
 	BulletComponent::~BulletComponent()
 	{
@@ -23,7 +29,7 @@ namespace dae
 	
 		if (m_KillBullet)
 		{
-			KillBullet();
+			KillBullet(); //error not because bullet gets deleted
 		}
 
 		//do movement
@@ -32,16 +38,19 @@ namespace dae
 
 	void BulletComponent::SetVelocity(Velocity velocity)
 	{
+		
 		m_Velocity = velocity;
+		std::cout << m_Velocity.y << '\n';
 		m_pPhysicsComponent->SetVelocity(m_Velocity);
 	}
 
 	void BulletComponent::HandleBounce()
 	{
-
+		//std::cout << "handlebounce";
 
 		auto bulletPos = m_pPhysicsComponent->GetTransformComp()->GetPosition();
 		auto bulletRectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
+		//std::cout << bulletRectCol.bottom << '\n';
 		
 
 		if (m_CurrentCell != m_pTileMapComponent->GetCell(Point2f{ bulletPos.x, bulletPos.y }))
@@ -49,6 +58,7 @@ namespace dae
 			//update cells arounnd rect
 			m_pTileMapComponent->GetCellsAroundRect(bulletRectCol, m_CellsToCheck);
 			m_CurrentCell = m_pTileMapComponent->GetCell(Point2f{ bulletPos.x, bulletPos.y });
+			
 		}
 
 		for (size_t i = 0; i < m_CellsToCheck.size(); i++)
@@ -76,31 +86,49 @@ namespace dae
 				
 				if (info.topColLeftIsHit || info.topColRightIsHit)
 				{
-					velocityAfterBounce.y *= -1;
+					if (m_Velocity.y < 0)
+					{
+						velocityAfterBounce.y *= -1;
+						++m_BounceCounter;
+					}
 				}
 				else if (info.botColLeftIsHit || info.botColRightIsHit)
 				{
-					velocityAfterBounce.y *= -1;
+					if (m_Velocity.y > 0)
+					{
+						velocityAfterBounce.y *= -1;
+						++m_BounceCounter;
+
+					}
 				}
 				else if (info.leftColBotIsHit || info.leftColTopIsHit)
 				{
-					velocityAfterBounce.x *= -1;
-				}
+					if (m_Velocity.x < 0)
+					{
+						velocityAfterBounce.x *= -1;
+						++m_BounceCounter;
+					}
+					}
 				else if (info.rightColBotIsHit || info.rightColTopIsHit)
 				{
-					velocityAfterBounce.x *= -1;
+					if (m_Velocity.x > 0)
+					{
+						velocityAfterBounce.x *= -1;
+						++m_BounceCounter;
+					}
 				}
 
 				SetVelocity(velocityAfterBounce);
-				++m_BounceCounter;
+			
 						
 						
 
-					
-					if (m_BounceCounter >= 4)
+			//	std::cout << "BOUNCECOUNTER: " << m_BounceCounter;
+					if (m_BounceCounter >= 104)
 					{
 						//std::cout << "KILL";
 						
+					//	std::cout << "BOUNCECOUNTER: " << m_BounceCounter << '\n';
 						m_KillBullet = true;
 					}
 				
@@ -113,45 +141,47 @@ namespace dae
 
 	void BulletComponent::HandleDamage()
 	{
-
-		auto enemies = EntityManager::GetInstance().GetEnemies();
-
-		//std::cout << " There are currently: " << enemies.size() << " enemies ";
-
-		for (size_t i = 0; i < enemies.size(); ++i)
+		if (m_GunOwner == GunOwner::player)
 		{
-			auto rectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
-			float offset =  - 32; //has to be changed later
 
-			Rectf rect{ rectCol.left, rectCol.bottom - offset, rectCol.width, rectCol.height };
+			auto enemies = EntityManager::GetInstance().GetEnemies();
 
+			//std::cout << " There are currently: " << enemies.size() << " enemies ";
 
-			auto enemyComp = enemies[i]->GetComponent<EnemyComponent>();
-			
-			if (enemyComp == nullptr)
+			for (size_t i = 0; i < enemies.size(); ++i)
 			{
-				//std::cout << "mistake";
-			}
-			else
-			{
-			//	std::cout << "no mistake";
+				auto rectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
+				float offset = -32; //has to be changed later
 
-				if (utils::IsOverlapping(rect, enemyComp->GetPhysicsComp()->GetColliderComponent()->GetRectCollider())) //still chage
+				Rectf rect{ rectCol.left, rectCol.bottom - offset, rectCol.width, rectCol.height };
+
+
+				auto enemyComp = enemies[i]->GetComponent<EnemyComponent>();
+
+				if (enemyComp == nullptr)
 				{
-					//std::cout << "POG";
-					m_KillBullet = true;
-					enemies[i]->~GameObject();
-					//also delete it from vec.
+					//std::cout << "mistake";
+				}
+				else
+				{
+					//	std::cout << "no mistake";
+
+					if (utils::IsOverlapping(rect, enemyComp->GetPhysicsComp()->GetColliderComponent()->GetRectCollider())) //still chage
+					{
+						//std::cout << "POG";
+						m_KillBullet = true;
+						enemies[i]->~GameObject();
+						//also delete it from vec.
+
+					}
 
 				}
 
-			}
-			
-			
-		}
 
-	
-		
+			}
+
+
+		}
 
 
 		//if (utils::IsOverlapping(rect, m_CellsToCheck[i]->GetRectCollider())) //still chage

@@ -34,8 +34,8 @@ namespace dae
 
 		PlayerComponent* m_pPlayerComp;
 		EnemyComponent* m_pEnemyComp;
-		PhysicsComponent* m_pPhysicsComp;
-		TransformComponent* m_pTransformComp;
+		//PhysicsComponent* m_pPhysicsComp;
+		//TransformComponent* m_pTransformComp;
 
 		Scene& m_Scene;
 
@@ -43,9 +43,14 @@ namespace dae
 
 		TileMapComponent* m_pTileMap;
 
-		bool m_OwnedByPlayer;
+		//bool m_OwnedByPlayer;
 
 		GunOwner m_GunOwner;
+
+		float m_CurrentCooldown;
+		float m_MaxCooldown;
+		bool m_OnCooldown;
+
 
 	};
 

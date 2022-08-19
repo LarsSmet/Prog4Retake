@@ -7,16 +7,16 @@
 //#include "RectangleColliderComponent.h"
 #include "TileMapComponent.h"
 
-dae::GameObject::GameObject(float xPos, float yPos) : m_TransformComp{ new TransformComponent{ this, xPos, yPos} }
+dae::GameObject::GameObject(float xPos, float yPos) : m_TransformComp{ new TransformComponent{ this, xPos, yPos} },  m_Components{}
 {
-
+	
 }
 
 dae::GameObject::~GameObject()
 {
 	
 	//delete all components
-
+	//std::cout << "DELETED GAMEOBJ";
 	
 
 	for (size_t i = 0; i < m_Components.size(); i++) 
@@ -38,6 +38,7 @@ void dae::GameObject::Update(float deltaTime)
 
 	for (auto& component : m_Components)//error when deleting bullet -> still updates some component after delete. fix in scene
 	{
+		
 		component->Update(deltaTime);
 	}
 
@@ -137,7 +138,15 @@ size_t dae::GameObject::GetChildCount() const
 }
 std::shared_ptr<dae::GameObject> dae::GameObject::GetChildAt(int index) const
 {
-	return m_pChildren[index];
+
+	if (m_pChildren.size() >= 1)
+	{
+		return m_pChildren[index];
+	}
+	else
+	{
+		return nullptr;
+	}
 }
 void dae::GameObject::RemoveChild(int index)
 {

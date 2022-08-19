@@ -107,16 +107,16 @@ namespace dae
 		//Transform m_Transform;
 		
 
-		std::vector<BaseComponent*> m_Components;
+		std::vector<BaseComponent*> m_Components{};
 	
 
 
 		std::weak_ptr<GameObject> m_pParent;
-		std::vector<std::shared_ptr<GameObject>> m_pChildren;
+		std::vector<std::shared_ptr<GameObject>> m_pChildren{};
 
 		std::shared_ptr<TransformComponent> m_TransformComp;
 
-		std::vector<BaseComponent*> m_pComponentsToDelete;
+		//std::vector<BaseComponent*> m_pComponentsToDelete;
 
 		
 

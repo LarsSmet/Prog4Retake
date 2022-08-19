@@ -15,7 +15,7 @@ namespace dae
 	class BulletComponent : public BaseComponent 
 	{
 	public:
-		BulletComponent(GameObject* go, PhysicsComponent* physicsComp, TileMapComponent* tileMap);
+		BulletComponent(GameObject* go, PhysicsComponent* physicsComp, TileMapComponent* tileMap, GunOwner gunOwner);
 		~BulletComponent();
 
 		void Update(float elapsedSec);
@@ -36,7 +36,7 @@ namespace dae
 		TileMapComponent* m_pTileMapComponent;
 
 		std::shared_ptr<Cell> m_CurrentCell;
-		std::vector<std::shared_ptr<Cell>> m_CellsToCheck;
+		std::vector<std::shared_ptr<Cell>> m_CellsToCheck{};
 
 
 		bool m_KillBullet;
@@ -44,6 +44,8 @@ namespace dae
 		void HandleBounce();
 		void HandleDamage();
 		void KillBullet();
+
+		GunOwner m_GunOwner;
 
 	};
 

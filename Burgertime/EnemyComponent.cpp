@@ -17,7 +17,7 @@ namespace dae
 		m_pTileMapComponent->GetCellsAroundRect(enemyrRectCol, m_CellsToCheck);
 		m_CurrentCell = m_pTileMapComponent->GetCell(Point2f{ enemyPos.x, enemyPos.y });
 
-		m_pAIState = new MoveState();
+		m_pAIState = new MoveState(m_pPlayerComponent);
 
 	}
 
@@ -63,25 +63,35 @@ namespace dae
 		}
 
 		auto childGun = m_Owner->GetChildAt(0);
-		auto gunComp = childGun->GetComponent<GunComponent>();
-
-
-		if (gunComp != nullptr)
+		if (childGun != nullptr)
 		{
-			std::cout << "Guncomp found";
+			auto gunComp = childGun->GetComponent<GunComponent>();
+
+
+			if (gunComp != nullptr)
+			{
+				//std::cout << "Guncomp found";
+			//	gunComp->Shoot();
+			}
+
+
+			AIState* state = m_pAIState->Update(this, gunComp);
+
+
+
+
+			//m_State->Update(this);
+			if (state != nullptr)
+			{
+				delete m_pAIState;
+				m_pAIState = state;
+				state->OnEnter(this, gunComp);
+			}
+
 		}
 
-		AIState* state = m_pAIState->Update(this, gunComp);
 
-
-
-		//m_State->Update(this);
-		if (state != nullptr)
-		{
-			delete m_pAIState;
-			m_pAIState = state;
-			state->OnEnter(this, gunComp);
-		}
+		
 
 
 		m_pPhysicsComponent->Update(elapsedSec);
