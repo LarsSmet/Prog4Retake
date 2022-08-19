@@ -43,6 +43,8 @@ void Scene::LateAdd(const std::shared_ptr<GameObject>& object)
 	m_LateObjectsToAdd.emplace_back(object);
 }
 
+
+
 void Scene::Render() const
 {
 	for (const auto& object : m_Objects)

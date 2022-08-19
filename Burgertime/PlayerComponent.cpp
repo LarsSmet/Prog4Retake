@@ -173,5 +173,16 @@ namespace dae
 
 	}
 
+	glm::vec2 PlayerComponent::GetPlayerCenter()
+	{
+		auto playerPhysComp = GetPhysicsComp();
+		auto playerPos = playerPhysComp->GetTransformComp()->GetPosition();
+		auto playerWidth = playerPhysComp->GetColliderComponent()->GetRectCollider().width;
+		auto playerHeight = playerPhysComp->GetColliderComponent()->GetRectCollider().height;
+		return { playerPos.x + playerWidth / 2, playerPos.y + playerHeight / 2 };
+		
+	
+	}
+
 
 }

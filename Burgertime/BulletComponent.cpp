@@ -123,8 +123,8 @@ namespace dae
 						
 						
 
-			//	std::cout << "BOUNCECOUNTER: " << m_BounceCounter;
-					if (m_BounceCounter >= 104)
+			
+					if (m_BounceCounter >= 6) //after 5th bounce, if hits wall dont bounce but kill
 					{
 						//std::cout << "KILL";
 						

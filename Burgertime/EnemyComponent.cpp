@@ -529,5 +529,14 @@ namespace dae
 		
 	}
 
+	glm::vec2 EnemyComponent::GetEnemyCenter()
+	{
+		auto enemyPhysComp = GetPhysicsComp();
+		auto enemyPos = enemyPhysComp->GetTransformComp()->GetPosition();
+		auto enemyWidth = enemyPhysComp->GetColliderComponent()->GetRectCollider().width;
+		auto enemyHeight = enemyPhysComp->GetColliderComponent()->GetRectCollider().height;
+		return { enemyPos.x + enemyWidth / 2, enemyPos.y + enemyHeight / 2 };
+	}
+
 
 }

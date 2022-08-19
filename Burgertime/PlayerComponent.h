@@ -32,6 +32,8 @@ namespace dae
 
 		void Teleport();
 
+		glm::vec2 GetPlayerCenter();
+
 
 	private:
 

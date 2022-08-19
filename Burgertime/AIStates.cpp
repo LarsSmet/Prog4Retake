@@ -30,20 +30,19 @@ namespace dae
 		//std::cout << "MOVE UPDATE";
 
 
-		auto playerPhysComp = m_pPlayerComponent->GetPhysicsComp();
-		auto playerPos = playerPhysComp->GetTransformComp()->GetPosition();
-		auto playerWidth = playerPhysComp->GetColliderComponent()->GetRectCollider().width;
-		auto playerHeight = playerPhysComp->GetColliderComponent()->GetRectCollider().height;
-		glm::vec2 playerCenter{ playerPos.x + playerWidth/2, playerPos.y + playerHeight/2 };
+		
+		glm::vec2 playerCenter = m_pPlayerComponent->GetPlayerCenter();
 
-		auto enemyPhysComp = enemyComp->GetPhysicsComp();
-		auto enemyPos = enemyPhysComp->GetTransformComp()->GetPosition();
-		auto enemyWidth = enemyPhysComp->GetColliderComponent()->GetRectCollider().width;
-		auto enemyHeight = enemyPhysComp->GetColliderComponent()->GetRectCollider().height;
-		glm::vec2 enemyCenter{ enemyPos.x + enemyWidth / 2, enemyPos.y + enemyHeight / 2 };
+		
+		glm::vec2 enemyCenter = enemyComp->GetEnemyCenter();
 
 		auto distance = glm::distance2(playerCenter, enemyCenter);
-		if (distance <= 5000.0f)
+		if (distance <= 15000.0f && distance > 7000)
+		{
+			std::cout << "DIST TO PLAYER FROM AI IS TOO SMALL";
+			return new MoveAndShootState{ m_pPlayerComponent };
+		}
+		else if (distance <= 7000)
 		{
 			std::cout << "DIST TO PLAYER FROM AI IS TOO SMALL";
 			return new ShootState{ m_pPlayerComponent };
@@ -81,34 +80,26 @@ namespace dae
 
 	AIState* ShootState::Update(EnemyComponent* enemyComp, GunComponent* gunComp)
 	{
-		//std::cout << "SHOOTSTATE UPDATEEEEEEEEEEEEe" << '\n';
+	
 
-		auto playerPhysComp = m_pPlayerComponent->GetPhysicsComp();
-		auto playerPos = playerPhysComp->GetTransformComp()->GetPosition();
-		auto playerWidth = playerPhysComp->GetColliderComponent()->GetRectCollider().width;
-		auto playerHeight = playerPhysComp->GetColliderComponent()->GetRectCollider().height;
-		glm::vec2 playerCenter{ playerPos.x + playerWidth / 2, playerPos.y + playerHeight / 2 };
+		glm::vec2 playerCenter = m_pPlayerComponent->GetPlayerCenter();
 
-		auto enemyPhysComp = enemyComp->GetPhysicsComp();
-		auto enemyPos = enemyPhysComp->GetTransformComp()->GetPosition();
-		auto enemyWidth = enemyPhysComp->GetColliderComponent()->GetRectCollider().width;
-		auto enemyHeight = enemyPhysComp->GetColliderComponent()->GetRectCollider().height;
-		glm::vec2 enemyCenter{ enemyPos.x + enemyWidth / 2, enemyPos.y + enemyHeight / 2 };
+		glm::vec2 enemyCenter = enemyComp->GetEnemyCenter();
 
 		auto distance = glm::distance2(playerCenter, enemyCenter);
 
 		gunComp->RotateGun();
 		gunComp->Shoot();
 
-		if (distance > 5000.0f)
+		if (distance > 15000.0f)
 		{
-			std::cout << "DIST TO PLAYER FROM AI IS TOO SMALL";
+			//std::cout << "DIST TO PLAYER FROM AI IS TOO SMALL";
 			return new MoveState{ m_pPlayerComponent };
 		}
-		else if (distance > 5000.0f)
+		if (distance <= 15000.0f && distance > 7000)
 		{
 			std::cout << "DIST TO PLAYER FROM AI IS TOO SMALL";
-			return new MoveState{ m_pPlayerComponent };
+			return new MoveAndShootState{ m_pPlayerComponent };
 		}
 	
 		
@@ -150,20 +141,25 @@ namespace dae
 		enemyComp->HandleAI();
 		gunComp->Move();
 
+		glm::vec2 playerCenter = m_pPlayerComponent->GetPlayerCenter();
 
-		//auto playerPhysComp = m_pPlayerComponent->GetPhysicsComp();
-		//auto playerPos = playerPhysComp->GetTransformComp()->GetPosition();
-		//auto playerWidth = playerPhysComp->GetColliderComponent()->GetRectCollider().width;
-		//auto playerHeight = playerPhysComp->GetColliderComponent()->GetRectCollider().height;
-		//glm::vec2 playerCenter{ playerPos.x + playerWidth / 2, playerPos.y + playerHeight / 2 };
+		glm::vec2 enemyCenter = enemyComp->GetEnemyCenter();
 
-		//auto enemyPhysComp = enemyComp->GetPhysicsComp();
-		//auto enemyPos = enemyPhysComp->GetTransformComp()->GetPosition();
-		//auto enemyWidth = enemyPhysComp->GetColliderComponent()->GetRectCollider().width;
-		//auto enemyHeight = enemyPhysComp->GetColliderComponent()->GetRectCollider().height;
-		//glm::vec2 enemyCenter{ enemyPos.x + enemyWidth / 2, enemyPos.y + enemyHeight / 2 };
+		auto distance = glm::distance2(playerCenter, enemyCenter);
 
-		//auto distance = glm::distance2(playerCenter, enemyCenter);
+		gunComp->RotateGun();
+		gunComp->Shoot();
+
+		if (distance > 15000.0f)
+		{
+			//std::cout << "DIST TO PLAYER FROM AI IS TOO SMALL";
+			return new MoveState{ m_pPlayerComponent };
+		}
+		else if (distance <= 7000)
+		{
+			std::cout << "DIST TO PLAYER FROM AI IS TOO SMALL";
+			return new ShootState{ m_pPlayerComponent };
+		}
 
 
 		std::cout << "MOVEANDSHOOTSTATE UPDATE";

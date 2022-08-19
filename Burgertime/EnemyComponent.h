@@ -39,6 +39,8 @@ namespace dae
 
 		Velocity GetVelocity();
 
+		glm::vec2 GetEnemyCenter();
+
 
 	private:
 
