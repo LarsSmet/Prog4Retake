@@ -119,27 +119,50 @@ void LoadGame()
 	//commands
 	dae::InputManager& inputManager = dae::InputManager::GetInstance();
 	//make horizontal controls
-	ControllerAction leftKey{ ActionState::Hold, dae::ControllerButton::ArrowLeft };
+	ControllerAction leftControllerButton{ ActionState::Hold, dae::ControllerButton::ArrowLeft };
 	std::shared_ptr<MoveCommand> moveleft = std::make_shared<MoveCommand>(myPlayerComp, -50.0f, 0.f);
-	inputManager.BindKey(leftKey, moveleft);
+	inputManager.BindKey(leftControllerButton, moveleft);
 
-	ControllerAction rightKey{ ActionState::Hold, dae::ControllerButton::ArrowRight };
+	ControllerAction rightControllerButton{ ActionState::Hold, dae::ControllerButton::ArrowRight };
 	std::shared_ptr<MoveCommand> moveRight = std::make_shared<MoveCommand>(myPlayerComp, 50.0f, 0.f);
-	inputManager.BindKey(rightKey, moveRight);
+	inputManager.BindKey(rightControllerButton, moveRight);
 
 	//make vertical controls
-	ControllerAction upKey{ ActionState::Hold, dae::ControllerButton::ArrowUp };
+	ControllerAction upControllerButton{ ActionState::Hold, dae::ControllerButton::ArrowUp };
 	std::shared_ptr<MoveCommand> moveUp = std::make_shared<MoveCommand>(myPlayerComp, 0.f, -50.f);
-	inputManager.BindKey(upKey, moveUp);
+	inputManager.BindKey(upControllerButton, moveUp);
 
-	ControllerAction downKey{ ActionState::Hold, dae::ControllerButton::ArrowDown };
+	ControllerAction downControllerButton{ ActionState::Hold, dae::ControllerButton::ArrowDown };
 	std::shared_ptr<MoveCommand> moveDown = std::make_shared<MoveCommand>(myPlayerComp, 0.0f, 50.f);
-	inputManager.BindKey(downKey, moveDown);
+	inputManager.BindKey(downControllerButton, moveDown);
 
 	//gun command
-	ControllerAction shootKey{ ActionState::Down, dae::ControllerButton::ButtonX };
+	ControllerAction shootControllerButton{ ActionState::Down, dae::ControllerButton::ButtonX };
 	std::shared_ptr<ShootCommand> shoot = std::make_shared<ShootCommand>(myGunComponent);
-	inputManager.BindKey(shootKey, shoot);
+	inputManager.BindKey(shootControllerButton, shoot);
+
+
+	//make horizontal controls
+	KeyBoardAction leftKeyKeyBoard{ ActionState::Down, SDL_SCANCODE_LEFT };
+	inputManager.BindKey(leftKeyKeyBoard, moveleft);
+
+	
+	KeyBoardAction rightKeyKeyBoard{ ActionState::Down, SDL_SCANCODE_RIGHT };
+	inputManager.BindKey(rightKeyKeyBoard, moveRight);
+
+	//make vertical controls
+	KeyBoardAction upKeyKeyBoard{ ActionState::Down, SDL_SCANCODE_UP };
+	inputManager.BindKey(upKeyKeyBoard, moveUp);
+
+	//keyboard
+	KeyBoardAction downKeyKeyBoard{ ActionState::Down, SDL_SCANCODE_DOWN };
+	inputManager.BindKey(downKeyKeyBoard, moveDown);
+
+	//gun command
+	KeyBoardAction shootKeyKeyBoard{ ActionState::Down, SDL_SCANCODE_S };
+	inputManager.BindKey(shootKeyKeyBoard, shoot);
+
+
 
 	float enemyStartX = 16;
 	float enemyStartY = 232; //250

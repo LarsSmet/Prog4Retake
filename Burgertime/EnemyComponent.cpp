@@ -33,10 +33,6 @@ namespace dae
 
 			
 
-	
-
-	
-
 
 		auto enemyPos = m_pPhysicsComponent->GetTransformComp()->GetPosition();
 		auto enemyRectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();

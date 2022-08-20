@@ -42,7 +42,7 @@ namespace dae
 
 	};
 
-	struct ControllerAction //got some help from Laurens Krikilion for this.
+	struct ControllerAction //got some help from Laurens Krikilion for the controlleraction part
 	{
 		ActionState state{};
 		ControllerButton button{};
@@ -52,10 +52,10 @@ namespace dae
 
 	};
 
-	struct KeyBoardAction //got some help from Laurens Krikilion for this.
+	struct KeyBoardAction 
 	{
 		ActionState state{};
-		SDL_Keycode key{};
+		SDL_Scancode key{};
 
 		auto operator<=>(const KeyBoardAction&) const = default;
 
@@ -79,9 +79,11 @@ namespace dae
 
 
 		bool ProcessInput();
-		bool IsHeld(unsigned int button) const;
+	
 		void HandleInput();
 		void BindKey(ControllerAction key, std::shared_ptr<Command> command);
+		void BindKey(KeyBoardAction key, std::shared_ptr<Command> command);
+
 
 		
 
@@ -92,6 +94,11 @@ namespace dae
 
 		bool IsUpThisFrame(unsigned int button) const;
 		bool IsDownThisFrame(unsigned int button) const;
+		bool IsHeld(unsigned int button) const;
+
+		bool IsUpThisFrame(SDL_Keycode key) const;
+		bool IsDownThisFrame(SDL_Keycode key) const;
+		bool IsHeld(SDL_Keycode key) const;
 	};
 
 

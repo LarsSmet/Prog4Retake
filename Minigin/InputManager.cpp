@@ -13,6 +13,9 @@ namespace dae
 
     class dae::InputManager::Impl
     {
+
+
+
     public:
 
 
@@ -27,11 +30,21 @@ namespace dae
         int m_ButtonsPressedThisFrame{};
         int m_ButtonsReleasedThisFrame{};
 
+        //used https://stackoverflow.com/questions/3741055/inputs-in-sdl-on-key-pressed
+        bool m_KeysPressedThisFrame[322]; //// 322 is the number of events
+        bool m_KeysPressedPreviousFrame[322]; //// 322 is the number of events
+
     };
 
 
     dae::InputManager::InputManager() : m_Impl{ std::make_unique<dae::InputManager::Impl>() }
     {
+        for (int i = 0; i < 322; ++i)
+        {
+            m_Impl->m_KeysPressedThisFrame[i] = false;
+            m_Impl->m_KeysPressedPreviousFrame[i] = false;
+        }
+
     }
 
     dae::InputManager::~InputManager()
@@ -46,16 +59,26 @@ namespace dae
       
         SDL_Event e;
 
+       
+
         while (SDL_PollEvent(&e)) {
 
    
             switch (e.type) {
            
             case SDL_KEYDOWN:
-               // m_Impl->m_ConsoleCommands[ActionKey{ActionState::Down, ControllerButton::None, 0, e.key.keysym.sym}];
+               
+                //first store old one, then update new one
+                m_Impl->m_KeysPressedPreviousFrame[e.key.keysym.scancode] = m_Impl->m_KeysPressedThisFrame[e.key.keysym.scancode];
+
+                m_Impl->m_KeysPressedThisFrame[e.key.keysym.scancode] = true;
+
                 break;
             case SDL_KEYUP:
-               // m_Impl->m_ConsoleCommands[ActionKey{ ActionState::Up, ControllerButton::None, 0, e.key.keysym.sym }];
+                //first store old one, then update new one
+                m_Impl->m_KeysPressedPreviousFrame[e.key.keysym.scancode] = m_Impl->m_KeysPressedThisFrame[e.key.keysym.scancode];
+                m_Impl->m_KeysPressedThisFrame[e.key.keysym.scancode] = false;
+               
                 break;
 
                 
@@ -130,20 +153,24 @@ namespace dae
 
         for (auto command : m_Impl->m_KeyBoardCommands) //go over all commands and do the one that matches the pressed button
         {
+            
+
+
 
             switch (command.first.state)
             {
             case ActionState::Down:
 
-                if (IsDownThisFrame(unsigned int(command.first.key)))
+                if (IsDownThisFrame(command.first.key))
                 {
+                   
                     command.second->Execute();
                 }
 
                 break;
             case ActionState::Up:
 
-                if (IsUpThisFrame(unsigned int(command.first.key)))
+                if (IsUpThisFrame(command.first.key))
                 {
                     command.second->Execute();
                 }
@@ -153,7 +180,7 @@ namespace dae
                 break;
             case ActionState::Hold:
 
-                if (IsHeld(unsigned int(command.first.key)))
+                if (IsHeld(command.first.key))
                 {
                     command.second->Execute();
                 }
@@ -188,6 +215,36 @@ namespace dae
     bool dae::InputManager::IsDownThisFrame(unsigned int button) const
     {
         return m_Impl->m_ButtonsPressedThisFrame & button;
+    }
+
+    void dae::InputManager::BindKey(KeyBoardAction key, std::shared_ptr<Command> command)
+    {
+        m_Impl->m_KeyBoardCommands.insert({ key, command });
+    }
+
+    bool dae::InputManager::IsUpThisFrame(SDL_Keycode key) const
+    {
+       return !m_Impl->m_KeysPressedThisFrame[key];
+
+    }
+
+    bool dae::InputManager::IsDownThisFrame(SDL_Keycode key) const
+    {
+        
+        return m_Impl->m_KeysPressedThisFrame[key];
+    }
+
+    bool dae::InputManager::IsHeld(SDL_Keycode key) const
+    {
+       
+        if (m_Impl->m_KeysPressedThisFrame[key] && m_Impl->m_KeysPressedPreviousFrame[key])
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 }
