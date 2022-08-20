@@ -9,7 +9,7 @@ namespace dae
 {
 	GunComponent::GunComponent(GameObject* go, PlayerComponent* playerComp, EnemyComponent* enemyComp, Scene& currentScene, TileMapComponent* tileMap): 
 		BaseComponent{ go }, m_pPlayerComp{ playerComp }, m_pEnemyComp{ enemyComp }, m_Scene{ currentScene }, m_pTileMap{ tileMap }, 
-		m_CurrentCooldown{0}, m_MaxCooldown{2}, m_OnCooldown{false}/*, m_GunOwner{GunOwner::enemy}*/
+		m_CurrentCooldown{0}, m_MaxCooldown{2}, m_OnCooldown{false}/*, m_GunOwner{GunOwner::enemy}*/, m_RotationSpeed{0.85}
 	{
 		m_pRenderComp = m_Owner->GetComponent<RenderComponent>();
 		
@@ -46,7 +46,7 @@ namespace dae
 		if (m_GunOwner == GunOwner::player) //TODO: in move replace playerphys comp to enemy comp when cowner is enemy
 		{
 			Move();
-			RotateGun();
+			//RotateGun();
 		//	Shoot();
 		}
 	
@@ -137,37 +137,8 @@ namespace dae
 
 
 			
-			//Point2f shootPos2;
-			//shootPos2.x = m_RotationPos.x + offSetX * absoluteVecY + offSetY * directionX;
-			//shootPos2.y = m_RotationPos.y + offSetX * absoluteVecX + offSetY * directionY;
-
-
-
-			//auto bullet2 = std::make_shared<GameObject>(shootPos2.x, shootPos2.y);
-			//RenderComponent* render2Component = new RenderComponent{ bullet2.get(), false , nullptr };
-			//render2Component->SetTexture("Bullet.png");
-			//bullet2->AddComponent(render2Component);
-
-			//auto texture2 = render2Component->GetTexture()->GetSDLTexture();
-			//SDL_Point size2;
-			//SDL_QueryTexture(texture2, nullptr, nullptr, &size2.x, &size2.y);
-			//Rectf bulletShape2{ shootPos2.x,shootPos2.y + float(size2.y), float(size2.x),float(size2.y) };
-			//RectColliderComponent* bullet2Collider = new RectColliderComponent{ bullet2.get(), bulletShape2 };
-			//PhysicsComponent* physics2Comp = new PhysicsComponent{ bullet2.get(), bullet2->GetTransformComp(), bullet2Collider };
-			//bullet2->AddComponent(physics2Comp);
-			//std::cout << "Gunowner is : " << int(m_GunOwner);
-
-			//BulletComponent* bullet2Component = new BulletComponent{ bullet2.get(), physics2Comp, m_pTileMap, m_GunOwner };
-			//float speed2 = 150.0f;
-			////set velocity based on calculations for direction from pos under shoot pos
-			//bullet2Component->SetVelocity(Velocity{ directionVec.x * speed2, directionVec.y * speed2 });
-			//bullet2->AddComponent(bullet2Component);
-			//m_Scene.Add(bullet2);
-
-			//if (bullet2 == nullptr)
-			//{
-			//	std::cout << "why is this null";
-			//}
+			
+			
 
 		}
 		
@@ -176,11 +147,11 @@ namespace dae
 	}
 	void GunComponent::RotateGun()
 	{
-		//calc offset for rot
+		
 
 
 		
-		m_pRenderComp->RotateForward();
+		m_pRenderComp->RotateForward(m_RotationSpeed);
 
 	}
 

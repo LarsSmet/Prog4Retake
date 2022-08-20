@@ -38,9 +38,9 @@ std::shared_ptr<dae::Texture2D> dae::RenderComponent::GetTexture()
 	
 }
 
-void dae::RenderComponent::RotateForward()
+void dae::RenderComponent::RotateForward(double angleIncrease)
 {
-	m_Angle += 0.1;
+	m_Angle += angleIncrease;
 }
 
 void dae::RenderComponent::SetRotation(double angle)

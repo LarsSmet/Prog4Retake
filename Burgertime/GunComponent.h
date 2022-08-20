@@ -51,6 +51,7 @@ namespace dae
 		float m_MaxCooldown;
 		bool m_OnCooldown;
 
+		double m_RotationSpeed;
 
 	};
 

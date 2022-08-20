@@ -20,7 +20,9 @@ namespace dae
 
 		std::shared_ptr<Texture2D> GetTexture();
 
-		void RotateForward();
+		void RotateForward(double angleIncrease);
+
+		
 		void SetRotation(double angle);
 		void SetRotatePoint(Point2f point);
 

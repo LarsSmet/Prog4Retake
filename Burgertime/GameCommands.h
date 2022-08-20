@@ -84,8 +84,34 @@ namespace dae
 
 		void Execute()
 		{
-			std::cout << "CALLED THESHOOOOOOOOOOOOOOOOOOOT COMMAND BY PRESSING ONCE" << '\n';
+			std::cout << "CALLED THESHOOT COMMAND BY PRESSING ONCE" << '\n';
 			m_GunComp->Shoot();
+		}
+
+	private:
+
+		GunComponent* m_GunComp;
+
+	};
+
+
+
+	class RotateGunCommand : public Command
+	{
+
+	public:
+
+
+		RotateGunCommand(GunComponent* gunComp) : m_GunComp{ gunComp }
+		{
+
+		};
+		~RotateGunCommand() {};
+
+		void Execute()
+		{
+			
+			m_GunComp->RotateGun();
 		}
 
 	private:

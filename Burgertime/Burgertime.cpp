@@ -136,11 +136,17 @@ void LoadGame()
 	std::shared_ptr<MoveCommand> moveDown = std::make_shared<MoveCommand>(myPlayerComp, 0.0f, 50.f);
 	inputManager.BindKey(downControllerButton, moveDown);
 
-	//gun command
+	//gun commands
 	ControllerAction shootControllerButton{ ActionState::Down, dae::ControllerButton::ButtonX };
 	std::shared_ptr<ShootCommand> shoot = std::make_shared<ShootCommand>(myGunComponent);
 	inputManager.BindKey(shootControllerButton, shoot);
 
+	ControllerAction rotateGunControllerButton{ ActionState::Hold, dae::ControllerButton::ButtonB };
+	std::shared_ptr<RotateGunCommand> rotate = std::make_shared<RotateGunCommand>(myGunComponent);
+	inputManager.BindKey(rotateGunControllerButton, rotate);
+
+
+	//KEYBOARD
 
 	//make horizontal controls
 	KeyBoardAction leftKeyKeyBoard{ ActionState::Down, SDL_SCANCODE_LEFT };
@@ -154,7 +160,7 @@ void LoadGame()
 	KeyBoardAction upKeyKeyBoard{ ActionState::Down, SDL_SCANCODE_UP };
 	inputManager.BindKey(upKeyKeyBoard, moveUp);
 
-	//keyboard
+	
 	KeyBoardAction downKeyKeyBoard{ ActionState::Down, SDL_SCANCODE_DOWN };
 	inputManager.BindKey(downKeyKeyBoard, moveDown);
 
@@ -162,7 +168,8 @@ void LoadGame()
 	KeyBoardAction shootKeyKeyBoard{ ActionState::Down, SDL_SCANCODE_S };
 	inputManager.BindKey(shootKeyKeyBoard, shoot);
 
-
+	KeyBoardAction rotateGunKeyKeyBoard{ ActionState::Hold, SDL_SCANCODE_R };
+	inputManager.BindKey(rotateGunKeyKeyBoard, rotate);
 
 	float enemyStartX = 16;
 	float enemyStartY = 232; //250
