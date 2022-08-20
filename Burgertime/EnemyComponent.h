@@ -27,12 +27,6 @@ namespace dae
 		void SetVelocity(Velocity newVelocity);
 
 
-		
-		
-	
-
-
-
 		PhysicsComponent* GetPhysicsComp();
 
 		void ResetVelocity();
@@ -40,6 +34,8 @@ namespace dae
 		Velocity GetVelocity();
 
 		glm::vec2 GetEnemyCenter();
+
+		//std::vector<std::shared_ptr<Cell>>& GetCellsToCheck();
 
 
 	private:
@@ -63,6 +59,7 @@ namespace dae
 		AIState* m_pAIState;
 
 		
+		Velocity m_Velocity;
 
 
 	};

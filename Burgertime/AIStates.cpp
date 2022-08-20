@@ -91,6 +91,8 @@ namespace dae
 		gunComp->RotateGun();
 		gunComp->Shoot();
 
+		//utils::Raycast()
+
 		if (distance > 15000.0f)
 		{
 			//std::cout << "DIST TO PLAYER FROM AI IS TOO SMALL";

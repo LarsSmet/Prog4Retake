@@ -91,6 +91,8 @@ namespace dae
 					{
 						velocityAfterBounce.y *= -1;
 						++m_BounceCounter;
+
+						//TODO: do breka to stop cells counting for multiple bounces
 					}
 				}
 				else if (info.botColLeftIsHit || info.botColRightIsHit)
