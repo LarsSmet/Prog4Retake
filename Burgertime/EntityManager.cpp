@@ -7,7 +7,7 @@ namespace dae
 {
 
 	void EntityManager::AddPlayer(const std::shared_ptr<GameObject>& player)
-	{	 
+	{
 		if (player->GetComponent<PlayerComponent>() != nullptr)
 		{
 			m_pPlayers.emplace_back(player);
@@ -17,8 +17,8 @@ namespace dae
 			//std::cout << "no playercomp found on this object";
 		}
 
-	}	 
-		 
+	}
+
 	void EntityManager::AddEnemy(const std::shared_ptr<GameObject>& enemy)
 	{
 
@@ -44,5 +44,24 @@ namespace dae
 	}
 
 
+	void EntityManager::RemoveEnemy(const std::shared_ptr<GameObject>& enemy)
+	{
+
+		std::cout << "enemies in manager before erase: " << m_pEnemies.size() << '\n';
+
+
+	
+		m_pEnemies.erase(std::remove_if(m_pEnemies.begin(), m_pEnemies.end(), [enemy](const std::shared_ptr<GameObject >& go) {return go == enemy; }), m_pEnemies.end());
+
+
+	
+		std::cout << "enemies in manager: " <<  m_pEnemies.size() << '\n';
+
+
+	//	m_Objects.erase(startOfErase, m_Objects.end()); //remove all objects an once instead of seperately
+
+		//m_LateObjectsToRemove.clear()
+
+	}
 
 }

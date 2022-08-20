@@ -12,6 +12,7 @@ namespace dae
 
 		void Update(float deltaTime);
 		void LateAdd(const std::shared_ptr<GameObject>& object);
+		void LateRemove(const std::shared_ptr<GameObject>& object);
 		void Render() const;
 
 		~Scene();
@@ -26,7 +27,7 @@ namespace dae
 		std::string m_Name;
 		std::vector < std::shared_ptr<GameObject>> m_Objects{};
 		std::vector < std::shared_ptr<GameObject>> m_LateObjectsToAdd{};
-		std::vector < std::shared_ptr<GameObject>> m_ObjectsToRemove{};
+		std::vector < std::shared_ptr<GameObject>> m_LateObjectsToRemove{};
 
 		static unsigned int m_IdCounter; 
 	

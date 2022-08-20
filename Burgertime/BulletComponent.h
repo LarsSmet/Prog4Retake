@@ -39,7 +39,7 @@ namespace dae
 		std::vector<std::shared_ptr<Cell>> m_CellsToCheck{};
 
 
-		bool m_KillBullet;
+		//bool m_KillBullet;
 
 		void HandleBounce();
 		void HandleDamage();

@@ -16,6 +16,8 @@ namespace dae
 		std::vector<std::shared_ptr<GameObject>> GetPlayers();
 		std::vector<std::shared_ptr<GameObject>> GetEnemies();
 
+		void RemoveEnemy(const std::shared_ptr<GameObject>& enemy);
+
 
 
 	private:

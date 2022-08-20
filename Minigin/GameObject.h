@@ -14,7 +14,7 @@ namespace dae
 	class Texture2D;
 
 	
-	class GameObject final 
+	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
 	public:
 
@@ -25,7 +25,8 @@ namespace dae
 		
 		void SetPosition(float x, float y);
 
-
+		void Destroy();
+		
 		//template <typename T> 
 		void AddComponent(BaseComponent* component);
 		template <typename T>

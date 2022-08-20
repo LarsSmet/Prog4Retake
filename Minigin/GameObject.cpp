@@ -6,6 +6,8 @@
 //#include "BaseColliderComponent.h"
 //#include "RectangleColliderComponent.h"
 #include "TileMapComponent.h"
+#include "Scene.h"
+#include "SceneManager.h"
 
 dae::GameObject::GameObject(float xPos, float yPos) : m_TransformComp{ new TransformComponent{ this, xPos, yPos} },  m_Components{}
 {
@@ -97,6 +99,14 @@ void dae::GameObject::Render() const
 void dae::GameObject::SetPosition(float x, float y)
 {
 	m_TransformComp->SetPosition(x, y);
+}
+
+void dae::GameObject::Destroy()
+{
+	
+	SceneManager::GetInstance().GetCurrentScene().LateRemove(shared_from_this());
+	
+
 }
 
 void dae::GameObject::Move(float xOffSet, float yOffSet)

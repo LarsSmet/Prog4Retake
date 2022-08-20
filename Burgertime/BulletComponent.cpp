@@ -3,11 +3,13 @@
 #include "EntityManager.h"
 #include "PlayerComponent.h"
 #include "EnemyComponent.h"
-
+#include "SceneManager.h"
+#include "Scene.h"
+#include "EntityManager.h"
 namespace dae
 {
 	BulletComponent::BulletComponent(GameObject* go, PhysicsComponent* physicsComp, TileMapComponent* tileMap, GunOwner gunOwner) : BaseComponent{ go },
-		m_pPhysicsComponent{ physicsComp }, m_pTileMapComponent{ tileMap }, m_KillBullet{false}, m_GunOwner{gunOwner}
+		m_pPhysicsComponent{ physicsComp }, m_pTileMapComponent{ tileMap }, m_GunOwner{gunOwner}
 	{
 
 	
@@ -27,10 +29,9 @@ namespace dae
 		HandleDamage();
 		HandleBounce();
 	
-		if (m_KillBullet)
-		{
-			KillBullet(); //error not because bullet gets deleted
-		}
+		
+			//error not because bullet gets deleted
+		
 
 		//do movement
 		//m_pPhysicsComp->SetVelocity()
@@ -129,7 +130,7 @@ namespace dae
 						//std::cout << "KILL";
 						
 					//	std::cout << "BOUNCECOUNTER: " << m_BounceCounter << '\n';
-						m_KillBullet = true;
+						KillBullet();
 					}
 				
 			}
@@ -169,8 +170,11 @@ namespace dae
 					if (utils::IsOverlapping(rect, enemyComp->GetPhysicsComp()->GetColliderComponent()->GetRectCollider())) //still chage
 					{
 						//std::cout << "POG";
-						m_KillBullet = true;
-						enemies[i]->~GameObject();
+						
+						SceneManager::GetInstance().GetCurrentScene().LateRemove(enemies[i]);
+						EntityManager::GetInstance().RemoveEnemy(enemies[i]);
+
+						KillBullet();
 						//also delete it from vec.
 
 					}
@@ -196,7 +200,7 @@ namespace dae
 
 	void BulletComponent::KillBullet()
 	{
-		m_Owner->~GameObject();
+		m_Owner->Destroy();
 		
 	}
 
