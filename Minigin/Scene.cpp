@@ -76,6 +76,18 @@ void Scene::LateAdd(const std::shared_ptr<GameObject>& object)
 void Scene::LateRemove(const std::shared_ptr<GameObject>& object)
 {
 
+
+	size_t childCount = object->GetChildCount();
+
+	if (childCount > 0) //if object has children, remove them
+	{
+		for (int i = 0; i < childCount; ++i)
+		{
+			object->GetChildAt(i)->Destroy();
+		}
+	}
+
+
 	m_LateObjectsToRemove.emplace_back(object);
 
 }

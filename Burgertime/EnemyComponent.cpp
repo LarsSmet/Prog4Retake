@@ -66,7 +66,7 @@ namespace dae
 
 			if (gunComp != nullptr)
 			{
-				//std::cout << "Guncomp found";
+				std::cout << "Guncomp found";
 			//	gunComp->Shoot();
 			}
 

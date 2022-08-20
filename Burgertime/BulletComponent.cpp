@@ -173,11 +173,13 @@ namespace dae
 					{
 						//std::cout << "POG";
 						
-						SceneManager::GetInstance().GetCurrentScene().LateRemove(enemies[i]);
-						EntityManager::GetInstance().RemoveEnemy(enemies[i]);
+						enemies[i]->Destroy();
 
+						//SceneManager::GetInstance().GetCurrentScene().LateRemove(enemies[i]);
+						EntityManager::GetInstance().RemoveEnemy(enemies[i]);
+						
 						KillBullet();
-						//also delete it from vec.
+						
 
 					}
 

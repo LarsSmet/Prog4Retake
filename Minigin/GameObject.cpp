@@ -105,7 +105,7 @@ void dae::GameObject::Destroy()
 {
 	
 	SceneManager::GetInstance().GetCurrentScene().LateRemove(shared_from_this());
-	
+
 
 }
 
@@ -165,7 +165,7 @@ void dae::GameObject::RemoveChild(int index)
 }
 void dae::GameObject::AddChild(std::shared_ptr<GameObject> go)
 {
-	m_pChildren.push_back(go);
+	m_pChildren.emplace_back(go);
 }
 
 dae::TransformComponent* dae::GameObject::GetTransformComp()
