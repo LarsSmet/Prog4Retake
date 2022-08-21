@@ -163,6 +163,7 @@ namespace dae
 
 	void PlayerComponent::Teleport()
 	{
+		m_pPhysicsComponent->SetVelocity(Velocity{ 0,0 });
 
 		auto spawnMap = m_pTileMapComponent->GetSpawnMap();
 
@@ -176,11 +177,10 @@ namespace dae
 	/*	auto posToTeleportTo = spawnMap[randomCell]->GetCollider()->GetPosition();*/
 		auto posToTeleportTo = spawnMap[randomCell]->GetPosition();
 
-		m_pPhysicsComponent->GetColliderComponent()->SetPosition(posToTeleportTo.x, posToTeleportTo.y);
-		m_pPhysicsComponent->GetTransformComp()->SetPosition(posToTeleportTo.x, posToTeleportTo.y);
+		m_pPhysicsComponent->GetColliderComponent()->SetPosition(posToTeleportTo.x + 1, posToTeleportTo.y +1);
+		m_pPhysicsComponent->GetTransformComp()->SetPosition(posToTeleportTo.x +1, posToTeleportTo.y +1);
 
-		m_pPhysicsComponent->SetVelocity(Velocity{ 0,0 });
-
+		
 	}
 
 	glm::vec2 PlayerComponent::GetPlayerCenter()

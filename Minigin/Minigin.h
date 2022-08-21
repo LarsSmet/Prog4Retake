@@ -10,14 +10,13 @@ namespace dae
 	{
 	public:
 		void Initialize();
-		void LoadGame() const;
 		void Cleanup();
 		void Run();
-		void FixedUpdate(float fixedTimeStep);
+		//void FixedUpdate(float fixedTimeStep);
 
 
 	private:
-		static const int MsPerFrame = 16; //16 for 60 fps, 33 for 30 fps
+		static const int MsPerFrame = 16; //  1sec/60 = 16 ms
 		SDL_Window* m_Window{};
 
 
