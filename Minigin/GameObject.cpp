@@ -16,20 +16,12 @@ dae::GameObject::GameObject(float xPos, float yPos, std::string tag) : m_Transfo
 
 dae::GameObject::~GameObject()
 {
-	
-	//delete all components
-	//std::cout << "DELETED GAMEOBJ";
-	
 
 	for (size_t i = 0; i < m_Components.size(); i++) 
 	{
 		delete m_Components[i];
 		m_Components[i] = nullptr;
 	}
-
-	/*delete m_TransformComp;
-	m_TransformComp = nullptr;*/
-
 
 }
 
@@ -129,15 +121,37 @@ void dae::GameObject::AddComponent(BaseComponent* component)
 
 void dae::GameObject::SetParent(std::weak_ptr<GameObject> parent)
 {
+	auto newParent = parent.lock();
+	auto oldParent = m_pParent.lock();
 
+	if (newParent == nullptr)
+	{
+		return;
+	}
+
+	if (newParent == oldParent)
+	{
+		return;
+	}
+
+	if (oldParent != nullptr)
+	{
+		m_pParent.lock()->RemoveChild(shared_from_this());
+	}
+
+	newParent->AddChild(shared_from_this());
 	m_pParent = parent;
 
+	
+	
 }
 
 
 std::weak_ptr<dae::GameObject> dae::GameObject::GetParent() const
 {
-	
+
+
+
 		return m_pParent;
 
 }
@@ -158,13 +172,16 @@ std::shared_ptr<dae::GameObject> dae::GameObject::GetChildAt(int index) const
 		return nullptr;
 	}
 }
-void dae::GameObject::RemoveChild(int index)
+void dae::GameObject::RemoveChild(std::shared_ptr<GameObject> childToRemove )
 {
+	//only gets called in setparent, so no need to check for nullptr
 
-	m_pChildren.erase(m_pChildren.begin() + index);
+	m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), childToRemove), m_pChildren.end());
+	
 }
 void dae::GameObject::AddChild(std::shared_ptr<GameObject> go)
 {
+	//only gets called in setparent, so no need to check for nullptr;
 	m_pChildren.emplace_back(go);
 }
 

@@ -48,7 +48,7 @@ namespace dae
 
 
 
-				component;
+				
 			}
 
 			return nullptr;
@@ -58,27 +58,13 @@ namespace dae
 		template <typename T>
 		void RemoveComponent(T*)
 		{
-			//auto it = std::find(m_Components.begin(), m_Components.end(), T);
-
-			//m_Components.erase(it);
-
-			//T* temp;
-			//temp = GetComponent<T>();
-			//if (temp != nullptr)
-			//{
-			//	/*m_Components.swap(temp, m_Components.end());
-			//	delete temp;
-			//	m_Components.pop_back();*/
-			//	
-			//	
-			//}
 
 			auto comp = GetComponent<T>();
 
 			m_Components.erase(std::remove(m_Components.begin(), m_Components.end(), comp), m_Components.end());
 
-
-			//add something that delets the pointer
+			delete comp;
+			comp = nullptr;
 
 		}
 
@@ -91,8 +77,7 @@ namespace dae
 
 		size_t GetChildCount() const;
 		std::shared_ptr<GameObject> GetChildAt(int index) const;
-		void RemoveChild(int index);
-		void AddChild(std::shared_ptr<GameObject> go);
+
 
 		void Move(float xOffSet, float yOffSet);
 		TransformComponent* GetTransformComp();
@@ -109,7 +94,7 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
-		//Transform m_Transform;
+		
 		
 
 		std::vector<BaseComponent*> m_Components{};
@@ -121,10 +106,13 @@ namespace dae
 
 		std::shared_ptr<TransformComponent> m_TransformComp;
 
-		//std::vector<BaseComponent*> m_pComponentsToDelete;
+		
 
 		std::string m_Tag;
 		
+
+		void RemoveChild(std::shared_ptr<GameObject> childToRemove);
+		void AddChild(std::shared_ptr<GameObject> go);
 
 	};
 }

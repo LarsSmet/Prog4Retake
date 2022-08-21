@@ -101,7 +101,7 @@ void SpawnEnemyPrefab()
 	GunComponent* myEnemyGunComponent = new GunComponent{ enemyGun.get(), nullptr, myEnemyComp };
 	enemyGun->AddComponent(myEnemyGunComponent);
 
-	enemy->AddChild(enemyGun);
+	enemyGun->SetParent(enemy);
 
 	auto& scene = SceneManager::GetInstance().GetCurrentScene();
 
@@ -248,7 +248,7 @@ void LoadGame()
 	GunComponent* myGunComponent = new GunComponent{ gun.get(), myPlayerComp, nullptr};
 	gun->AddComponent(myGunComponent);
 
-	player->AddChild(gun);
+	gun->SetParent(player);
 
 
 	//commands
