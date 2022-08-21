@@ -1,6 +1,7 @@
 #include "MiniginPCH.h"
 #include "Scene.h"
 #include "GameObject.h"
+#include "TileMapComponent.h"
 
 using namespace dae;
 
@@ -15,6 +16,25 @@ void Scene::Add(const std::shared_ptr<GameObject>& object)
 	m_Objects.emplace_back(object);
 }
 
+void Scene::AddTileMap(const std::shared_ptr<GameObject>& object)
+{
+	if (object->GetComponent<TileMapComponent>() != nullptr)
+	{
+		m_TileMap = object;
+
+
+	}
+
+
+}
+
+std::shared_ptr<GameObject> Scene::GetTileMap()
+{
+	return m_TileMap;
+}
+
+
+
 void Scene::Update(float deltaTime)
 {
 	for(auto& object : m_Objects)
@@ -22,8 +42,6 @@ void Scene::Update(float deltaTime)
 		object->Update(deltaTime);
 	}
 
-	////check if objects to delete, if so delete them and remove it from the vector with remove/erase
-	////also do it for entitymanager
 
 	//add gameobjects
 	if (!m_LateObjectsToAdd.empty()) //if we have gameobjects to add
@@ -100,4 +118,52 @@ void Scene::Render() const
 		object->Render();
 	}
 }
+
+//void Scene::GetObjectsOfTag(std::vector<std::shared_ptr<GameObject>>& objects, std::string tag)
+//{
+//	objects.clear();
+//
+//	for (const auto& objectToCheck : m_Objects) //todo: replace with find_if later?
+//	{
+//		if (objectToCheck->GetTag() == tag)
+//		{
+//			objects.emplace_back(objectToCheck);
+//		}
+//	}
+//
+//}
+
+std::vector<std::shared_ptr<GameObject>> Scene::GetObjectsOfTag( std::string tag)
+{
+	
+	std::vector<std::shared_ptr<GameObject>> objects;
+	
+	for (const auto& objectToCheck : m_Objects) //todo: replace with find_if later?
+	{
+		if (objectToCheck->GetTag() == tag)
+		{
+			objects.emplace_back(objectToCheck);
+		}
+	}
+
+	return objects;
+
+}
+
+void dae::Scene::AddPrefabToReload(std::function<void()> prefab)
+{
+	m_PrefabToReload.emplace_back(prefab);
+}
+
+void dae::Scene::LoadPrefabs()
+{
+	for (const auto& prefab : m_PrefabToReload)
+	{
+		prefab();
+
+	}
+
+}
+
+
 

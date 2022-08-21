@@ -97,7 +97,11 @@ namespace dae
 		void Move(float xOffSet, float yOffSet);
 		TransformComponent* GetTransformComp();
 
-		GameObject(float xPos, float yPos);
+		void SetTag(std::string name);
+		std::string GetTag();
+
+
+		GameObject(float xPos, float yPos, std::string tag);
 		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -119,6 +123,7 @@ namespace dae
 
 		//std::vector<BaseComponent*> m_pComponentsToDelete;
 
+		std::string m_Tag;
 		
 
 	};

@@ -18,7 +18,7 @@ namespace dae
 
 	public:
 
-		EnemyComponent(GameObject* go, PhysicsComponent* physComp, TileMapComponent* tileMap, PlayerComponent* playerComp);
+		EnemyComponent(GameObject* go, PhysicsComponent* physComp/*, PlayerComponent* playerComp*/);
 		~EnemyComponent();
 		virtual void Update(float elapsedSec) override;
 
@@ -34,6 +34,8 @@ namespace dae
 		Velocity GetVelocity();
 
 		glm::vec2 GetEnemyCenter();
+
+		void Kill();
 
 		//std::vector<std::shared_ptr<Cell>>& GetCellsToCheck();
 
@@ -60,6 +62,13 @@ namespace dae
 
 		
 		Velocity m_Velocity;
+
+
+		std::vector<std::shared_ptr<GameObject>> m_Players;
+
+		bool m_HasDoneFirstUpdate;
+
+		void OnFirstUpdate();
 
 
 	};

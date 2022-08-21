@@ -46,9 +46,17 @@ int main(int, char* [])
 {
 	dae::Minigin engine;
 	engine.Initialize();
+
+	//main menu scene
+	//run
+	//create gamemodescene after selection
+
 	LoadGame();
 
 	engine.Run();
+
+
+
 	return 0;
 
 
@@ -57,38 +65,162 @@ int main(int, char* [])
 
 
 
-void LoadGame()
+void SpawnEnemyPrefab()
 {
-	ResourceManager::GetInstance().Init("../Data/");
+	//if scene 1 -> spawn at that pos
+	//if scene 2 -> spawn at that pos
+	//if scene 3 -> spawn at that pos
+
+
+	float enemyStartX = 16;
+	float enemyStartY = 232; //250
+	auto enemy = std::make_shared<GameObject>(enemyStartX, enemyStartY, "ENEMY");
+	RenderComponent* renderComponent = new RenderComponent{ enemy.get() , false,nullptr }; //maybe change to true if we want the player to rotate
+	renderComponent->SetTexture("Tank.png");
+	enemy->AddComponent(renderComponent);
+	auto texture = renderComponent->GetTexture()->GetSDLTexture();
+	SDL_Point enemySize;
+	SDL_QueryTexture(texture, nullptr, nullptr, &enemySize.x, &enemySize.y);
+	Rectf enemyShape{ enemyStartX,enemyStartY + float(enemySize.y), float(enemySize.x),float(enemySize.y) }; //IMPORTANT! ypos needs to be + SIZE because of rect and render having dif starting points
+	RectColliderComponent* enemyCollider = new RectColliderComponent{ enemy.get(), enemyShape };
+	PhysicsComponent* myEnemyPhysicsComp = new PhysicsComponent{ enemy.get(), enemy->GetTransformComp(), enemyCollider };
+	enemy->AddComponent(myEnemyPhysicsComp);
+	EnemyComponent* myEnemyComp = new EnemyComponent{ enemy.get(), myEnemyPhysicsComp };
+	enemy->AddComponent(myEnemyComp);
+
+	//create enemygun
+	float xOffSetEnemyGun = 10.0f;
+	float yOffSetEnemyGun = -3.0f;
+	float enemyGunStartX = enemyStartX + xOffSetEnemyGun;
+	float enemyGunStartY = enemyStartY + yOffSetEnemyGun;
+	auto enemyGun = std::make_shared<GameObject>(enemyGunStartX, enemyGunStartY, "ENEMYGUN");
+	SDL_Point* sdlEnemyGunPoint = new SDL_Point{ 0,0 };
+	renderComponent = new RenderComponent{ enemyGun.get() , true, sdlEnemyGunPoint };
+	renderComponent->SetTexture("Gun.png");
+	enemyGun->AddComponent(renderComponent);
+	GunComponent* myEnemyGunComponent = new GunComponent{ enemyGun.get(), nullptr, myEnemyComp };
+	enemyGun->AddComponent(myEnemyGunComponent);
+
+	enemy->AddChild(enemyGun);
+
+	auto& scene = SceneManager::GetInstance().GetCurrentScene();
+
+	scene.Add(enemy);
+	scene.Add(enemyGun);
+
+
+
+}
+
+
+void CreateScene(const std::shared_ptr<GameObject>& player, const std::shared_ptr<GameObject>& gun)
+{
+
 
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	scene;
 
-	//auto gameModeGo = std::make_shared<GameObject>(0.f, 0.f);
-	//GameMode* gameModeComponent = new GameMode{ gameModeGo.get()};
-	//gameModeGo->AddComponent(gameModeComponent);
-
-
-
-	
-	
-	
 
 	//create tilemap
 	float tileMapStartX = 0;
 	float tilemapStartY = 200;
-	auto go = std::make_shared<GameObject>(tileMapStartX, tilemapStartY);
+	auto go = std::make_shared<GameObject>(tileMapStartX, tilemapStartY, "TILEMAP");
 	TileMapComponent* tileMapComponent = new TileMapComponent{ go.get(), "../Data/TileMap3.txt" };
 	tileMapComponent->ConvertFileToMap();
 	go->AddComponent(tileMapComponent);
 	scene.Add(go);
+	scene.AddTileMap(go);
+
+	SpawnEnemyPrefab();
+
+
+
+
+	scene.Add(player); 
+	scene.Add(gun);
+	scene.AddPrefabToReload(SpawnEnemyPrefab);
+
+	//EntityManager& entityManager = EntityManager::GetInstance();
+
+	//entityManager.AddPlayer(player);
+	//entityManager.AddEnemy(enemy);
+
+}
+
+
+void CreateScene2(const std::shared_ptr<GameObject>& player, const std::shared_ptr<GameObject>& gun)
+{
+
+
+	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+
+
+
+	//create tilemap
+	float tileMapStartX = 0;
+	float tilemapStartY = 200;
+	auto go = std::make_shared<GameObject>(tileMapStartX, tilemapStartY, "TILEMAP");
+	TileMapComponent* tileMapComponent = new TileMapComponent{ go.get(), "../Data/TileMap3.txt" };
+	tileMapComponent->ConvertFileToMap();
+	go->AddComponent(tileMapComponent);
+	scene.Add(go);
+	scene.AddTileMap(go);
+
+
+	//float enemyStartX = 16;
+	//float enemyStartY =450; //250
+	//auto enemy = std::make_shared<GameObject>(enemyStartX, enemyStartY, "ENEMY");
+	//RenderComponent* renderComponent = new RenderComponent{ enemy.get() , false,nullptr }; //maybe change to true if we want the player to rotate
+	//renderComponent->SetTexture("Tank.png");
+	//enemy->AddComponent(renderComponent);
+	//auto texture = renderComponent->GetTexture()->GetSDLTexture();
+	//SDL_Point enemySize;
+	//SDL_QueryTexture(texture, nullptr, nullptr, &enemySize.x, &enemySize.y);
+	//Rectf enemyShape{ enemyStartX,enemyStartY + float(enemySize.y), float(enemySize.x),float(enemySize.y) }; //IMPORTANT! ypos needs to be + SIZE because of rect and render having dif starting points
+	//RectColliderComponent* enemyCollider = new RectColliderComponent{ enemy.get(), enemyShape };
+	//PhysicsComponent* myEnemyPhysicsComp = new PhysicsComponent{ enemy.get(), enemy->GetTransformComp(), enemyCollider };
+	//enemy->AddComponent(myEnemyPhysicsComp);
+	//EnemyComponent* myEnemyComp = new EnemyComponent{ enemy.get(), myEnemyPhysicsComp };
+	//enemy->AddComponent(myEnemyComp);
+
+	////create enemygun
+	//float xOffSetEnemyGun = 10.0f;
+	//float yOffSetEnemyGun = -3.0f;
+	//float enemyGunStartX = enemyStartX + xOffSetEnemyGun;
+	//float enemyGunStartY = enemyStartY + yOffSetEnemyGun;
+	//auto enemyGun = std::make_shared<GameObject>(enemyGunStartX, enemyGunStartY, "ENEMYGUN");
+	//SDL_Point* sdlEnemyGunPoint = new SDL_Point{ 0,0 };
+	//renderComponent = new RenderComponent{ enemyGun.get() , true, sdlEnemyGunPoint };
+	//renderComponent->SetTexture("Gun.png");
+	//enemyGun->AddComponent(renderComponent);
+	//GunComponent* myEnemyGunComponent = new GunComponent{ enemyGun.get(),  nullptr, myEnemyComp };
+	//enemyGun->AddComponent(myEnemyGunComponent);
+
+	//enemy->AddChild(enemyGun);
+
+	scene.Add(player);
+	scene.Add(gun);
+	//scene.Add(enemy);
+	//scene.Add(enemyGun);
+
+	//EntityManager& entityManager = EntityManager::GetInstance();
+
+	//entityManager.AddPlayer(player);
+	//entityManager.AddEnemy(enemy);
+	scene.AddPrefabToReload(SpawnEnemyPrefab);
+}
+
+
+
+void LoadGame()
+{
+	ResourceManager::GetInstance().Init("../Data/");
 
 	//create player
 	float playerStartX = 50;
 	float playerStartY = 450; //250
-	auto player = std::make_shared<GameObject>(playerStartX, playerStartY);
-	RenderComponent* renderComponent = new RenderComponent{ player.get() , false,nullptr}; //maybe change to true if we want the player to rotate
+	auto player = std::make_shared<GameObject>(playerStartX, playerStartY, "PLAYER");
+	RenderComponent* renderComponent = new RenderComponent{ player.get() , false,nullptr }; //maybe change to true if we want the player to rotate
 	renderComponent->SetTexture("Tank.png");
 	player->AddComponent(renderComponent);
 	auto texture = renderComponent->GetTexture()->GetSDLTexture();
@@ -98,50 +230,53 @@ void LoadGame()
 	RectColliderComponent* playerCollider = new RectColliderComponent{ player.get(), playerShape };
 	PhysicsComponent* myPlayerPhysicsComp = new PhysicsComponent{ player.get(), player->GetTransformComp(), playerCollider };
 	player->AddComponent(myPlayerPhysicsComp);
-	PlayerComponent* myPlayerComp = new PlayerComponent{ player.get(), myPlayerPhysicsComp , tileMapComponent};
+	PlayerComponent* myPlayerComp = new PlayerComponent{ player.get(), myPlayerPhysicsComp };
 	player->AddComponent(myPlayerComp);
 	//create gun
 	float xOffSetGun = 10.0f;
 	float yOffSetGun = -3.0f;
 	float gunStartX = playerStartX + xOffSetGun;
 	float gunStartY = playerStartY + yOffSetGun;
-	auto gun = std::make_shared<GameObject>(gunStartX, gunStartY);
-	SDL_Point* sdlGunPoint = new SDL_Point{0,0};
-	renderComponent = new RenderComponent{ gun.get() , true, sdlGunPoint};
+	auto gun = std::make_shared<GameObject>(gunStartX, gunStartY, "PLAYERGUN");
+	SDL_Point* sdlGunPoint = new SDL_Point{ 0,0 };
+	renderComponent = new RenderComponent{ gun.get() , true, sdlGunPoint };
 	renderComponent->SetTexture("Gun.png");
 	gun->AddComponent(renderComponent);
-	GunComponent* myGunComponent = new GunComponent{ gun.get(), myPlayerComp, nullptr, scene, tileMapComponent };
-	gun->AddComponent(myGunComponent);
 
 	
+
+	GunComponent* myGunComponent = new GunComponent{ gun.get(), myPlayerComp, nullptr};
+	gun->AddComponent(myGunComponent);
+
+	player->AddChild(gun);
 
 
 	//commands
 	dae::InputManager& inputManager = dae::InputManager::GetInstance();
 	//make horizontal controls
-	ControllerAction leftControllerButton{ ActionState::Hold, dae::ControllerButton::ArrowLeft };
+	ControllerAction leftControllerButton{ ActionState::Hold, dae::ControllerButton::ArrowLeft,0 };
 	std::shared_ptr<MoveCommand> moveleft = std::make_shared<MoveCommand>(myPlayerComp, -50.0f, 0.f);
 	inputManager.BindKey(leftControllerButton, moveleft);
 
-	ControllerAction rightControllerButton{ ActionState::Hold, dae::ControllerButton::ArrowRight };
+	ControllerAction rightControllerButton{ ActionState::Hold, dae::ControllerButton::ArrowRight,0 };
 	std::shared_ptr<MoveCommand> moveRight = std::make_shared<MoveCommand>(myPlayerComp, 50.0f, 0.f);
 	inputManager.BindKey(rightControllerButton, moveRight);
 
 	//make vertical controls
-	ControllerAction upControllerButton{ ActionState::Hold, dae::ControllerButton::ArrowUp };
+	ControllerAction upControllerButton{ ActionState::Hold, dae::ControllerButton::ArrowUp,0 };
 	std::shared_ptr<MoveCommand> moveUp = std::make_shared<MoveCommand>(myPlayerComp, 0.f, -50.f);
 	inputManager.BindKey(upControllerButton, moveUp);
 
-	ControllerAction downControllerButton{ ActionState::Hold, dae::ControllerButton::ArrowDown };
+	ControllerAction downControllerButton{ ActionState::Hold, dae::ControllerButton::ArrowDown,0 };
 	std::shared_ptr<MoveCommand> moveDown = std::make_shared<MoveCommand>(myPlayerComp, 0.0f, 50.f);
 	inputManager.BindKey(downControllerButton, moveDown);
 
 	//gun commands
-	ControllerAction shootControllerButton{ ActionState::Down, dae::ControllerButton::ButtonX };
+	ControllerAction shootControllerButton{ ActionState::Down, dae::ControllerButton::ButtonX,0 };
 	std::shared_ptr<ShootCommand> shoot = std::make_shared<ShootCommand>(myGunComponent);
 	inputManager.BindKey(shootControllerButton, shoot);
 
-	ControllerAction rotateGunControllerButton{ ActionState::Hold, dae::ControllerButton::ButtonB };
+	ControllerAction rotateGunControllerButton{ ActionState::Hold, dae::ControllerButton::ButtonB,0 };
 	std::shared_ptr<RotateGunCommand> rotate = std::make_shared<RotateGunCommand>(myGunComponent);
 	inputManager.BindKey(rotateGunControllerButton, rotate);
 
@@ -152,7 +287,7 @@ void LoadGame()
 	KeyBoardAction leftKeyKeyBoard{ ActionState::Down, SDL_SCANCODE_LEFT };
 	inputManager.BindKey(leftKeyKeyBoard, moveleft);
 
-	
+
 	KeyBoardAction rightKeyKeyBoard{ ActionState::Down, SDL_SCANCODE_RIGHT };
 	inputManager.BindKey(rightKeyKeyBoard, moveRight);
 
@@ -160,7 +295,7 @@ void LoadGame()
 	KeyBoardAction upKeyKeyBoard{ ActionState::Down, SDL_SCANCODE_UP };
 	inputManager.BindKey(upKeyKeyBoard, moveUp);
 
-	
+
 	KeyBoardAction downKeyKeyBoard{ ActionState::Down, SDL_SCANCODE_DOWN };
 	inputManager.BindKey(downKeyKeyBoard, moveDown);
 
@@ -171,46 +306,16 @@ void LoadGame()
 	KeyBoardAction rotateGunKeyKeyBoard{ ActionState::Hold, SDL_SCANCODE_R };
 	inputManager.BindKey(rotateGunKeyKeyBoard, rotate);
 
-	float enemyStartX = 16;
-	float enemyStartY = 232; //250
-	auto enemy = std::make_shared<GameObject>(enemyStartX, enemyStartY);
-	renderComponent = new RenderComponent{ enemy.get() , false,nullptr }; //maybe change to true if we want the player to rotate
-	renderComponent->SetTexture("Tank.png");
-	enemy->AddComponent(renderComponent);
-	texture = renderComponent->GetTexture()->GetSDLTexture();
-	SDL_Point enemySize;
-	SDL_QueryTexture(texture, nullptr, nullptr, &enemySize.x, &enemySize.y);
-	Rectf enemyShape{ enemyStartX,enemyStartY + float(enemySize.y), float(enemySize.x),float(enemySize.y) }; //IMPORTANT! ypos needs to be + SIZE because of rect and render having dif starting points
-	RectColliderComponent* enemyCollider = new RectColliderComponent{ enemy.get(), enemyShape };
-	PhysicsComponent* myEnemyPhysicsComp = new PhysicsComponent{ enemy.get(), enemy->GetTransformComp(), enemyCollider };
-	enemy->AddComponent(myEnemyPhysicsComp);
-	EnemyComponent* myEnemyComp = new EnemyComponent{ enemy.get(), myEnemyPhysicsComp , tileMapComponent, myPlayerComp };
-	enemy->AddComponent(myEnemyComp);
 
-	//create enemygun
-	float xOffSetEnemyGun = 10.0f;
-	float yOffSetEnemyGun = -3.0f;
-	float enemyGunStartX = enemyStartX + xOffSetEnemyGun;
-	float enemyGunStartY = enemyStartY + yOffSetEnemyGun;
-	auto enemyGun = std::make_shared<GameObject>(enemyGunStartX, enemyGunStartY);
-	SDL_Point* sdlEnemyGunPoint = new SDL_Point{ 0,0 };
-	renderComponent = new RenderComponent{ enemyGun.get() , true, sdlEnemyGunPoint };
-	renderComponent->SetTexture("Gun.png");
-	enemyGun->AddComponent(renderComponent);
-	GunComponent* myEnemyGunComponent = new GunComponent{ enemyGun.get(),  nullptr, myEnemyComp, scene, tileMapComponent };
-	enemyGun->AddComponent(myEnemyGunComponent);
 
-	enemy->AddChild(enemyGun);
-
-	scene.Add(player);
-	scene.Add(gun);
-	scene.Add(enemy);
-	scene.Add(enemyGun);
-
-	EntityManager& entityManager = EntityManager::GetInstance();
-
-	entityManager.AddPlayer(player);
-	entityManager.AddEnemy(enemy);
+	CreateScene(player, gun);
+	CreateScene2(player, gun);
 
 	
+
+	//CreateScene2();
+
+
+	//CreateScene2();
+
 }

@@ -80,11 +80,13 @@ namespace dae
 
 		bool ProcessInput();
 	
-		void HandleInput();
+		
+		void HandleControllerInput(int currentController);
+		void HandleKeyBoardInput();
 		void BindKey(ControllerAction key, std::shared_ptr<Command> command);
 		void BindKey(KeyBoardAction key, std::shared_ptr<Command> command);
 
-
+		void ClearInputCommands();
 		
 
 	private:
@@ -92,9 +94,9 @@ namespace dae
 		class Impl;
 		std::unique_ptr<Impl> m_Impl;
 
-		bool IsUpThisFrame(unsigned int button) const;
-		bool IsDownThisFrame(unsigned int button) const;
-		bool IsHeld(unsigned int button) const;
+		bool IsUpThisFrame(unsigned int button,  int currentController) const;
+		bool IsDownThisFrame(unsigned int button,  int currentController) const;
+		bool IsHeld(unsigned int button,  int currentController) const;
 
 		bool IsUpThisFrame(SDL_Keycode key) const;
 		bool IsDownThisFrame(SDL_Keycode key) const;

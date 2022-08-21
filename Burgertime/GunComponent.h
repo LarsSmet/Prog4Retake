@@ -16,7 +16,7 @@ namespace dae
 	public:
 
 
-		GunComponent(GameObject* go, PlayerComponent* playerComp, EnemyComponent* enemyComp, Scene& currentScene, TileMapComponent* tileMap);
+		GunComponent(GameObject* go, PlayerComponent* playerComp, EnemyComponent* enemyComp);
 		~GunComponent();
 
 
@@ -37,11 +37,11 @@ namespace dae
 		//PhysicsComponent* m_pPhysicsComp;
 		//TransformComponent* m_pTransformComp;
 
-		Scene& m_Scene;
+		//Scene& m_Scene;
 
 		RenderComponent* m_pRenderComp;
 
-		TileMapComponent* m_pTileMap;
+		//TileMapComponent* m_pTileMap;
 
 		//bool m_OwnedByPlayer;
 

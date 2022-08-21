@@ -9,7 +9,7 @@
 #include "Scene.h"
 #include "SceneManager.h"
 
-dae::GameObject::GameObject(float xPos, float yPos) : m_TransformComp{ new TransformComponent{ this, xPos, yPos} },  m_Components{}
+dae::GameObject::GameObject(float xPos, float yPos, std::string tag) : m_TransformComp{ new TransformComponent{ this, xPos, yPos} },  m_Components{}, m_Tag{tag}
 {
 	
 }
@@ -171,4 +171,14 @@ void dae::GameObject::AddChild(std::shared_ptr<GameObject> go)
 dae::TransformComponent* dae::GameObject::GetTransformComp()
 {
 	return m_TransformComp.get();
+}
+
+void dae::GameObject::SetTag(std::string name)
+{
+	m_Tag = name;
+}
+
+std::string dae::GameObject::GetTag()
+{
+	return m_Tag;
 }

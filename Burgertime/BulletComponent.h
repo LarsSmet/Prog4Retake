@@ -3,6 +3,10 @@
 #include <PhysicsComponent.h>
 #include <TileMapComponent.h>
 #include "GameObject.h"
+#include "PlayerComponent.h"
+#include "EnemyComponent.h"
+
+
 namespace dae
 {
 	enum class GunOwner
@@ -11,6 +15,8 @@ namespace dae
 		enemy
 	};
 
+	class PlayerComponent;
+	class EnemyComponent;
 
 	class BulletComponent : public BaseComponent 
 	{
@@ -46,6 +52,11 @@ namespace dae
 		void KillBullet();
 
 		GunOwner m_GunOwner;
+
+
+		std::vector<PlayerComponent*> m_PlayerComponents;
+		std::vector<EnemyComponent*> m_EnemyComponents;
+
 
 	};
 

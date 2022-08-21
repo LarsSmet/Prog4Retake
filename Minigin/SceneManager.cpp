@@ -2,25 +2,55 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+
 void dae::SceneManager::Update(float deltaTime)
 {
-	for(auto& scene : m_Scenes)
-	{
-		scene->Update(deltaTime);
-	}
+
+
+	m_Scenes[m_CurrentScene]->Update(deltaTime);
+
+
+	//go to next scene after update?
 }
 
 void dae::SceneManager::Render()
 {
-	for (const auto& scene : m_Scenes)
-	{
-		scene->Render();
-	}
+	
+
+	m_Scenes[m_CurrentScene]->Render();
+
 }
 
 dae::Scene& dae::SceneManager::GetCurrentScene()
 {
-	return *m_Scenes[0]; //TODO: replace this with actual scene later, use 0 for now
+	return *m_Scenes[m_CurrentScene]; 
+}
+
+int dae::SceneManager::GetCurrentSceneIndex()
+{
+	return m_CurrentScene; 
+}
+
+
+void dae::SceneManager::GoToNextScene()
+{
+	
+
+	
+	if (m_CurrentScene == m_Scenes.size() -1)
+	{
+		
+		m_CurrentScene = 0;
+	}
+	else
+	{
+		++m_CurrentScene;
+	}
+
+	m_Scenes[m_CurrentScene]->LoadPrefabs();
+
+
+
 }
 
 dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
@@ -29,3 +59,7 @@ dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 	m_Scenes.push_back(scene);
 	return *scene;
 }
+
+
+
+

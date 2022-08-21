@@ -6,6 +6,8 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "EntityManager.h"
+
+
 namespace dae
 {
 	BulletComponent::BulletComponent(GameObject* go, PhysicsComponent* physicsComp, TileMapComponent* tileMap, GunOwner gunOwner) : BaseComponent{ go },
@@ -17,6 +19,31 @@ namespace dae
 		m_BounceCounter = 0;
 		auto bulletPos = m_pPhysicsComponent->GetTransformComp()->GetPosition();
 		m_CurrentCell = m_pTileMapComponent->GetCell(Point2f{ bulletPos.x, bulletPos.y });
+
+		auto players = SceneManager::GetInstance().GetCurrentScene().GetObjectsOfTag("PLAYER");
+		auto enemies = SceneManager::GetInstance().GetCurrentScene().GetObjectsOfTag("ENEMY");
+
+		for (auto player : players)
+		{
+			auto playerComp = player->GetComponent<PlayerComponent>();
+			if (playerComp != nullptr)
+			{
+				m_PlayerComponents.emplace_back(playerComp);
+				
+			}
+		}
+
+		for ( auto enemy : enemies)
+		{
+			auto enemyComp = enemy->GetComponent<EnemyComponent>();
+			if (enemyComp != nullptr)
+			{
+				m_EnemyComponents.emplace_back(enemyComp);
+
+			}
+		}
+
+
 	}
 	BulletComponent::~BulletComponent()
 	{
@@ -147,11 +174,11 @@ namespace dae
 		if (m_GunOwner == GunOwner::player)
 		{
 
-			auto enemies = EntityManager::GetInstance().GetEnemies();
+			//buauto enemies = EntityManager::GetInstance().GetEnemies();
 
 			//std::cout << " There are currently: " << enemies.size() << " enemies ";
 
-			for (size_t i = 0; i < enemies.size(); ++i)
+			for (size_t i = 0; i < m_EnemyComponents.size(); ++i)
 			{
 				auto rectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
 				float offset = -32; //has to be changed later
@@ -159,7 +186,7 @@ namespace dae
 				Rectf rect{ rectCol.left, rectCol.bottom - offset, rectCol.width, rectCol.height };
 
 
-				auto enemyComp = enemies[i]->GetComponent<EnemyComponent>();
+				auto enemyComp = m_EnemyComponents[i];
 
 				if (enemyComp == nullptr)
 				{
@@ -169,16 +196,22 @@ namespace dae
 				{
 					//	std::cout << "no mistake";
 
+					std::cout << " SCENE BEFORE ERROR: " << SceneManager::GetInstance().GetCurrentSceneIndex();
+
 					if (utils::IsOverlapping(rect, enemyComp->GetPhysicsComp()->GetColliderComponent()->GetRectCollider())) //still chage
 					{
 						//std::cout << "POG";
 						
-						enemies[i]->Destroy();
 
-						//SceneManager::GetInstance().GetCurrentScene().LateRemove(enemies[i]);
-						EntityManager::GetInstance().RemoveEnemy(enemies[i]);
-						
 						KillBullet();
+						m_EnemyComponents[i]->Kill();
+						
+
+						
+						
+						SceneManager::GetInstance().GoToNextScene();
+
+						
 						
 
 					}

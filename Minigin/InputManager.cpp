@@ -20,15 +20,15 @@ namespace dae
 
 
 
-        XINPUT_STATE m_PreviousState{};
-        XINPUT_STATE m_CurrentState{};
+        XINPUT_STATE m_PreviousState[XUSER_MAX_COUNT]{};
+        XINPUT_STATE m_CurrentState[XUSER_MAX_COUNT]{};
 
 
         ControllerCommandsMap m_ConsoleCommands{};
         KeyBoardCommandsMap m_KeyBoardCommands{};
 
-        int m_ButtonsPressedThisFrame{};
-        int m_ButtonsReleasedThisFrame{};
+        int m_ButtonsPressedThisFrame[XUSER_MAX_COUNT]{};
+        int m_ButtonsReleasedThisFrame[XUSER_MAX_COUNT]{};
 
         //used https://stackoverflow.com/questions/3741055/inputs-in-sdl-on-key-pressed
         bool m_KeysPressedThisFrame[322]; //// 322 is the number of events
@@ -90,29 +90,45 @@ namespace dae
             }
         }
 
-        CopyMemory(&m_Impl->m_PreviousState, &m_Impl->m_CurrentState, sizeof(XINPUT_STATE));
-        ZeroMemory(&m_Impl->m_CurrentState, sizeof(XINPUT_STATE));
-        XInputGetState(0, &m_Impl->m_CurrentState);
+        CopyMemory(&m_Impl->m_PreviousState, &m_Impl->m_CurrentState, sizeof(XINPUT_STATE) * XUSER_MAX_COUNT);
+        ZeroMemory(&m_Impl->m_CurrentState, sizeof(XINPUT_STATE) * XUSER_MAX_COUNT);
 
-        auto buttonChanges = m_Impl->m_CurrentState.Gamepad.wButtons ^ m_Impl->m_PreviousState.Gamepad.wButtons;
+        for (int i = 0; i < XUSER_MAX_COUNT; ++i)
+        {
+           
+           XInputGetState(i, &m_Impl->m_CurrentState[i]);
 
-        m_Impl->m_ButtonsPressedThisFrame = buttonChanges & m_Impl->m_CurrentState.Gamepad.wButtons;
-        m_Impl->m_ButtonsReleasedThisFrame = buttonChanges & (~m_Impl->m_CurrentState.Gamepad.wButtons);
+            auto buttonChanges = m_Impl->m_CurrentState[i].Gamepad.wButtons ^ m_Impl->m_PreviousState[i].Gamepad.wButtons;
+
+            m_Impl->m_ButtonsPressedThisFrame[i] = buttonChanges & m_Impl->m_CurrentState[i].Gamepad.wButtons;
+            m_Impl->m_ButtonsReleasedThisFrame[i] = buttonChanges & (~m_Impl->m_CurrentState[i].Gamepad.wButtons);
+
+            HandleControllerInput(i);
+        }
+
+        HandleKeyBoardInput();
+
+
+     
         return true;
     }
 
 
-    void dae::InputManager::HandleInput()
+    void dae::InputManager::HandleControllerInput(int currentController)
     {
 
         for (auto command : m_Impl->m_ConsoleCommands) //go over all commands and do the one that matches the pressed button
         {
-            
+            if (command.first.controllerIndex != currentController)
+            {
+                continue;
+            }
+
             switch (command.first.state)
             {
             case ActionState::Down:
 
-                if (IsDownThisFrame(unsigned int(command.first.button)))
+                if (IsDownThisFrame(unsigned int(command.first.button), currentController))
                 {
                     command.second->Execute();
                 }
@@ -126,7 +142,7 @@ namespace dae
                 break;
             case ActionState::Up:
 
-                if (IsUpThisFrame(unsigned int(command.first.button)))
+                if (IsUpThisFrame(unsigned int(command.first.button), currentController))
                 {
                     command.second->Execute();
                 }
@@ -139,7 +155,7 @@ namespace dae
                 break;
             case ActionState::Hold:
 
-                if (IsHeld(unsigned int(command.first.button)))
+                if (IsHeld(unsigned int(command.first.button), currentController))
                 {
                     command.second->Execute();
                 }
@@ -151,9 +167,16 @@ namespace dae
      
         }
 
+        
+
+
+    }
+
+    void dae::InputManager::HandleKeyBoardInput()
+    {
         for (auto command : m_Impl->m_KeyBoardCommands) //go over all commands and do the one that matches the pressed button
         {
-            
+
 
 
 
@@ -163,7 +186,7 @@ namespace dae
 
                 if (IsDownThisFrame(command.first.key))
                 {
-                   
+
                     command.second->Execute();
                 }
 
@@ -175,7 +198,7 @@ namespace dae
                     command.second->Execute();
                 }
 
-             
+
 
                 break;
             case ActionState::Hold:
@@ -191,10 +214,9 @@ namespace dae
 
 
         }
-
-
     }
 
+    //controller
     void dae::InputManager::BindKey(ControllerAction key, std::shared_ptr<Command> command)
     {
 
@@ -202,21 +224,22 @@ namespace dae
     }
 
 
-    bool dae::InputManager::IsHeld(unsigned int button) const
+    bool dae::InputManager::IsHeld(unsigned int button, int currentController) const
     {
-        return m_Impl->m_CurrentState.Gamepad.wButtons & button;
+        return m_Impl->m_CurrentState[currentController].Gamepad.wButtons & button;
     }
 
-    bool dae::InputManager::IsUpThisFrame(unsigned int button) const
+    bool dae::InputManager::IsUpThisFrame(unsigned int button, int currentController) const
     {
-        return m_Impl->m_ButtonsReleasedThisFrame & button;
+        return m_Impl->m_ButtonsReleasedThisFrame[currentController] & button;
     }
 
-    bool dae::InputManager::IsDownThisFrame(unsigned int button) const
+    bool dae::InputManager::IsDownThisFrame(unsigned int button, int currentController) const
     {
-        return m_Impl->m_ButtonsPressedThisFrame & button;
+        return m_Impl->m_ButtonsPressedThisFrame[currentController] & button;
     }
 
+    //keyboard
     void dae::InputManager::BindKey(KeyBoardAction key, std::shared_ptr<Command> command)
     {
         m_Impl->m_KeyBoardCommands.insert({ key, command });
@@ -245,6 +268,15 @@ namespace dae
         {
             return false;
         }
+    }
+
+
+    void dae::InputManager::ClearInputCommands()
+    {
+
+        m_Impl->m_KeyBoardCommands.clear();
+        m_Impl->m_ConsoleCommands.clear();
+
     }
 
 }

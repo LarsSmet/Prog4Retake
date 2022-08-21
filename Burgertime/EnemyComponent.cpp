@@ -8,18 +8,19 @@
 namespace dae
 {
 
-	EnemyComponent::EnemyComponent(GameObject* go, PhysicsComponent* physComp, TileMapComponent* tileMap, PlayerComponent* playerComp) :
-		BaseComponent{ go }, m_pPhysicsComponent{ physComp }, m_pTileMapComponent{ tileMap }, m_pPlayerComponent{ playerComp }
+	EnemyComponent::EnemyComponent(GameObject* go, PhysicsComponent* physComp/*, PlayerComponent* playerComp*/) :
+		BaseComponent{ go }, m_pPhysicsComponent{ physComp }, m_pTileMapComponent{nullptr}/*, m_pPlayerComponent{ playerComp }*/, m_HasDoneFirstUpdate{false}
 	{
-		auto enemyPos = m_pPhysicsComponent->GetTransformComp()->GetPosition();
-		m_CurrentCell = m_pTileMapComponent->GetCell(Point2f{ enemyPos.x, enemyPos.y });
-		auto enemyrRectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
-		m_pTileMapComponent->GetCellsAroundRect(enemyrRectCol, m_CellsToCheck);
-		m_CurrentCell = m_pTileMapComponent->GetCell(Point2f{ enemyPos.x, enemyPos.y });
+		
 
-		m_pAIState = new MoveState(m_pPlayerComponent);
+
+
+		//m_pAIState = new MoveState(m_pPlayerComponent); 
+
 
 	}
+
+	
 
 	EnemyComponent::~EnemyComponent()
 	{
@@ -30,9 +31,10 @@ namespace dae
 
 	void EnemyComponent::Update(float elapsedSec)
 	{
-
-			
-
+		if (!m_HasDoneFirstUpdate)
+		{
+			OnFirstUpdate();
+		}
 
 		auto enemyPos = m_pPhysicsComponent->GetTransformComp()->GetPosition();
 		auto enemyRectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
@@ -58,7 +60,7 @@ namespace dae
 			//std::cout << " Can go down is: " << m_pTileMapComponent->GetCell(Point2f{playerPos.x, playerPos.y})->CanGoDown();
 		}
 
-		auto childGun = m_Owner->GetChildAt(0);
+		auto childGun = m_Owner->GetChildAt(0);//TODO: replace with actual child
 		if (childGun != nullptr)
 		{
 			auto gunComp = childGun->GetComponent<GunComponent>();
@@ -66,7 +68,7 @@ namespace dae
 
 			if (gunComp != nullptr)
 			{
-				std::cout << "Guncomp found";
+				//std::cout << "Guncomp found";
 			//	gunComp->Shoot();
 			}
 
@@ -103,6 +105,8 @@ namespace dae
 				//handle collision
 				m_pPhysicsComponent->HandleCollision(m_CellsToCheck[i]->GetRectCollider());
 
+
+
 			}
 		}
 
@@ -112,6 +116,29 @@ namespace dae
 
 
 	}
+
+	void EnemyComponent::OnFirstUpdate()
+	{
+		m_HasDoneFirstUpdate = true;
+
+		m_pTileMapComponent = SceneManager::GetInstance().GetCurrentScene().GetTileMap()->GetComponent<TileMapComponent>();
+
+		auto enemyPos = m_pPhysicsComponent->GetTransformComp()->GetPosition();
+		m_CurrentCell = m_pTileMapComponent->GetCell(Point2f{ enemyPos.x, enemyPos.y });
+		auto enemyrRectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
+		m_pTileMapComponent->GetCellsAroundRect(enemyrRectCol, m_CellsToCheck);
+		m_CurrentCell = m_pTileMapComponent->GetCell(Point2f{ enemyPos.x, enemyPos.y });
+
+		auto players = SceneManager::GetInstance().GetCurrentScene().GetObjectsOfTag("PLAYER");
+
+		//TODO: Replace this with vec that takes closest player and change AI to use vec of GO instead of comp
+
+		m_pPlayerComponent = players[0]->GetComponent<PlayerComponent>();
+
+		m_pAIState = new MoveState(m_pPlayerComponent);
+
+	}
+
 
 	void EnemyComponent::HandleAI()
 	{
@@ -655,5 +682,9 @@ namespace dae
 		return { enemyPos.x + enemyWidth / 2, enemyPos.y + enemyHeight / 2 };
 	}
 
+	void EnemyComponent::Kill()
+	{
+		m_Owner->Destroy();
+	}
 
 }

@@ -7,25 +7,44 @@
 
 namespace dae
 {
-	GunComponent::GunComponent(GameObject* go, PlayerComponent* playerComp, EnemyComponent* enemyComp, Scene& currentScene, TileMapComponent* tileMap): 
-		BaseComponent{ go }, m_pPlayerComp{ playerComp }, m_pEnemyComp{ enemyComp }, m_Scene{ currentScene }, m_pTileMap{ tileMap }, 
-		m_CurrentCooldown{0}, m_MaxCooldown{2}, m_OnCooldown{false}/*, m_GunOwner{GunOwner::enemy}*/, m_RotationSpeed{0.85}
+	GunComponent::GunComponent(GameObject* go, PlayerComponent* playerComp, EnemyComponent* enemyComp ): BaseComponent{ go }, m_CurrentCooldown{0}, m_MaxCooldown{2}, m_OnCooldown{false}, m_RotationSpeed{0.85},
+		m_pPlayerComp{playerComp}, m_pEnemyComp{enemyComp}
 	{
 		m_pRenderComp = m_Owner->GetComponent<RenderComponent>();
 		
-		if (m_pPlayerComp != nullptr)
+		
+		if (m_pEnemyComp != nullptr)
 		{
-			std::cout << "Is owned by player";
-			m_GunOwner = GunOwner::player;
-		}
-		else if (m_pEnemyComp != nullptr)
-		{
-			std::cout << "Is owned by enemy";
 			m_GunOwner = GunOwner::enemy;
 		}
+		else if (m_pPlayerComp != nullptr)
+		{
+			m_GunOwner = GunOwner::player;
+		}
+
+
+		//if (m_Owner->GetTag() == "PLAYERGUN")
+		//{
+		//	std::cout << "Is owned by player";
+		//	m_GunOwner = GunOwner::player;
+		//	m_pPlayerComp 
+		//}
+		//if (m_Owner->GetTag() == "ENEMYGUN")
+		//{
+		//	std::cout << "Is owned by enemy";
+		//	m_GunOwner = GunOwner::enemy;
+		//}
+		//else
+		//{
+		//	std::cout << "TAG IS " << m_Owner->GetTag();
+		//	//std::cout << "NOT FOUND" << '\n';
+		//}
+
+		
 		
 
 	}
+
 	GunComponent::~GunComponent()
 	{
 	}
@@ -114,7 +133,7 @@ namespace dae
 
 
 
-			auto bullet = std::make_shared<GameObject>(shootPos.x, shootPos.y);
+			auto bullet = std::make_shared<GameObject>(shootPos.x, shootPos.y, "BULLET");
 			RenderComponent* renderComponent = new RenderComponent{ bullet.get(), false , nullptr };
 			renderComponent->SetTexture("Bullet.png");
 			bullet->AddComponent(renderComponent);
@@ -128,12 +147,14 @@ namespace dae
 			bullet->AddComponent(physicsComp);
 			std::cout << "Gunowner is : " << int(m_GunOwner);
 
-			BulletComponent* bulletComponent = new BulletComponent{ bullet.get(), physicsComp, m_pTileMap, m_GunOwner };
+			auto tileMap = SceneManager::GetInstance().GetCurrentScene().GetTileMap()->GetComponent<TileMapComponent>();//TODO: Maybe remove get and just take shared ptr?
+
+			BulletComponent* bulletComponent = new BulletComponent{ bullet.get(), physicsComp, tileMap, m_GunOwner };
 			float speed = 150.0f;
 			//set velocity based on calculations for direction from pos under shoot pos
 			bulletComponent->SetVelocity(Velocity{ directionVec.x * speed, directionVec.y * speed });
 			bullet->AddComponent(bulletComponent);
-			m_Scene.LateAdd(bullet);
+			SceneManager::GetInstance().GetCurrentScene().LateAdd(bullet);
 
 
 			

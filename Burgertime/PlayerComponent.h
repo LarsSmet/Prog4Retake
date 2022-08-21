@@ -3,6 +3,7 @@
 #include <RectColliderComponent.h>
 #include <PhysicsComponent.h>
 #include <TileMapComponent.h>
+#include <SceneManager.h>
 
 
 namespace dae
@@ -18,7 +19,7 @@ namespace dae
 
 	public:
 
-		PlayerComponent(GameObject* go, PhysicsComponent* physComp, TileMapComponent* tileMap);
+		PlayerComponent(GameObject* go, PhysicsComponent* physComp/*, TileMapComponent* tileMap*/);
 		~PlayerComponent();
 
 		virtual void Update(float elapsedSec);
@@ -33,6 +34,8 @@ namespace dae
 		void Teleport();
 
 		glm::vec2 GetPlayerCenter();
+
+		void HandleSceneChange();
 
 
 	private:
@@ -51,6 +54,7 @@ namespace dae
 
 		std::shared_ptr<Cell> m_CurrentCell;
 
+		int m_CurrentScene;
 
 	};
 

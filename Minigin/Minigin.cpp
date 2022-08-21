@@ -48,6 +48,7 @@ namespace dae
 	{
 		PrintSDLVersion();
 		ResourceManager::GetInstance().Init("../Data/");
+		SceneManager::GetInstance();
 
 		if (SDL_Init(SDL_INIT_VIDEO) != 0)
 		{
@@ -299,7 +300,7 @@ namespace dae
 			{
 
 				doContinue = inputManager.ProcessInput();
-				inputManager.HandleInput();
+			
 
 
 

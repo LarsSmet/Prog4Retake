@@ -2,16 +2,22 @@
 #include "PlayerComponent.h"
 #include "GameObject.h"
 #include "TransformComponent.h"
+#include "Scene.h"
 
 namespace dae
 {
 
 
 
-	PlayerComponent::PlayerComponent(GameObject* go, PhysicsComponent* physComp, TileMapComponent* tileMap): BaseComponent{ go }, m_pPhysicsComponent{ physComp }, m_pTileMapComponent{tileMap}
+	PlayerComponent::PlayerComponent(GameObject* go, PhysicsComponent* physComp/*, TileMapComponent* tileMap*/): BaseComponent{ go }, m_pPhysicsComponent{ physComp }/*, m_pTileMapComponent{tileMap}*/
 	{
 		auto playerPos = m_pPhysicsComponent->GetTransformComp()->GetPosition();
-		m_CurrentCell = m_pTileMapComponent->GetCell(Point2f{playerPos.x, playerPos.y});
+		std::cout << playerPos.x;
+		m_CurrentCell = 0;
+
+		m_CurrentScene = -1; //set to -1 because when player obj is created there is no scene yet, so the first time handlescenechange gets called it gets updated
+		m_pTileMapComponent = nullptr;
+
 	}
 
 	PlayerComponent::~PlayerComponent()
@@ -22,6 +28,8 @@ namespace dae
 	void PlayerComponent::Update(float elapsedSec)
 	{
 		elapsedSec;
+		HandleSceneChange();
+
 
 
 		m_pPhysicsComponent->Update(elapsedSec);
@@ -45,7 +53,7 @@ namespace dae
 
 		//std::cout << " x value: " << playerPos.x << " y value: " << playerPos.y;
 
-		if (m_CurrentCell != m_pTileMapComponent->GetCell(Point2f{ playerPos.x, playerPos.y }))
+		if (m_CurrentCell != m_pTileMapComponent->GetCell(Point2f{playerPos.x, playerPos.y}))
 		{
 			//update cells arounnd rect
 			m_pTileMapComponent->GetCellsAroundRect(playerRectCol, m_CellsToCheck);
@@ -171,6 +179,8 @@ namespace dae
 		m_pPhysicsComponent->GetColliderComponent()->SetPosition(posToTeleportTo.x, posToTeleportTo.y);
 		m_pPhysicsComponent->GetTransformComp()->SetPosition(posToTeleportTo.x, posToTeleportTo.y);
 
+		m_pPhysicsComponent->SetVelocity(Velocity{ 0,0 });
+
 	}
 
 	glm::vec2 PlayerComponent::GetPlayerCenter()
@@ -182,6 +192,26 @@ namespace dae
 		return { playerPos.x + playerWidth / 2, playerPos.y + playerHeight / 2 };
 		
 	
+	}
+
+	void PlayerComponent::HandleSceneChange()
+	{
+		if (m_CurrentScene != SceneManager::GetInstance().GetCurrentSceneIndex())
+		{
+
+
+
+			std::cout << "Switched scenes";
+			m_pTileMapComponent = SceneManager::GetInstance().GetCurrentScene().GetTileMap()->GetComponent<TileMapComponent>();
+
+			Teleport();
+
+			m_CurrentScene = SceneManager::GetInstance().GetCurrentSceneIndex();
+		
+			//SceneManager::GetInstance().GetCurrentScene().GetObjectsOfTag("ENEMY")
+
+		}
+
 	}
 
 
