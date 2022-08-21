@@ -7,10 +7,16 @@
 #include "RenderComponent.h"
 #include <iostream>
 
-dae::TextComponent::TextComponent(GameObject* go, const std::string& text, const std::shared_ptr<Font>& font, RenderComponent * renderComp, SDL_Color color)
-	: BaseComponent(go), m_Text(text), m_Font(font), m_pRenderComp(renderComp), m_NeedsUpdate(true), m_Color{color}
-{
+//dae::TextComponent::TextComponent(GameObject* go,  std::string text,  std::shared_ptr<Font> font, RenderComponent * renderComp, SDL_Color color)
+//	: BaseComponent(go), m_Text(text), m_Font(font), m_pRenderComp(renderComp), m_NeedsUpdate(true), m_Color{color}
+//{
+//
+//}
 
+
+dae::TextComponent::TextComponent(GameObject* go, const std::string& text, const std::shared_ptr<Font>& font, RenderComponent* renderComp, SDL_Color color) : 
+	BaseComponent{go}, m_Text{text}, m_Font{font}, m_pRenderComp{renderComp}, m_Color{color}
+{
 }
 
 dae::TextComponent::~TextComponent()

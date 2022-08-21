@@ -30,11 +30,10 @@ namespace dae
 		//template <typename T> 
 		void AddComponent(BaseComponent* component);
 		template <typename T>
-		inline T* GetComponent() const // wrong and not finished
+		inline T* GetComponent() const 
 		{
-			for (auto& component : m_Components) //improve by using std::find or std::find_if?
+			for (auto& component : m_Components) 
 			{
-
 
 				T* casted = dynamic_cast<T*>(component);
 				if (casted != nullptr)
@@ -46,9 +45,6 @@ namespace dae
 
 				}
 
-
-
-				
 			}
 
 			return nullptr;
