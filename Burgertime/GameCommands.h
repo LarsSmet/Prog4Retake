@@ -48,7 +48,12 @@ namespace dae
 
 
 
+			auto& ss = ServiceLocator::GetSoundSystem();
 
+
+			const char* path = "../Data/DeathSound.wav";
+			int volume = 10;
+			ss.PlaySoundRequest(SoundRequest{path, volume});
 
 			//m_CharacterComp->SetState(State::Normal);
 			/*if (m_Velocity.y == 0)

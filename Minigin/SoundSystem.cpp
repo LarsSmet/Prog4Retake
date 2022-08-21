@@ -2,6 +2,8 @@
 #include "SoundSystem.h"
 #include <mutex>
 
+//got some help from Maxim Robeyst with the threading
+
 int SDLSoundSystem::s_Head = 0;
 int SDLSoundSystem::s_Tail;
 const int SDLSoundSystem::s_MaxRequests = 20;
@@ -9,7 +11,8 @@ SoundRequest SDLSoundSystem::s_PendingSoundRequests[s_MaxRequests];
 
 
 
-SDLSoundSystem::SDLSoundSystem() 
+SDLSoundSystem::SDLSoundSystem() :  m_QueueIsRunning{ true }, //important that it gets initiliazed first, because otherwise thread would end instantly
+m_SoundThread{ &SDLSoundSystem::ProcessEventQueue, this } //pas this pointer because a member func gets called, member func calls hidden this pointer (thread needs this pointer, to get member variable from ss)
 {
 	SDL_Init(SDL_INIT_AUDIO);
 
@@ -25,23 +28,34 @@ SDLSoundSystem::SDLSoundSystem()
 	s_Head = 0;
 	s_Tail = 0;
 
+	
+
+
 }
 
 SDLSoundSystem::~SDLSoundSystem()
 {
+	m_QueueIsRunning = false; //needs to be put to false, otherwise it will wait for other thread to end{
+	m_ConditionVariable.notify_one(); //make sure thread ends
+
+
+
+	m_SoundThread.join(); //set sound thread back on main thread
 	SDL_Quit();
 }
 
-void SDLSoundSystem::PlaySound(SoundRequest request) 
+void SDLSoundSystem::PlaySoundRequest(SoundRequest request) 
 {
 
+	std::unique_lock lock{m_Mutex}; //lock soundthread so shared data is safe to change
 
-
+	//add sounds to the queue
 	s_PendingSoundRequests[s_Tail].path = request.path;
 	s_PendingSoundRequests[s_Tail].volume = request.volume;
 
 	s_Tail = (s_Tail + 1) % s_MaxRequests;
 
+	m_ConditionVariable.notify_one(); //notify soundthread of change 
 
 }
 
@@ -62,40 +76,45 @@ Mix_Chunk* SDLSoundSystem::LoadSound(SoundRequest request)
 
 }
 
-void SDLSoundSystem::StartSound(Mix_Chunk* soundChunk)//remove this?
+
+
+
+
+void SDLSoundSystem::ProcessEventQueue()
 {
-	Mix_PlayChannel(-1, soundChunk, 0);
-
-
-}
-
-void SDLSoundSystem::Update() 
-{
-	//playsound called somewhere in the game
-	//adds it to the queue in playsound
-
-
-	if (s_Head == s_Tail) 
+	while(m_QueueIsRunning)
 	{
-		return;
+
+		if (s_Head == s_Tail) //if no sounds to load
+		{
+			//locks processeventqueue until we get a new sound to make sure we dont  loop
+			std::unique_lock lock{ m_Mutex };
+			m_ConditionVariable.wait(lock);
+
+
+
+		}
+
+
+		while (s_Head != s_Tail)
+		{
+			Mix_Chunk* tmpChunk = LoadSound(s_PendingSoundRequests[s_Head]);
+
+			Mix_PlayChannel(-1, tmpChunk, 0);
+
+			m_Mutex.lock(); //lock thread so shared data is safe to change
+			s_Head = (s_Head + 1) % s_MaxRequests;
+			m_Mutex.unlock();
+
+		}
+
+	
+
 	}
-
-	std::unique_lock<std::mutex> lock{ m_Mutex };
-
-	Mix_Chunk* tmpChunk = LoadSound(s_PendingSoundRequests[s_Head]);
-
-	StartSound(tmpChunk);
-
-
-
-	s_Head = (s_Head + 1) % s_MaxRequests;
-
-
-	lock.unlock();
-
 }
 
-void NullSoundSystem::PlaySound(SoundRequest request) 
+
+void NullSoundSystem::PlaySoundRequest(SoundRequest request) 
 {
 	request; 
 };
@@ -106,15 +125,9 @@ Mix_Chunk* NullSoundSystem::LoadSound(SoundRequest request)
 	return nullptr; 
 };
 
-void NullSoundSystem::StartSound(Mix_Chunk* soundChunk) 
-{ 
-	soundChunk; 
-};
 
-void NullSoundSystem::Update() 
-{
 
-};
+
 
 NullSoundSystem ServiceLocator::s_DefaultInstance;
 SoundSystem* ServiceLocator::s_Instance = &s_DefaultInstance;
@@ -145,9 +158,9 @@ void ServiceLocator::DeleteSoundSystem()
 
 }
 
-void LoggingSoundSystem::PlaySound(SoundRequest request)
+void LoggingSoundSystem::PlaySoundRequest(SoundRequest request)
 {
-	s_RealInstance->PlaySound(request);
+	s_RealInstance->PlaySoundRequest(request);
 
 	std::cout << "Playing from path: " << request.path << " at volume: " << request.volume << '\n';
 
@@ -160,14 +173,4 @@ void LoggingSoundSystem::PlaySound(SoundRequest request)
 	
 }
 
- void LoggingSoundSystem::StartSound(Mix_Chunk* soundChunk)
- {
-	 s_RealInstance->StartSound(soundChunk);
-	 std::cout << "Starting sound " << '\n';
- }
 
- void LoggingSoundSystem::Update()
- {
-	 s_RealInstance->Update();
-	 
- }

@@ -214,7 +214,7 @@ void CreateScene2(const std::shared_ptr<GameObject>& player, const std::shared_p
 
 void LoadGame()
 {
-	ResourceManager::GetInstance().Init("../Data/");
+	
 
 	//create player
 	float playerStartX = 50;

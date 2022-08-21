@@ -24,16 +24,16 @@ public:
 
 		
 	
-	virtual void PlaySound(SoundRequest request) = 0;
+	virtual void PlaySoundRequest(SoundRequest request) = 0;
 	
 
 	virtual Mix_Chunk* LoadSound(SoundRequest request) = 0;
 
 
-	virtual void StartSound(Mix_Chunk* soundChunk) = 0;
 
 
-	virtual void Update() = 0;
+
+
 	
 
 };
@@ -56,16 +56,16 @@ class SDLSoundSystem final : public SoundSystem
 		~SDLSoundSystem();
 	
 
-		void PlaySound(SoundRequest request) override;
+		void PlaySoundRequest(SoundRequest request) override;
 	
 
 		Mix_Chunk* LoadSound(SoundRequest request)  override;
 	
 
-		void StartSound(Mix_Chunk* soundChunk)override;
+
 	
 
-		void Update() override;
+		void ProcessEventQueue();
 	
 
 
@@ -74,7 +74,11 @@ class SDLSoundSystem final : public SoundSystem
 		
 		std::mutex m_Mutex;
 
+		bool m_QueueIsRunning;
+
+		std::condition_variable  m_ConditionVariable;
 	
+		std::thread m_SoundThread;
 
 };
 
@@ -84,16 +88,16 @@ class NullSoundSystem final : public SoundSystem
 {
 
 
-	virtual void PlaySound(SoundRequest request) override;
+	virtual void PlaySoundRequest(SoundRequest request) override;
 
 
 	virtual Mix_Chunk* LoadSound(SoundRequest request) override;
 
 
-	virtual void StartSound(Mix_Chunk* soundChunk) override ;
+	
 
 
-	virtual void Update() override;
+
 };
 
 class ServiceLocator final
@@ -130,16 +134,16 @@ class LoggingSoundSystem final : public  SoundSystem
 
 	
 
-	virtual void PlaySound(SoundRequest request);
+	virtual void PlaySoundRequest(SoundRequest request);
 
 
 	virtual Mix_Chunk* LoadSound(SoundRequest request);
 
 
-	virtual void StartSound(Mix_Chunk* soundChunk);
+	
 
 
-	virtual void Update();
+	
 
 };
 

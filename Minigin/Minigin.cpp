@@ -50,6 +50,12 @@ namespace dae
 		ResourceManager::GetInstance().Init("../Data/");
 		SceneManager::GetInstance();
 
+#if _DEBUG
+		ServiceLocator::RegisterSoundSystem(new LoggingSoundSystem(new SDLSoundSystem()));
+#else
+		ServiceLocator::RegisterSoundSystem(new SDLSoundSystem());
+#endif
+
 		if (SDL_Init(SDL_INIT_VIDEO) != 0)
 		{
 			throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
@@ -264,17 +270,13 @@ namespace dae
 
 	void dae::Minigin::Run()
 	{
-#if _DEBUG
-		ServiceLocator::RegisterSoundSystem(new LoggingSoundSystem(new SDLSoundSystem()));
-#else
-		ServiceLocator::RegisterSoundSystem(new SDLSoundSystem());
-#endif
 
 
 
 
 
-		auto& mySoundSystem = ServiceLocator::GetSoundSystem();
+
+		
 
 
 		{
@@ -325,7 +327,7 @@ namespace dae
 
 
 
-				mySoundSystem.Update();
+			
 
 			}
 
