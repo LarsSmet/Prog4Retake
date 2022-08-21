@@ -48,8 +48,17 @@ namespace dae
 		ControllerButton button{};
 		int controllerIndex = 0;
 
-		auto operator<=>(const ControllerAction&) const = default;
+		//auto operator<=>(const ControllerAction&) const = default;
 
+		/*	bool operator<(const ControllerAction& other) const
+		{
+			return std::tie(other.state, other.button, other.controllerIndex) < std::tie(other.state, other.button, other.controllerIndex);
+		}*/
+
+		bool operator<(const ControllerAction& lhs) const //https://stackoverflow.com/questions/41911931/operator-overloading-of-c-stl-map-with-custom-classes
+		{
+			return std::tie(state, button, controllerIndex) < std::tie(lhs.state, lhs.button, lhs.controllerIndex);
+		}
 	};
 
 	struct KeyBoardAction 
@@ -57,7 +66,10 @@ namespace dae
 		ActionState state{};
 		SDL_Scancode key{};
 
-		auto operator<=>(const KeyBoardAction&) const = default;
+		bool operator<(const KeyBoardAction& lhs) const
+		{
+			return std::tie(state, key) < std::tie(lhs.state, lhs.key);
+		}
 
 	};
 

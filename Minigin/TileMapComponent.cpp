@@ -64,9 +64,9 @@ namespace dae
 
 		//create nested for loops to intialize each cell
 
-		for (size_t row = 0; row < m_AmountOfRows; ++row)
+		for (int row = 0; row < m_AmountOfRows; ++row)
 		{
-			for (size_t col = 0; col < m_AmountOfCol; ++col)
+			for (int col = 0; col < m_AmountOfCol; ++col)
 			{
 				std::shared_ptr<Cell> cellToAdd = std::make_shared<Cell>();
 
@@ -335,7 +335,7 @@ namespace dae
 			for (int col = 0; col < amountOfCols; ++col)
 			{
 		
-				if (currentElement >= vectorOfCells.size())
+				if (currentElement >= int(vectorOfCells.size()))
 				{
 					vectorOfCells.emplace_back(m_Map[currentIndex]);
 				}

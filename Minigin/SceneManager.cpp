@@ -37,7 +37,7 @@ void dae::SceneManager::GoToNextScene()
 	
 
 	
-	if (m_CurrentScene == m_Scenes.size() -1)
+	if (m_CurrentScene == int(m_Scenes.size() -1))
 	{
 		
 		m_CurrentScene = 0;

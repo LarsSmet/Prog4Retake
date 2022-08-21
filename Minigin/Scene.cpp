@@ -99,9 +99,9 @@ void Scene::LateRemove(const std::shared_ptr<GameObject>& object)
 
 	if (childCount > 0) //if object has children, remove them
 	{
-		for (int i = 0; i < childCount; ++i)
+		for (size_t i = 0; i < childCount; ++i)
 		{
-			object->GetChildAt(i)->Destroy();
+			object->GetChildAt(int(i))->Destroy();
 		}
 	}
 
