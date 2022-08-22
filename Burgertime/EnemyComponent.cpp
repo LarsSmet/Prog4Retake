@@ -10,18 +10,21 @@
 namespace dae
 {
 
-	EnemyComponent::EnemyComponent(GameObject* go, PhysicsComponent* physComp/*, PlayerComponent* playerComp*/) :
+	EnemyComponent::EnemyComponent(GameObject* go, PhysicsComponent* physComp, bool isRecognizer/*, PlayerComponent* playerComp*/) :
 		BaseComponent{ go }, m_pPhysicsComponent{ physComp }, m_pTileMapComponent{nullptr}/*, m_pPlayerComponent{ playerComp }*/, m_HasDoneFirstUpdate{false},
-		m_IsDying{false}
+		m_IsDying{false}, m_IsRecognizer{isRecognizer}, m_Health{}
 
 	{
-		
-
-
-
-		//m_pAIState = new MoveState(m_pPlayerComponent); 
-
-
+		if (m_IsRecognizer)
+		{
+			m_Health = 1;
+			m_Speed = 60;
+		}
+		else
+		{
+			m_Health = 3;
+			m_Speed = 30;
+		}
 	}
 
 	
@@ -264,10 +267,10 @@ namespace dae
 			}
 		}
 
-		float speed = 30;
+		
 
-		newVelocity.x *= speed;
-		newVelocity.y *= speed;
+		newVelocity.x *= m_Speed;
+		newVelocity.y *= m_Speed;
 
 		SetVelocity(newVelocity);
 
@@ -700,7 +703,16 @@ namespace dae
 
 	void EnemyComponent::Kill()
 	{
-		Notify(Event::BlueTankdied);
+		if (m_IsRecognizer)
+		{
+			Notify(Event::RecognizerDied);
+		}
+		else
+		{
+			Notify(Event::BlueTankdied);
+		}
+
+
 
 		auto bullets = SceneManager::GetInstance().GetCurrentScene().GetObjectsOfTag("BULLET");
 
@@ -716,6 +728,16 @@ namespace dae
 
 		m_Observers.clear();
 		m_Owner->Destroy();
+	}
+
+	void EnemyComponent::DealDamage(int dmg)
+	{
+		m_Health -= dmg;
+
+		if (m_Health == 0)
+		{
+			Kill();
+		}
 	}
 
 }

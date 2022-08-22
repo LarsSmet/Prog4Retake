@@ -198,12 +198,12 @@ namespace dae
 						
 
 						
-						m_EnemyComponents[i]->Kill();
+						m_EnemyComponents[i]->DealDamage(1);
 						KillBullet();
 
 						
 						
-						SceneManager::GetInstance().GoToNextScene();
+						//SceneManager::GetInstance().GoToNextScene();
 
 						
 						

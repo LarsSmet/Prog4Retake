@@ -18,7 +18,7 @@ namespace dae
 
 	public:
 
-		EnemyComponent(GameObject* go, PhysicsComponent* physComp/*, PlayerComponent* playerComp*/);
+		EnemyComponent(GameObject* go, PhysicsComponent* physComp, bool isRecognizer/*, PlayerComponent* playerComp*/);
 		~EnemyComponent();
 		virtual void Update(float elapsedSec) override;
 
@@ -39,7 +39,7 @@ namespace dae
 
 		//std::vector<std::shared_ptr<Cell>>& GetCellsToCheck();
 
-
+		void DealDamage(int dmg);
 	private:
 
 		/*AIState* m_State;*/
@@ -72,6 +72,12 @@ namespace dae
 
 		bool m_IsDying;
 
+
+		bool m_IsRecognizer;
+
+		int m_Health;
+
+		float m_Speed;
 
 	};
 

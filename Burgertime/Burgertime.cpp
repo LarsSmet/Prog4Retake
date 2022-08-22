@@ -66,27 +66,24 @@ int main(int, char* [])
 
 
 
-void SpawnEnemyPrefab()
+void SpawnEnemyPrefabLvl0()
 {
-	//if scene 1 -> spawn at that pos
-	//if scene 2 -> spawn at that pos
-	//if scene 3 -> spawn at that pos
-
+	
 
 	float enemyStartX = 16;
-	float enemyStartY = 232; //250
+	float enemyStartY = 232; 
 	auto enemy = std::make_shared<GameObject>(enemyStartX, enemyStartY, "ENEMY");
-	RenderComponent* renderComponent = new RenderComponent{ enemy.get() , false,nullptr }; //maybe change to true if we want the player to rotate
-	renderComponent->SetTexture("Tank.png");
+	RenderComponent* renderComponent = new RenderComponent{ enemy.get() , false,nullptr };
+	renderComponent->SetTexture("BlueTank.png");
 	enemy->AddComponent(renderComponent);
 	auto texture = renderComponent->GetTexture()->GetSDLTexture();
 	SDL_Point enemySize;
 	SDL_QueryTexture(texture, nullptr, nullptr, &enemySize.x, &enemySize.y);
-	Rectf enemyShape{ enemyStartX,enemyStartY + float(enemySize.y), float(enemySize.x),float(enemySize.y) }; //IMPORTANT! ypos needs to be + SIZE because of rect and render having dif starting points
+	Rectf enemyShape{ enemyStartX,enemyStartY + float(enemySize.y), float(enemySize.x),float(enemySize.y) }; // ypos needs to be + SIZE because of rect and render having dif starting points
 	RectColliderComponent* enemyCollider = new RectColliderComponent{ enemy.get(), enemyShape };
 	PhysicsComponent* myEnemyPhysicsComp = new PhysicsComponent{ enemy.get(), enemy->GetTransformComp(), enemyCollider };
 	enemy->AddComponent(myEnemyPhysicsComp);
-	EnemyComponent* myEnemyComp = new EnemyComponent{ enemy.get(), myEnemyPhysicsComp };
+	EnemyComponent* myEnemyComp = new EnemyComponent{ enemy.get(), myEnemyPhysicsComp , false};
 	
 	enemy->AddComponent(myEnemyComp);
 
@@ -105,10 +102,208 @@ void SpawnEnemyPrefab()
 
 	enemyGun->SetParent(enemy);
 
+
+	float recognizerStartX = 416;
+	float recognizerStartY = 532;
+	auto recognizer = std::make_shared<GameObject>(recognizerStartX, recognizerStartY, "ENEMY");
+	 renderComponent = new RenderComponent{ recognizer.get() , false,nullptr };
+	renderComponent->SetTexture("Recognizer.png");
+	recognizer->AddComponent(renderComponent);
+	 texture = renderComponent->GetTexture()->GetSDLTexture();
+	SDL_Point recognizerSize;
+	SDL_QueryTexture(texture, nullptr, nullptr, &recognizerSize.x, &recognizerSize.y);
+	Rectf recognizerShape{ recognizerStartX,recognizerStartY + float(recognizerSize.y), float(recognizerSize.x),float(recognizerSize.y) }; // ypos needs to be + SIZE because of rect and render having dif starting points
+	RectColliderComponent* recognizerCollider = new RectColliderComponent{ recognizer.get(), recognizerShape };
+	PhysicsComponent* myrecognizerPhysicsComp = new PhysicsComponent{ recognizer.get(), recognizer->GetTransformComp(), recognizerCollider };
+	recognizer->AddComponent(myrecognizerPhysicsComp);
+	EnemyComponent* myrecognizerComp = new EnemyComponent{ recognizer.get(), myrecognizerPhysicsComp , true };
+
+	recognizer->AddComponent(myrecognizerComp);
+
+	//create recognizergun
+	float xOffSetrecognizerGun = 10.0f;
+	float yOffSetrecognizerGun = -3.0f;
+	float recognizerGunStartX = recognizerStartX + xOffSetrecognizerGun;
+	float recognizerGunStartY = recognizerStartY + yOffSetrecognizerGun;
+	auto recognizerGun = std::make_shared<GameObject>(recognizerGunStartX, recognizerGunStartY, "ENEMYGUN");
+	SDL_Point* sdlrecognizerGunPoint = new SDL_Point{ 0,0 };
+	renderComponent = new RenderComponent{ recognizerGun.get() , true, sdlrecognizerGunPoint };
+	renderComponent->SetTexture("Gun.png");
+	recognizerGun->AddComponent(renderComponent);
+	GunComponent* myrecognizerGunComponent = new GunComponent{ recognizerGun.get(), nullptr, myrecognizerComp };
+	recognizerGun->AddComponent(myrecognizerGunComponent);
+
+	recognizerGun->SetParent(recognizer);
+
 	auto& scene = SceneManager::GetInstance().GetCurrentScene();
 
 	scene.Add(enemy);
 	scene.Add(enemyGun);
+
+	scene.Add(recognizer);
+	scene.Add(recognizerGun);
+
+
+
+}
+
+void SpawnEnemyPrefabLvl1()
+{
+
+
+	float enemyStartX = 16;
+	float enemyStartY = 432;
+	auto enemy = std::make_shared<GameObject>(enemyStartX, enemyStartY, "ENEMY");
+	RenderComponent* renderComponent = new RenderComponent{ enemy.get() , false,nullptr };
+	renderComponent->SetTexture("BlueTank.png");
+	enemy->AddComponent(renderComponent);
+	auto texture = renderComponent->GetTexture()->GetSDLTexture();
+	SDL_Point enemySize;
+	SDL_QueryTexture(texture, nullptr, nullptr, &enemySize.x, &enemySize.y);
+	Rectf enemyShape{ enemyStartX,enemyStartY + float(enemySize.y), float(enemySize.x),float(enemySize.y) }; // ypos needs to be + SIZE because of rect and render having dif starting points
+	RectColliderComponent* enemyCollider = new RectColliderComponent{ enemy.get(), enemyShape };
+	PhysicsComponent* myEnemyPhysicsComp = new PhysicsComponent{ enemy.get(), enemy->GetTransformComp(), enemyCollider };
+	enemy->AddComponent(myEnemyPhysicsComp);
+	EnemyComponent* myEnemyComp = new EnemyComponent{ enemy.get(), myEnemyPhysicsComp , false };
+
+	enemy->AddComponent(myEnemyComp);
+
+	//create enemygun
+	float xOffSetEnemyGun = 10.0f;
+	float yOffSetEnemyGun = -3.0f;
+	float enemyGunStartX = enemyStartX + xOffSetEnemyGun;
+	float enemyGunStartY = enemyStartY + yOffSetEnemyGun;
+	auto enemyGun = std::make_shared<GameObject>(enemyGunStartX, enemyGunStartY, "ENEMYGUN");
+	SDL_Point* sdlEnemyGunPoint = new SDL_Point{ 0,0 };
+	renderComponent = new RenderComponent{ enemyGun.get() , true, sdlEnemyGunPoint };
+	renderComponent->SetTexture("Gun.png");
+	enemyGun->AddComponent(renderComponent);
+	GunComponent* myEnemyGunComponent = new GunComponent{ enemyGun.get(), nullptr, myEnemyComp };
+	enemyGun->AddComponent(myEnemyGunComponent);
+
+	enemyGun->SetParent(enemy);
+
+
+	float recognizerStartX = 416;
+	float recognizerStartY = 232;
+	auto recognizer = std::make_shared<GameObject>(recognizerStartX, recognizerStartY, "ENEMY");
+	renderComponent = new RenderComponent{ recognizer.get() , false,nullptr };
+	renderComponent->SetTexture("Recognizer.png");
+	recognizer->AddComponent(renderComponent);
+	texture = renderComponent->GetTexture()->GetSDLTexture();
+	SDL_Point recognizerSize;
+	SDL_QueryTexture(texture, nullptr, nullptr, &recognizerSize.x, &recognizerSize.y);
+	Rectf recognizerShape{ recognizerStartX,recognizerStartY + float(recognizerSize.y), float(recognizerSize.x),float(recognizerSize.y) }; // ypos needs to be + SIZE because of rect and render having dif starting points
+	RectColliderComponent* recognizerCollider = new RectColliderComponent{ recognizer.get(), recognizerShape };
+	PhysicsComponent* myrecognizerPhysicsComp = new PhysicsComponent{ recognizer.get(), recognizer->GetTransformComp(), recognizerCollider };
+	recognizer->AddComponent(myrecognizerPhysicsComp);
+	EnemyComponent* myrecognizerComp = new EnemyComponent{ recognizer.get(), myrecognizerPhysicsComp , true };
+
+	recognizer->AddComponent(myrecognizerComp);
+
+	//create recognizergun
+	float xOffSetrecognizerGun = 10.0f;
+	float yOffSetrecognizerGun = -3.0f;
+	float recognizerGunStartX = recognizerStartX + xOffSetrecognizerGun;
+	float recognizerGunStartY = recognizerStartY + yOffSetrecognizerGun;
+	auto recognizerGun = std::make_shared<GameObject>(recognizerGunStartX, recognizerGunStartY, "ENEMYGUN");
+	SDL_Point* sdlrecognizerGunPoint = new SDL_Point{ 0,0 };
+	renderComponent = new RenderComponent{ recognizerGun.get() , true, sdlrecognizerGunPoint };
+	renderComponent->SetTexture("Gun.png");
+	recognizerGun->AddComponent(renderComponent);
+	GunComponent* myrecognizerGunComponent = new GunComponent{ recognizerGun.get(), nullptr, myrecognizerComp };
+	recognizerGun->AddComponent(myrecognizerGunComponent);
+
+	recognizerGun->SetParent(recognizer);
+
+	auto& scene = SceneManager::GetInstance().GetCurrentScene();
+
+	scene.Add(enemy);
+	scene.Add(enemyGun);
+
+	scene.Add(recognizer);
+	scene.Add(recognizerGun);
+
+
+
+}
+
+void SpawnEnemyPrefabLvl2()
+{
+
+
+	float enemyStartX = 216;
+	float enemyStartY = 232;
+	auto enemy = std::make_shared<GameObject>(enemyStartX, enemyStartY, "ENEMY");
+	RenderComponent* renderComponent = new RenderComponent{ enemy.get() , false,nullptr };
+	renderComponent->SetTexture("BlueTank.png");
+	enemy->AddComponent(renderComponent);
+	auto texture = renderComponent->GetTexture()->GetSDLTexture();
+	SDL_Point enemySize;
+	SDL_QueryTexture(texture, nullptr, nullptr, &enemySize.x, &enemySize.y);
+	Rectf enemyShape{ enemyStartX,enemyStartY + float(enemySize.y), float(enemySize.x),float(enemySize.y) }; // ypos needs to be + SIZE because of rect and render having dif starting points
+	RectColliderComponent* enemyCollider = new RectColliderComponent{ enemy.get(), enemyShape };
+	PhysicsComponent* myEnemyPhysicsComp = new PhysicsComponent{ enemy.get(), enemy->GetTransformComp(), enemyCollider };
+	enemy->AddComponent(myEnemyPhysicsComp);
+	EnemyComponent* myEnemyComp = new EnemyComponent{ enemy.get(), myEnemyPhysicsComp , false };
+
+	enemy->AddComponent(myEnemyComp);
+
+	//create enemygun
+	float xOffSetEnemyGun = 10.0f;
+	float yOffSetEnemyGun = -3.0f;
+	float enemyGunStartX = enemyStartX + xOffSetEnemyGun;
+	float enemyGunStartY = enemyStartY + yOffSetEnemyGun;
+	auto enemyGun = std::make_shared<GameObject>(enemyGunStartX, enemyGunStartY, "ENEMYGUN");
+	SDL_Point* sdlEnemyGunPoint = new SDL_Point{ 0,0 };
+	renderComponent = new RenderComponent{ enemyGun.get() , true, sdlEnemyGunPoint };
+	renderComponent->SetTexture("Gun.png");
+	enemyGun->AddComponent(renderComponent);
+	GunComponent* myEnemyGunComponent = new GunComponent{ enemyGun.get(), nullptr, myEnemyComp };
+	enemyGun->AddComponent(myEnemyGunComponent);
+
+	enemyGun->SetParent(enemy);
+
+
+	float recognizerStartX = 16;
+	float recognizerStartY = 532;
+	auto recognizer = std::make_shared<GameObject>(recognizerStartX, recognizerStartY, "ENEMY");
+	renderComponent = new RenderComponent{ recognizer.get() , false,nullptr };
+	renderComponent->SetTexture("Recognizer.png");
+	recognizer->AddComponent(renderComponent);
+	texture = renderComponent->GetTexture()->GetSDLTexture();
+	SDL_Point recognizerSize;
+	SDL_QueryTexture(texture, nullptr, nullptr, &recognizerSize.x, &recognizerSize.y);
+	Rectf recognizerShape{ recognizerStartX,recognizerStartY + float(recognizerSize.y), float(recognizerSize.x),float(recognizerSize.y) }; // ypos needs to be + SIZE because of rect and render having dif starting points
+	RectColliderComponent* recognizerCollider = new RectColliderComponent{ recognizer.get(), recognizerShape };
+	PhysicsComponent* myrecognizerPhysicsComp = new PhysicsComponent{ recognizer.get(), recognizer->GetTransformComp(), recognizerCollider };
+	recognizer->AddComponent(myrecognizerPhysicsComp);
+	EnemyComponent* myrecognizerComp = new EnemyComponent{ recognizer.get(), myrecognizerPhysicsComp , true };
+
+	recognizer->AddComponent(myrecognizerComp);
+
+	//create recognizergun
+	float xOffSetrecognizerGun = 10.0f;
+	float yOffSetrecognizerGun = -3.0f;
+	float recognizerGunStartX = recognizerStartX + xOffSetrecognizerGun;
+	float recognizerGunStartY = recognizerStartY + yOffSetrecognizerGun;
+	auto recognizerGun = std::make_shared<GameObject>(recognizerGunStartX, recognizerGunStartY, "ENEMYGUN");
+	SDL_Point* sdlrecognizerGunPoint = new SDL_Point{ 0,0 };
+	renderComponent = new RenderComponent{ recognizerGun.get() , true, sdlrecognizerGunPoint };
+	renderComponent->SetTexture("Gun.png");
+	recognizerGun->AddComponent(renderComponent);
+	GunComponent* myrecognizerGunComponent = new GunComponent{ recognizerGun.get(), nullptr, myrecognizerComp };
+	recognizerGun->AddComponent(myrecognizerGunComponent);
+
+	recognizerGun->SetParent(recognizer);
+
+	auto& scene = SceneManager::GetInstance().GetCurrentScene();
+
+	scene.Add(enemy);
+	scene.Add(enemyGun);
+
+	scene.Add(recognizer);
+	scene.Add(recognizerGun);
 
 
 
@@ -133,7 +328,7 @@ void CreateScene(const std::shared_ptr<GameObject>& player, const std::shared_pt
 	scene.Add(go);
 	scene.AddTileMap(go);
 
-	SpawnEnemyPrefab();
+	SpawnEnemyPrefabLvl0();
 
 
 
@@ -141,7 +336,7 @@ void CreateScene(const std::shared_ptr<GameObject>& player, const std::shared_pt
 	scene.Add(player); 
 	scene.Add(gun);
 	scene.Add(score);
-	scene.AddPrefabToReload(SpawnEnemyPrefab);
+	scene.AddPrefabToReload(SpawnEnemyPrefabLvl0);
 
 	//EntityManager& entityManager = EntityManager::GetInstance();
 
@@ -177,7 +372,7 @@ void CreateScene1(const std::shared_ptr<GameObject>& player, const std::shared_p
 
 	scene.Add(score);
 
-	scene.AddPrefabToReload(SpawnEnemyPrefab);
+	scene.AddPrefabToReload(SpawnEnemyPrefabLvl1);
 }
 
 void CreateScene2(const std::shared_ptr<GameObject>& player, const std::shared_ptr<GameObject>& gun, const std::shared_ptr<GameObject>& score)
@@ -206,7 +401,7 @@ void CreateScene2(const std::shared_ptr<GameObject>& player, const std::shared_p
 
 	scene.Add(score);
 
-	scene.AddPrefabToReload(SpawnEnemyPrefab);
+	scene.AddPrefabToReload(SpawnEnemyPrefabLvl2);
 }
 
 
@@ -219,7 +414,7 @@ void LoadGame()
 	float playerStartY = 450; //250
 	auto player = std::make_shared<GameObject>(playerStartX, playerStartY, "PLAYER");
 	RenderComponent* renderComponent = new RenderComponent{ player.get() , false,nullptr }; //maybe change to true if we want the player to rotate
-	renderComponent->SetTexture("Tank.png");
+	renderComponent->SetTexture("PlayerTank.png");
 	player->AddComponent(renderComponent);
 	auto texture = renderComponent->GetTexture()->GetSDLTexture();
 	SDL_Point size;
