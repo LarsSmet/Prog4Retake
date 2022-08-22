@@ -13,7 +13,8 @@ namespace dae
 
 	ScoreComponent::~ScoreComponent()
 	{
-
+		delete m_pTextComponent;
+		m_pTextComponent = nullptr;
 	}
 
 	void ScoreComponent::Update(float elapsedSec)
