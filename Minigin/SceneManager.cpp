@@ -35,7 +35,7 @@ int dae::SceneManager::GetCurrentSceneIndex()
 void dae::SceneManager::GoToNextScene()
 {
 	
-
+	
 	
 	if (m_CurrentScene == int(m_Scenes.size() -1))
 	{
@@ -47,6 +47,8 @@ void dae::SceneManager::GoToNextScene()
 		++m_CurrentScene;
 	}
 
+
+	//still have to clear scene from old prefabs before loading
 	m_Scenes[m_CurrentScene]->LoadPrefabs();
 
 

@@ -120,5 +120,29 @@ namespace dae
 
 	};
 
+	class SkipLevelCommand : public Command
+	{
+
+	public:
+
+
+		SkipLevelCommand() 
+		{
+
+		};
+		~SkipLevelCommand() {};
+
+		void Execute()
+		{
+			SceneManager::GetInstance().GoToNextScene();
+			
+		}
+
+	private:
+
+	
+
+	};
+
 
 }

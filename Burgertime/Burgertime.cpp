@@ -495,6 +495,12 @@ void LoadGame()
 	std::shared_ptr<RotateGunCommand> rotate = std::make_shared<RotateGunCommand>(myGunComponent);
 	inputManager.BindKey(rotateGunControllerButton, rotate);
 
+	//other commands
+	ControllerAction skipLevelControllerButton{ ActionState::Down, dae::ControllerButton::Start,0 };
+	std::shared_ptr<SkipLevelCommand> skipLevel = std::make_shared<SkipLevelCommand>();
+	inputManager.BindKey(skipLevelControllerButton, skipLevel);
+
+	
 
 	//KEYBOARD
 
@@ -520,7 +526,7 @@ void LoadGame()
 
 	KeyBoardAction rotateGunKeyKeyBoard{ ActionState::Hold, SDL_SCANCODE_R };
 	inputManager.BindKey(rotateGunKeyKeyBoard, rotate);
-
+;
 
 
 	CreateScene(player, gun, scoreTracker, gameMode);
