@@ -29,7 +29,7 @@ namespace dae
 		void SetVelocity(Velocity velocity);
 
 	
-		
+		void SetEnemiesAreChecked(bool check);
 
 
 	private:
@@ -57,6 +57,9 @@ namespace dae
 		std::vector<PlayerComponent*> m_PlayerComponents;
 		std::vector<EnemyComponent*> m_EnemyComponents;
 
+		bool m_EnemiesAreChecked;
+
+		void CheckCurrentEnemies();
 
 	};
 

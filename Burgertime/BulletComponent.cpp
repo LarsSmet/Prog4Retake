@@ -11,7 +11,7 @@
 namespace dae
 {
 	BulletComponent::BulletComponent(GameObject* go, PhysicsComponent* physicsComp, TileMapComponent* tileMap, GunOwner gunOwner) : BaseComponent{ go },
-		m_pPhysicsComponent{ physicsComp }, m_pTileMapComponent{ tileMap }, m_GunOwner{gunOwner}
+		m_pPhysicsComponent{ physicsComp }, m_pTileMapComponent{ tileMap }, m_GunOwner{gunOwner}, m_EnemiesAreChecked{false}
 	{
 
 	
@@ -20,28 +20,7 @@ namespace dae
 		auto bulletPos = m_pPhysicsComponent->GetTransformComp()->GetPosition();
 		m_CurrentCell = m_pTileMapComponent->GetCell(Point2f{ bulletPos.x, bulletPos.y });
 
-		auto players = SceneManager::GetInstance().GetCurrentScene().GetObjectsOfTag("PLAYER");
-		auto enemies = SceneManager::GetInstance().GetCurrentScene().GetObjectsOfTag("ENEMY");
-
-		for (auto player : players)
-		{
-			auto playerComp = player->GetComponent<PlayerComponent>();
-			if (playerComp != nullptr)
-			{
-				m_PlayerComponents.emplace_back(playerComp);
-				
-			}
-		}
-
-		for ( auto enemy : enemies)
-		{
-			auto enemyComp = enemy->GetComponent<EnemyComponent>();
-			if (enemyComp != nullptr)
-			{
-				m_EnemyComponents.emplace_back(enemyComp);
-
-			}
-		}
+		CheckCurrentEnemies();
 
 
 	}
@@ -53,6 +32,12 @@ namespace dae
 	void BulletComponent::Update(float elapsedSec)
 	{
 		elapsedSec;
+
+		if (m_EnemiesAreChecked)
+		{
+			CheckCurrentEnemies();
+		}
+
 		HandleDamage();
 		HandleBounce();
 	
@@ -71,6 +56,15 @@ namespace dae
 		std::cout << m_Velocity.y << '\n';
 		m_pPhysicsComponent->SetVelocity(m_Velocity);
 	}
+
+	void BulletComponent::SetEnemiesAreChecked(bool check)
+	{
+		m_EnemiesAreChecked = check;
+
+
+	}
+
+	
 
 	void BulletComponent::HandleBounce()
 	{
@@ -203,9 +197,9 @@ namespace dae
 						//std::cout << "POG";
 						
 
-						KillBullet();
-						m_EnemyComponents[i]->Kill();
 						
+						m_EnemyComponents[i]->Kill();
+						KillBullet();
 
 						
 						
@@ -235,63 +229,46 @@ namespace dae
 		
 	}
 
+	
+
 	void BulletComponent::KillBullet()
 	{
 		m_Owner->Destroy();
 		
 	}
 
-	//void BulletComponent::HandleBounce()
-	//{
-	//	auto colMap = m_pTileMapComp->GetCollisionMap();
+	
+	void BulletComponent::CheckCurrentEnemies()
+	{
+		m_PlayerComponents.clear();
+		m_EnemyComponents.clear();
 
-	//	for (size_t i = 0; i < colMap.size(); i++)
-	//	{
-	//		
-	//			Velocity velocityAfterBounce = m_Velocity;
-	//			
-	//			//check if top hit or bot hit
-	//			//get hitinfo from hit, check which side is hit then adjust velocity accordingly
-	//		
+		auto players = SceneManager::GetInstance().GetCurrentScene().GetObjectsOfTag("PLAYER");
+		auto enemies = SceneManager::GetInstance().GetCurrentScene().GetObjectsOfTag("ENEMY");
 
-	//			auto info = m_pPhysicsComp->GetColliderComponent()->OnCollision((colMap[i]->GetRectCollider()));
-	//			if (!info.hit)
-	//			{
-	//				
-	//				continue;
-	//			}
-	//	
-	//			if (info.topColLeftIsHit || info.topColRightIsHit)
-	//			{
-	//				velocityAfterBounce.y *= -1;
-	//			}
-	//			else if (info.botColLeftIsHit || info.botColRightIsHit)
-	//			{
-	//				velocityAfterBounce.y *= -1;
-	//			}
-	//			else if (info.leftColBotIsHit || info.leftColTopIsHit)
-	//			{
-	//				velocityAfterBounce.x *= -1;
-	//			}
-	//			else if (info.rightColBotIsHit || info.rightColTopIsHit)
-	//			{
-	//				velocityAfterBounce.x *= -1;
-	//			}
+		for (auto player : players)
+		{
+			auto playerComp = player->GetComponent<PlayerComponent>();
+			if (playerComp != nullptr)
+			{
+				m_PlayerComponents.emplace_back(playerComp);
 
-	//			SetVelocity(velocityAfterBounce);
-	//			++m_BounceCounter;
-	//		
-	//		
+			}
+		}
 
-	//	}
-	//	if (m_BounceCounter >= 4)
-	//	{
-	//		std::cout << "KILL";
-	//		m_Owner->~GameObject();
-	//	}
-	//	
-	//
+		for (auto enemy : enemies)
+		{
+			auto enemyComp = enemy->GetComponent<EnemyComponent>();
+			if (enemyComp != nullptr)
+			{
+				m_EnemyComponents.emplace_back(enemyComp);
 
-	//}
+			}
+		}
+
+
+		m_EnemiesAreChecked = true;
+
+	}
 
 }

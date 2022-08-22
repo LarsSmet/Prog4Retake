@@ -28,7 +28,7 @@ namespace dae
 		switch (event)
 		{
 		case Event::PlayerDied:
-			//ChangeScore(0);
+			//ChangeScore(-30);
 			break;
 		case Event::BlueTankdied:
 			ChangeScore(100);

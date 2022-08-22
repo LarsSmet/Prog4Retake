@@ -11,7 +11,9 @@ namespace dae
 {
 
 	EnemyComponent::EnemyComponent(GameObject* go, PhysicsComponent* physComp/*, PlayerComponent* playerComp*/) :
-		BaseComponent{ go }, m_pPhysicsComponent{ physComp }, m_pTileMapComponent{nullptr}/*, m_pPlayerComponent{ playerComp }*/, m_HasDoneFirstUpdate{false}
+		BaseComponent{ go }, m_pPhysicsComponent{ physComp }, m_pTileMapComponent{nullptr}/*, m_pPlayerComponent{ playerComp }*/, m_HasDoneFirstUpdate{false},
+		m_IsDying{false}
+
 	{
 		
 
@@ -699,6 +701,19 @@ namespace dae
 	void EnemyComponent::Kill()
 	{
 		Notify(Event::BlueTankdied);
+
+		auto bullets = SceneManager::GetInstance().GetCurrentScene().GetObjectsOfTag("BULLET");
+
+		for (const auto& bullet : bullets)
+		{
+			auto bulletComp = bullet->GetComponent<BulletComponent>();
+
+			if (bulletComp != nullptr)
+			{
+				bulletComp->SetEnemiesAreChecked(false);
+			}
+		}
+
 		m_Observers.clear();
 		m_Owner->Destroy();
 	}

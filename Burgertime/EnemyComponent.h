@@ -70,6 +70,8 @@ namespace dae
 
 		void OnFirstUpdate();
 
+		bool m_IsDying;
+
 
 	};
 

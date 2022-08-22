@@ -127,7 +127,7 @@ void CreateScene(const std::shared_ptr<GameObject>& player, const std::shared_pt
 	float tileMapStartX = 0;
 	float tilemapStartY = 200;
 	auto go = std::make_shared<GameObject>(tileMapStartX, tilemapStartY, "TILEMAP");
-	TileMapComponent* tileMapComponent = new TileMapComponent{ go.get(), "../Data/TileMap3.txt" };
+	TileMapComponent* tileMapComponent = new TileMapComponent{ go.get(), "../Data/Level0.txt" };
 	tileMapComponent->ConvertFileToMap();
 	go->AddComponent(tileMapComponent);
 	scene.Add(go);
@@ -151,7 +151,7 @@ void CreateScene(const std::shared_ptr<GameObject>& player, const std::shared_pt
 }
 
 
-void CreateScene2(const std::shared_ptr<GameObject>& player, const std::shared_ptr<GameObject>& gun, const std::shared_ptr<GameObject>& score)
+void CreateScene1(const std::shared_ptr<GameObject>& player, const std::shared_ptr<GameObject>& gun, const std::shared_ptr<GameObject>& score)
 {
 
 
@@ -163,7 +163,7 @@ void CreateScene2(const std::shared_ptr<GameObject>& player, const std::shared_p
 	float tileMapStartX = 0;
 	float tilemapStartY = 200;
 	auto go = std::make_shared<GameObject>(tileMapStartX, tilemapStartY, "TILEMAP");
-	TileMapComponent* tileMapComponent = new TileMapComponent{ go.get(), "../Data/TileMap3.txt" };
+	TileMapComponent* tileMapComponent = new TileMapComponent{ go.get(), "../Data/Level1.txt" };
 	tileMapComponent->ConvertFileToMap();
 	go->AddComponent(tileMapComponent);
 	scene.Add(go);
@@ -180,6 +180,34 @@ void CreateScene2(const std::shared_ptr<GameObject>& player, const std::shared_p
 	scene.AddPrefabToReload(SpawnEnemyPrefab);
 }
 
+void CreateScene2(const std::shared_ptr<GameObject>& player, const std::shared_ptr<GameObject>& gun, const std::shared_ptr<GameObject>& score)
+{
+
+
+	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+
+
+
+	//create tilemap
+	float tileMapStartX = 0;
+	float tilemapStartY = 200;
+	auto go = std::make_shared<GameObject>(tileMapStartX, tilemapStartY, "TILEMAP");
+	TileMapComponent* tileMapComponent = new TileMapComponent{ go.get(), "../Data/Level2.txt" };
+	tileMapComponent->ConvertFileToMap();
+	go->AddComponent(tileMapComponent);
+	scene.Add(go);
+	scene.AddTileMap(go);
+
+
+
+
+	scene.Add(player);
+	scene.Add(gun);
+
+	scene.Add(score);
+
+	scene.AddPrefabToReload(SpawnEnemyPrefab);
+}
 
 
 void LoadGame()
@@ -294,13 +322,10 @@ void LoadGame()
 
 
 	CreateScene(player, gun, scoreTracker);
+	CreateScene1(player, gun, scoreTracker);
 	CreateScene2(player, gun, scoreTracker);
 
-	
-
-	//CreateScene2();
 
 
-	//CreateScene2();
 
 }
