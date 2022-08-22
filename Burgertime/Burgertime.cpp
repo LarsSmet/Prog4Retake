@@ -37,6 +37,7 @@
 //#include "GameMode.h"
 //#include "EnemyComponent.h"
 #include "EntityManager.h"
+#include "ScoreComponent.h"
 
 
 using namespace dae;
@@ -86,6 +87,7 @@ void SpawnEnemyPrefab()
 	PhysicsComponent* myEnemyPhysicsComp = new PhysicsComponent{ enemy.get(), enemy->GetTransformComp(), enemyCollider };
 	enemy->AddComponent(myEnemyPhysicsComp);
 	EnemyComponent* myEnemyComp = new EnemyComponent{ enemy.get(), myEnemyPhysicsComp };
+	
 	enemy->AddComponent(myEnemyComp);
 
 	//create enemygun
@@ -113,7 +115,7 @@ void SpawnEnemyPrefab()
 }
 
 
-void CreateScene(const std::shared_ptr<GameObject>& player, const std::shared_ptr<GameObject>& gun)
+void CreateScene(const std::shared_ptr<GameObject>& player, const std::shared_ptr<GameObject>& gun, const std::shared_ptr<GameObject>& score)
 {
 
 
@@ -138,6 +140,7 @@ void CreateScene(const std::shared_ptr<GameObject>& player, const std::shared_pt
 
 	scene.Add(player); 
 	scene.Add(gun);
+	scene.Add(score);
 	scene.AddPrefabToReload(SpawnEnemyPrefab);
 
 	//EntityManager& entityManager = EntityManager::GetInstance();
@@ -148,7 +151,7 @@ void CreateScene(const std::shared_ptr<GameObject>& player, const std::shared_pt
 }
 
 
-void CreateScene2(const std::shared_ptr<GameObject>& player, const std::shared_ptr<GameObject>& gun)
+void CreateScene2(const std::shared_ptr<GameObject>& player, const std::shared_ptr<GameObject>& gun, const std::shared_ptr<GameObject>& score)
 {
 
 
@@ -167,46 +170,13 @@ void CreateScene2(const std::shared_ptr<GameObject>& player, const std::shared_p
 	scene.AddTileMap(go);
 
 
-	//float enemyStartX = 16;
-	//float enemyStartY =450; //250
-	//auto enemy = std::make_shared<GameObject>(enemyStartX, enemyStartY, "ENEMY");
-	//RenderComponent* renderComponent = new RenderComponent{ enemy.get() , false,nullptr }; //maybe change to true if we want the player to rotate
-	//renderComponent->SetTexture("Tank.png");
-	//enemy->AddComponent(renderComponent);
-	//auto texture = renderComponent->GetTexture()->GetSDLTexture();
-	//SDL_Point enemySize;
-	//SDL_QueryTexture(texture, nullptr, nullptr, &enemySize.x, &enemySize.y);
-	//Rectf enemyShape{ enemyStartX,enemyStartY + float(enemySize.y), float(enemySize.x),float(enemySize.y) }; //IMPORTANT! ypos needs to be + SIZE because of rect and render having dif starting points
-	//RectColliderComponent* enemyCollider = new RectColliderComponent{ enemy.get(), enemyShape };
-	//PhysicsComponent* myEnemyPhysicsComp = new PhysicsComponent{ enemy.get(), enemy->GetTransformComp(), enemyCollider };
-	//enemy->AddComponent(myEnemyPhysicsComp);
-	//EnemyComponent* myEnemyComp = new EnemyComponent{ enemy.get(), myEnemyPhysicsComp };
-	//enemy->AddComponent(myEnemyComp);
 
-	////create enemygun
-	//float xOffSetEnemyGun = 10.0f;
-	//float yOffSetEnemyGun = -3.0f;
-	//float enemyGunStartX = enemyStartX + xOffSetEnemyGun;
-	//float enemyGunStartY = enemyStartY + yOffSetEnemyGun;
-	//auto enemyGun = std::make_shared<GameObject>(enemyGunStartX, enemyGunStartY, "ENEMYGUN");
-	//SDL_Point* sdlEnemyGunPoint = new SDL_Point{ 0,0 };
-	//renderComponent = new RenderComponent{ enemyGun.get() , true, sdlEnemyGunPoint };
-	//renderComponent->SetTexture("Gun.png");
-	//enemyGun->AddComponent(renderComponent);
-	//GunComponent* myEnemyGunComponent = new GunComponent{ enemyGun.get(),  nullptr, myEnemyComp };
-	//enemyGun->AddComponent(myEnemyGunComponent);
-
-	//enemy->AddChild(enemyGun);
 
 	scene.Add(player);
 	scene.Add(gun);
-	//scene.Add(enemy);
-	//scene.Add(enemyGun);
 
-	//EntityManager& entityManager = EntityManager::GetInstance();
+	scene.Add(score);
 
-	//entityManager.AddPlayer(player);
-	//entityManager.AddEnemy(enemy);
 	scene.AddPrefabToReload(SpawnEnemyPrefab);
 }
 
@@ -242,13 +212,28 @@ void LoadGame()
 	renderComponent = new RenderComponent{ gun.get() , true, sdlGunPoint };
 	renderComponent->SetTexture("Gun.png");
 	gun->AddComponent(renderComponent);
-
-	
-
 	GunComponent* myGunComponent = new GunComponent{ gun.get(), myPlayerComp, nullptr};
 	gun->AddComponent(myGunComponent);
 
 	gun->SetParent(player);
+
+
+	float scoreTrackerX = 140;
+	float scoreTrackerY = 20;
+	auto scoreTracker = std::make_shared<GameObject>(scoreTrackerX, scoreTrackerY, "OBSERVER");
+
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
+	std::string text = "Score: ";
+	renderComponent = new RenderComponent{ scoreTracker.get() , false, nullptr };
+
+	SDL_Color white{ 255,255,255 };
+	TextComponent* textComp = new TextComponent{scoreTracker.get(), text, font, renderComponent, white };
+	ScoreComponent* scoreComp = new ScoreComponent{ scoreTracker.get(), textComp };
+
+
+	scoreTracker->AddComponent(renderComponent);
+	//scoreTracker->AddComponent(textComp);
+	scoreTracker->AddComponent(scoreComp);
 
 
 	//commands
@@ -308,8 +293,8 @@ void LoadGame()
 
 
 
-	CreateScene(player, gun);
-	CreateScene2(player, gun);
+	CreateScene(player, gun, scoreTracker);
+	CreateScene2(player, gun, scoreTracker);
 
 	
 

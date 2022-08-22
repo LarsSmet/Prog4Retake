@@ -19,26 +19,26 @@ namespace dae
 		{
 			return;
 		}
+		event;
+
+		//switch (event)
+		//{
+		//case Event::PlayerDied:
 
 
-		switch (event)
-		{
-		case Event::PlayerDied:
+		//	break;
+		//case Event::EnemyDied:
 
+		//	//m_pTextComp->SetText("Points: " + std::to_string(m_PlayerComp->GetPoints()));
 
-			break;
-		case Event::EnemyDied:
+		//	break;
+		//case Event::BurgerDropped:
 
-			//m_pTextComp->SetText("Points: " + std::to_string(m_PlayerComp->GetPoints()));
+		//	//m_pTextComp->SetText("Points: " + std::to_string(m_PlayerComp->GetPoints()));
 
-			break;
-		case Event::BurgerDropped:
+		//	break;
 
-			//m_pTextComp->SetText("Points: " + std::to_string(m_PlayerComp->GetPoints()));
-
-			break;
-
-		}
+		//}
 
 	}
 

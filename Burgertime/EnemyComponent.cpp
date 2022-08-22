@@ -3,6 +3,8 @@
 #include <glm/gtx/norm.hpp>
 #include <utils.cpp>
 #include "GunComponent.h"
+#include "ScoreComponent.h"
+
 
 
 namespace dae
@@ -130,6 +132,18 @@ namespace dae
 		m_CurrentCell = m_pTileMapComponent->GetCell(Point2f{ enemyPos.x, enemyPos.y });
 
 		auto players = SceneManager::GetInstance().GetCurrentScene().GetObjectsOfTag("PLAYER");
+		auto observers = SceneManager::GetInstance().GetCurrentScene().GetObjectsOfTag("OBSERVER");
+
+		for (const auto& observer : observers)
+		{
+			auto observerComp = observer->GetComponent<ScoreComponent>();
+			if (observerComp != nullptr)
+			{
+				m_Observers.emplace_back(observerComp);
+			}
+
+			
+		}
 
 		//TODO: Replace this with vec that takes closest player and change AI to use vec of GO instead of comp
 
@@ -684,6 +698,8 @@ namespace dae
 
 	void EnemyComponent::Kill()
 	{
+		Notify(Event::BlueTankdied);
+		m_Observers.clear();
 		m_Owner->Destroy();
 	}
 

@@ -10,12 +10,14 @@ namespace dae
 
 	class TextComponent;
 
-	class ScoreComponent final : public BaseComponent, Observer
+	class ScoreComponent final : public BaseComponent, public Observer
 	{
 
 	public:
 		ScoreComponent(GameObject* go, TextComponent* display);
 		~ScoreComponent();
+
+		void Update(float elapsedSec);
 
 		void onNotify(Event event) override;
 

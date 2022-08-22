@@ -2,8 +2,9 @@
 enum class Event
 {
 	PlayerDied,
-	EnemyDied,
-	BurgerDropped
+	BlueTankdied,
+	RecognizerDied
+	
 
 };
 

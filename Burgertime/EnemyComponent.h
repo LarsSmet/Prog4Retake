@@ -4,7 +4,7 @@
 #include <TileMapComponent.h>
 #include "PlayerComponent.h"
 #include "AIStates.h"
-
+#include "Subject.h"
 
 
 namespace dae
@@ -13,7 +13,7 @@ namespace dae
 	class GunComponent;
 	
 
-	class EnemyComponent : public BaseComponent
+	class EnemyComponent : public BaseComponent, Subject
 	{
 
 	public:

@@ -16,7 +16,7 @@ protected:
 
 
 
-private:
+protected:
 
 	
 	//i expect that there won't be a lot of observers per subject

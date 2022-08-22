@@ -7,7 +7,7 @@ namespace dae
 
 	ScoreComponent::ScoreComponent(GameObject* go, TextComponent* display) : BaseComponent{ go }, m_pTextComponent{display}, m_Score{0}
 	{
-
+		m_pTextComponent->SetText(std::to_string(m_Score));
 	}
 
 
@@ -16,19 +16,29 @@ namespace dae
 
 	}
 
+	void ScoreComponent::Update(float elapsedSec)
+	{
+		
+		elapsedSec;
+	}
+
 	void ScoreComponent::onNotify(Event event)
 	{
 
 		switch (event)
 		{
 		case Event::PlayerDied:
+			//ChangeScore(0);
 			break;
-		case Event::EnemyDied:
+		case Event::BlueTankdied:
+			ChangeScore(100);
 			break;
-	
-		default:
+		case Event::RecognizerDied:
+			ChangeScore(250);
 			break;
+
 		}
+		
 
 	}
 

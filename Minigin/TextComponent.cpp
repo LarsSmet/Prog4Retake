@@ -65,7 +65,7 @@ std::string& dae::TextComponent::GetText()
 
 void dae::TextComponent::SetText(std::string text)
 {
-
+	//text;
 	m_Text = text;
 
 	
