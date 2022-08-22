@@ -7,7 +7,7 @@
 
 namespace dae
 {
-	GunComponent::GunComponent(GameObject* go, PlayerComponent* playerComp, EnemyComponent* enemyComp ): BaseComponent{ go }, m_CurrentCooldown{0}, m_MaxCooldown{2}, m_OnCooldown{false}, m_RotationSpeed{0.85},
+	GunComponent::GunComponent(GameObject* go, PlayerComponent* playerComp, EnemyComponent* enemyComp ): BaseComponent{ go }, m_CurrentCooldown{0}, m_MaxCooldown{2}, m_OnCooldown{false}, m_RotationSpeed{1.25},
 		m_pPlayerComp{playerComp}, m_pEnemyComp{enemyComp}
 	{
 		m_pRenderComp = m_Owner->GetComponent<RenderComponent>();
