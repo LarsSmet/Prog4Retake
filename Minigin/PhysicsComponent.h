@@ -14,7 +14,7 @@ namespace dae
     };
 
 
-    class PhysicsComponent : public BaseComponent
+    class PhysicsComponent final : public BaseComponent
     {
 
     public:
@@ -30,12 +30,14 @@ namespace dae
 
         void SetYVelocity(float yVelocity);
 
-        std::shared_ptr<RectColliderComponent> GetColliderComponent();
+        Velocity GetVelocity() const;
 
-        Velocity GetVelocity();
+        std::shared_ptr<RectColliderComponent> GetColliderComponent() const;
 
-        bool HandleCollision(RectColliderComponent* collision);
-        TransformComponent* GetTransformComp();
+       
+
+      
+        TransformComponent* GetTransformComp() const;
 
         void HandleLevelCollision();
 

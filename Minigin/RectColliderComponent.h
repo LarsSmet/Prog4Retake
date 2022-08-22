@@ -35,7 +35,7 @@ namespace dae
 	};
 
 
-	class RectColliderComponent : public BaseComponent
+	class RectColliderComponent final : public BaseComponent
 	{
 
 	public:

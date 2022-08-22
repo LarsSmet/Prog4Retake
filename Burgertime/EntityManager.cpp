@@ -14,7 +14,7 @@ namespace dae
 		}
 		else
 		{
-			//std::cout << "no playercomp found on this object";
+		
 		}
 
 	}
@@ -28,7 +28,7 @@ namespace dae
 		}
 		else
 		{
-			std::cout << "no enemycomp found on this object";
+			
 		}
 
 	}
@@ -47,7 +47,7 @@ namespace dae
 	void EntityManager::RemoveEnemy(const std::shared_ptr<GameObject>& enemy)
 	{
 
-		std::cout << "enemies in manager before erase: " << m_pEnemies.size() << '\n';
+
 
 
 	
@@ -55,12 +55,10 @@ namespace dae
 
 
 	
-		std::cout << "enemies in manager: " <<  m_pEnemies.size() << '\n';
+	
 
 
-	//	m_Objects.erase(startOfErase, m_Objects.end()); //remove all objects an once instead of seperately
-
-		//m_LateObjectsToRemove.clear()
+	
 
 	}
 

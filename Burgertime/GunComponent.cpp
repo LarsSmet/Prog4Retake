@@ -23,22 +23,7 @@ namespace dae
 		}
 
 
-		//if (m_Owner->GetTag() == "PLAYERGUN")
-		//{
-		//	std::cout << "Is owned by player";
-		//	m_GunOwner = GunOwner::player;
-		//	m_pPlayerComp 
-		//}
-		//if (m_Owner->GetTag() == "ENEMYGUN")
-		//{
-		//	std::cout << "Is owned by enemy";
-		//	m_GunOwner = GunOwner::enemy;
-		//}
-		//else
-		//{
-		//	std::cout << "TAG IS " << m_Owner->GetTag();
-		//	//std::cout << "NOT FOUND" << '\n';
-		//}
+	
 
 		
 		
@@ -62,11 +47,10 @@ namespace dae
 		
 
 		//if not enemy
-		if (m_GunOwner == GunOwner::player) //TODO: in move replace playerphys comp to enemy comp when cowner is enemy
+		if (m_GunOwner == GunOwner::player) 
 		{
 			Move();
-			//RotateGun();
-		//	Shoot();
+		
 		}
 	
 		elapsedSec;
@@ -84,7 +68,7 @@ namespace dae
 		{
 			ownerTransformPos = m_pEnemyComp->GetPhysicsComp()->GetTransformComp()->GetPosition();
 		}
-		/*auto playerTransformPos = m_pPlayerComp->GetPhysicsComp()->GetTransformComp()->GetPosition();*/
+
 		m_Owner->SetPosition(ownerTransformPos.x + 10, ownerTransformPos.y - 3);
 
 		//middle of tank
@@ -145,7 +129,7 @@ namespace dae
 			RectColliderComponent* bulletCollider = new RectColliderComponent{ bullet.get(), bulletShape };
 			PhysicsComponent* physicsComp = new PhysicsComponent{ bullet.get(), bullet->GetTransformComp(), bulletCollider };
 			bullet->AddComponent(physicsComp);
-			std::cout << "Gunowner is : " << int(m_GunOwner);
+			
 
 			auto tileMap = SceneManager::GetInstance().GetCurrentScene().GetTileMap()->GetComponent<TileMapComponent>();//TODO: Maybe remove get and just take shared ptr?
 

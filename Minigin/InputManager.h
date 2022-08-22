@@ -48,12 +48,7 @@ namespace dae
 		ControllerButton button{};
 		int controllerIndex = 0;
 
-		//auto operator<=>(const ControllerAction&) const = default;
-
-		/*	bool operator<(const ControllerAction& other) const
-		{
-			return std::tie(other.state, other.button, other.controllerIndex) < std::tie(other.state, other.button, other.controllerIndex);
-		}*/
+	
 
 		bool operator<(const ControllerAction& lhs) const //https://stackoverflow.com/questions/41911931/operator-overloading-of-c-stl-map-with-custom-classes
 		{

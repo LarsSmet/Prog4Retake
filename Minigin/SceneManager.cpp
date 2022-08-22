@@ -10,7 +10,7 @@ void dae::SceneManager::Update(float deltaTime)
 	m_Scenes[m_CurrentScene]->Update(deltaTime);
 
 
-	//go to next scene after update?
+	
 }
 
 void dae::SceneManager::Render()

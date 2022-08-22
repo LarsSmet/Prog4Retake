@@ -12,7 +12,7 @@ namespace dae
 
 	};
 
-	class Cell
+	class Cell 
 	{
 
 

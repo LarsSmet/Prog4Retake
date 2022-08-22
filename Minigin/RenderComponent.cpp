@@ -31,7 +31,7 @@ void dae::RenderComponent::SetTexture(const std::shared_ptr<Texture2D>& texture)
 	m_Texture = texture;
 }
 
-std::shared_ptr<dae::Texture2D> dae::RenderComponent::GetTexture()
+std::shared_ptr<dae::Texture2D> dae::RenderComponent::GetTexture() const
 {
 	return m_Texture;
 
@@ -54,12 +54,12 @@ void dae::RenderComponent::SetRotatePoint(Point2f point)
 	m_pRotationPoint->y = int(point.y);
 }
 
-bool dae::RenderComponent::HasRotation()
+bool dae::RenderComponent::HasRotation() const
 {
 	return m_HasRotation;
 }
 
-double dae::RenderComponent::GetAngle()
+double dae::RenderComponent::GetAngle() const
 {
 	return m_Angle;
 }

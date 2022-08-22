@@ -49,7 +49,7 @@ namespace dae
 
 		if (!input.is_open())
 		{
-			std::cout << "Opening file failed";
+			/*std::cout << "Opening file failed";*/
 			return;
 		}
 
@@ -86,7 +86,7 @@ namespace dae
 				input >> value;
 
 
-				//std::cout << value;
+				
 
 				switch (value)
 				{
@@ -187,13 +187,13 @@ namespace dae
 				if (GetCell(Point2f{ cellPos.x + offSet + m_CellWidth, cellPos.y + offSet })->HasCollision())
 				{
 					canGoRight = false;
-					//std::cout << GetCellIndex(Point2f{ cellPos.x + offSet + m_CellWidth, cellPos.y + offSet }) << "   ";
+					
 				}
 				else
 				{
 
 					canGoRight = true;
-					//std::cout << "IS:" << canGoRight;
+					
 				}
 
 
@@ -294,7 +294,7 @@ namespace dae
 
 
 		int index = row * m_AmountOfCol + col;
-		//std::cout << " Index: " << index;
+
 
 		return m_Map[index];
 
@@ -326,7 +326,7 @@ namespace dae
 		int currentElement = 0;
 		int currentIndex = leftTopIndex;
 
-	//	std::cout << " NEWEST CELLS CALCULATED: ";
+	
 
 		for (int row = 0; row < amountOfRows; ++row)
 		{
@@ -341,12 +341,12 @@ namespace dae
 				}
 				else
 				{
-					//std::cout << "called";
+					
 					vectorOfCells[currentElement] = m_Map[currentIndex];
 				}
 			
 				
-				//std::cout << " INDEX: " << currentIndex;
+			
 
 					++currentIndex;
 					++currentElement;
@@ -357,7 +357,7 @@ namespace dae
 
 		}
 		
-		//std::cout << " Amountofcellstocheck: " << vectorOfCells.size();
+	
 
 		
 

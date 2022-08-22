@@ -11,7 +11,7 @@ namespace dae
 {
 	class EnemyComponent;
 
-	class GunComponent: public BaseComponent
+	class GunComponent final: public BaseComponent
 	{
 	public:
 
@@ -34,16 +34,13 @@ namespace dae
 
 		PlayerComponent* m_pPlayerComp;
 		EnemyComponent* m_pEnemyComp;
-		//PhysicsComponent* m_pPhysicsComp;
-		//TransformComponent* m_pTransformComp;
+		
 
-		//Scene& m_Scene;
+		
 
 		RenderComponent* m_pRenderComp;
 
-		//TileMapComponent* m_pTileMap;
-
-		//bool m_OwnedByPlayer;
+	
 
 		GunOwner m_GunOwner;
 

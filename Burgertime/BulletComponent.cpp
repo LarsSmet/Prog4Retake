@@ -26,7 +26,7 @@ namespace dae
 	}
 	BulletComponent::~BulletComponent()
 	{
-		//std::cout << "DELEEEEEEEEEEEEEETE";
+	
 	}
 
 	void BulletComponent::Update(float elapsedSec)
@@ -42,18 +42,14 @@ namespace dae
 		HandleBounce();
 	
 		
-			//error not because bullet gets deleted
 		
-
-		//do movement
-		//m_pPhysicsComp->SetVelocity()
 	}
 
 	void BulletComponent::SetVelocity(Velocity velocity)
 	{
 		
 		m_Velocity = velocity;
-		std::cout << m_Velocity.y << '\n';
+		
 		m_pPhysicsComponent->SetVelocity(m_Velocity);
 	}
 
@@ -68,11 +64,11 @@ namespace dae
 
 	void BulletComponent::HandleBounce()
 	{
-		//std::cout << "handlebounce";
+		
 
 		auto bulletPos = m_pPhysicsComponent->GetTransformComp()->GetPosition();
 		auto bulletRectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
-		//std::cout << bulletRectCol.bottom << '\n';
+
 		
 
 		if (m_CurrentCell != m_pTileMapComponent->GetCell(Point2f{ bulletPos.x, bulletPos.y }))
@@ -94,7 +90,7 @@ namespace dae
 
 				Velocity velocityAfterBounce = m_Velocity;
 							
-				//check if top hit or bot hit
+				
 				//get hitinfo from hit, check which side is hit then adjust velocity accordingly
 				
 
@@ -113,7 +109,7 @@ namespace dae
 						velocityAfterBounce.y *= -1;
 						++m_BounceCounter;
 
-						//TODO: do breka to stop cells counting for multiple bounces
+						
 					}
 				}
 				else if (info.botColLeftIsHit || info.botColRightIsHit)
@@ -150,9 +146,7 @@ namespace dae
 			
 					if (m_BounceCounter >= 6) //after 5th bounce, if hits wall dont bounce but kill
 					{
-						//std::cout << "KILL";
-						
-					//	std::cout << "BOUNCECOUNTER: " << m_BounceCounter << '\n';
+					
 						KillBullet();
 					}
 				
@@ -168,14 +162,12 @@ namespace dae
 		if (m_GunOwner == GunOwner::player)
 		{
 
-			//buauto enemies = EntityManager::GetInstance().GetEnemies();
-
-			//std::cout << " There are currently: " << enemies.size() << " enemies ";
+	
 
 			for (size_t i = 0; i < m_EnemyComponents.size(); ++i)
 			{
 				auto rectCol = m_pPhysicsComponent->GetColliderComponent()->GetRectCollider();
-				float offset = -32; //has to be changed later
+				float offset = -32; 
 
 				Rectf rect{ rectCol.left, rectCol.bottom - offset, rectCol.width, rectCol.height };
 
@@ -184,17 +176,17 @@ namespace dae
 
 				if (enemyComp == nullptr)
 				{
-					//std::cout << "mistake";
+
 				}
 				else
 				{
-					//	std::cout << "no mistake";
+			
 
-					std::cout << " SCENE BEFORE ERROR: " << SceneManager::GetInstance().GetCurrentSceneIndex();
+					
 
 					if (utils::IsOverlapping(rect, enemyComp->GetPhysicsComp()->GetColliderComponent()->GetRectCollider())) //still chage
 					{
-						//std::cout << "POG";
+						
 						
 
 						
@@ -203,7 +195,7 @@ namespace dae
 
 						
 						
-						//SceneManager::GetInstance().GoToNextScene();
+						
 
 						
 						
@@ -219,12 +211,6 @@ namespace dae
 		}
 
 
-		//if (utils::IsOverlapping(rect, m_CellsToCheck[i]->GetRectCollider())) //still chage
-		//{
-
-		//	
-
-		//}
 
 		
 	}

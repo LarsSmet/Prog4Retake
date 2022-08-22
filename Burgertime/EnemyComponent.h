@@ -13,7 +13,7 @@ namespace dae
 	class GunComponent;
 	
 
-	class EnemyComponent : public BaseComponent, Subject
+	class EnemyComponent final: public BaseComponent, Subject
 	{
 
 	public:
@@ -37,12 +37,12 @@ namespace dae
 
 		void Kill();
 
-		//std::vector<std::shared_ptr<Cell>>& GetCellsToCheck();
+
 
 		void DealDamage(int dmg);
 	private:
 
-		/*AIState* m_State;*/
+		
 
 		PhysicsComponent* m_pPhysicsComponent;
 

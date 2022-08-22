@@ -18,7 +18,7 @@ namespace dae
 	class PlayerComponent;
 	class EnemyComponent;
 
-	class BulletComponent : public BaseComponent 
+	class BulletComponent final : public BaseComponent 
 	{
 	public:
 		BulletComponent(GameObject* go, PhysicsComponent* physicsComp, TileMapComponent* tileMap, GunOwner gunOwner);
@@ -46,7 +46,7 @@ namespace dae
 		std::vector<std::shared_ptr<Cell>> m_CellsToCheck{};
 
 
-		//bool m_KillBullet;
+
 
 		void HandleBounce();
 		void HandleDamage();

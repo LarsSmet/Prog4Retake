@@ -1,8 +1,7 @@
 #include "MiniginPCH.h"
 #include "TransformComponent.h"
 
-//i did not make this myself.
-//SOURCE: HOWEST DAE Programming 2 files 
+
 
 namespace dae
 {
@@ -18,12 +17,12 @@ namespace dae
 		deltaTime;
 	}
 
-	void TransformComponent::SetXPosition(const float x)
+	void TransformComponent::SetXPosition( float x)
 	{
 		m_Position.x = x;
 	
 	}
-	void TransformComponent::SetYPosition( const float y)
+	void TransformComponent::SetYPosition(  float y)
 	{
 
 		m_Position.y = y;
@@ -31,12 +30,12 @@ namespace dae
 	
 	}
 
-	void TransformComponent::SetPosition(const float x, const float y)
+	void TransformComponent::SetPosition( float x,  float y)
 	{
 		m_Position.x = x;
 		m_Position.y = y;
 		
-		//std::cout << m_Position.x;
+	
 	}
 
 	void TransformComponent::Move(float xOffSet, float yOffSet)
@@ -48,7 +47,6 @@ namespace dae
 	glm::vec2 TransformComponent::GetPosition() const
 	{
 
-		//std::cout << m_Position.x;
 		return m_Position;
 	}
 

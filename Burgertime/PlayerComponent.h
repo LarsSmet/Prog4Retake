@@ -14,12 +14,12 @@ namespace dae
 		moving
 	};
 
-	class PlayerComponent : public BaseComponent
+	class PlayerComponent final : public BaseComponent
 	{
 
 	public:
 
-		PlayerComponent(GameObject* go, PhysicsComponent* physComp/*, TileMapComponent* tileMap*/);
+		PlayerComponent(GameObject* go, PhysicsComponent* physComp);
 		~PlayerComponent();
 
 		virtual void Update(float elapsedSec);
@@ -41,10 +41,10 @@ namespace dae
 	private:
 
 
-		// add transform component
+		
 
 		PhysicsComponent* m_pPhysicsComponent;
-		//TransformComponent* m_pTransformComp;
+	
 
 
 		TileMapComponent* m_pTileMapComponent;
@@ -55,6 +55,8 @@ namespace dae
 		std::shared_ptr<Cell> m_CurrentCell;
 
 		int m_CurrentScene;
+
+		int m_Health;
 
 	};
 

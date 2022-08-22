@@ -11,11 +11,7 @@ namespace dae
 
 	PhysicsComponent::~PhysicsComponent()
 	{
-	/*	delete m_pTransformComp;
-		m_pTransformComp = nullptr;*/
 
-		/*delete m_pColliderComp;
-		m_pColliderComp = nullptr;*/
 
 	
 	}
@@ -29,13 +25,13 @@ namespace dae
 		m_pTransformComp->Move(m_Velocity.x * deltaTime, m_Velocity.y * deltaTime);
 		m_pColliderComp->Move(m_Velocity.x * deltaTime, m_Velocity.y * deltaTime);
 
-		//std::cout << "coliderPos: " << m_pColliderComp->GetPosition().x;
+		
 
 	}
 
 
 
-	std::shared_ptr <RectColliderComponent> PhysicsComponent::GetColliderComponent()
+	std::shared_ptr <RectColliderComponent> PhysicsComponent::GetColliderComponent() const
 	{
 		return m_pColliderComp;
 	}
@@ -55,96 +51,13 @@ namespace dae
 		m_Velocity.y = yVelocity;
 	}
 
-	Velocity PhysicsComponent::GetVelocity()
+	Velocity PhysicsComponent::GetVelocity() const
 	{
 		return m_Velocity;
 	}
 
-	//bool PhysicsComponent::HandleCollision(RectColliderComponent* collision)
-	//{
-	//	//TODO: when landing vertically it also uses the horizontal movement causing the player to tp to the side of the cell. 
-	//	//OR  -> left and right side get triggered by the raycast, causing these teleporting movements
 
-	//	auto colInfo = m_pColliderComp->OnCollision(collision);
-
-	//	if (colInfo.hit)
-	//	{
-	//		//std::cout << "TESTER";
-	//	}
-
-	//	if (!colInfo.hit)
-	//	{
-	//		return false;
-	//	}
-
-	//	if (colInfo.leftColBotIsHit) 
-	//	{
-	//		auto hitPoint = colInfo.leftColBot.intersectPoint;
-
-	//		m_pTransformComp->SetXPosition(hitPoint.x + 1);
-	//		m_pColliderComp->SetXPosition(hitPoint.x + 1);
-	//	
-	//	}
-	//	else if (colInfo.leftColTopIsHit)
-	//	{
-	//		auto hitPoint = colInfo.leftColTop.intersectPoint;
-
-	//		m_pTransformComp->SetXPosition(hitPoint.x + 1);
-	//		m_pColliderComp->SetXPosition(hitPoint.x + 1);
-
-	//	}
-	//	else if (colInfo.rightColBotIsHit)
-	//	{
-	//		auto hitPoint = colInfo.rightColBot.intersectPoint;
-
-	//		m_pTransformComp->SetXPosition(hitPoint.x - m_pColliderComp->GetRectCollider().width - 1);
-	//		m_pColliderComp->SetXPosition(hitPoint.x - m_pColliderComp->GetRectCollider().width - 1);
-
-	//	}
-	//	else if (colInfo.rightColTopIsHit)
-	//	{
-	//		auto hitPoint = colInfo.rightColTop.intersectPoint;
-
-	//		m_pTransformComp->SetXPosition(hitPoint.x - m_pColliderComp->GetRectCollider().width - 1);
-	//		m_pColliderComp->SetXPosition(hitPoint.x - m_pColliderComp->GetRectCollider().width - 1);
-	//	}
-
-	//	////vertical
-	//	if (colInfo.botColLeftIsHit)
-	//	{
-	//		auto hitPoint = colInfo.botColLeft.intersectPoint;
-
-	//		m_pTransformComp->SetYPosition(hitPoint.y - m_pColliderComp->GetRectCollider().height -1);
-	//		m_pColliderComp->SetYPosition(hitPoint.y -1);
-
-	//	}
-	//	else if (colInfo.botColRightIsHit)
-	//	{
-	//		auto hitPoint = colInfo.botColRight.intersectPoint;
-
-	//		m_pTransformComp->SetYPosition(hitPoint.y - m_pColliderComp->GetRectCollider().height - 1);
-	//		m_pColliderComp->SetYPosition(hitPoint.y - 1);
-	//	}
-	//	else if (colInfo.topColLeftIsHit)
-	//	{
-	//		auto hitPoint = colInfo.topColLeft.intersectPoint;
-
-	//		m_pTransformComp->SetYPosition(hitPoint.y + 1);
-	//		m_pColliderComp->SetYPosition(hitPoint.y + m_pColliderComp->GetRectCollider().height +1);
-	//	}
-	//	else if (colInfo.topColRightIsHit)
-	//	{
-	//		auto hitPoint = colInfo.topColRight.intersectPoint;
-
-	//		m_pTransformComp->SetYPosition(hitPoint.y + 1);
-	//		m_pColliderComp->SetYPosition(hitPoint.y + m_pColliderComp->GetRectCollider().height + 1);
-	//	}
-
-	//	return true;
-	//}
-
-
-	TransformComponent* PhysicsComponent::GetTransformComp()
+	TransformComponent* PhysicsComponent::GetTransformComp() const
 	{
 		return m_pTransformComp;
 	}
@@ -158,14 +71,13 @@ namespace dae
 
 	bool PhysicsComponent::HandleCollision(Rectf collision)
 	{
-		//TODO: when landing vertically it also uses the horizontal movement causing the player to tp to the side of the cell. 
-		//OR  -> left and right side get triggered by the raycast, causing these teleporting movements
+
 
 		auto colInfo = m_pColliderComp->OnCollision(collision);
 
 		if (colInfo.hit)
 		{
-			//std::cout << "TESTER";
+
 		}
 
 		if (!colInfo.hit)
@@ -177,32 +89,32 @@ namespace dae
 		{
 			auto hitPoint = colInfo.leftColBot.intersectPoint;
 
-			m_pTransformComp->SetXPosition(hitPoint.x/* + 1*/);
-			m_pColliderComp->SetXPosition(hitPoint.x /*+ 1*/);
+			m_pTransformComp->SetXPosition(hitPoint.x);
+			m_pColliderComp->SetXPosition(hitPoint.x );
 
 		}
 		else if (colInfo.leftColTopIsHit)
 		{
 			auto hitPoint = colInfo.leftColTop.intersectPoint;
 
-			m_pTransformComp->SetXPosition(hitPoint.x /*+ 1*/);
-			m_pColliderComp->SetXPosition(hitPoint.x /*+ 1*/);
+			m_pTransformComp->SetXPosition(hitPoint.x );
+			m_pColliderComp->SetXPosition(hitPoint.x );
 
 		}
 		else if (colInfo.rightColBotIsHit)
 		{
 			auto hitPoint = colInfo.rightColBot.intersectPoint;
 
-			m_pTransformComp->SetXPosition(hitPoint.x - m_pColliderComp->GetRectCollider().width /*- 1*/);
-			m_pColliderComp->SetXPosition(hitPoint.x - m_pColliderComp->GetRectCollider().width /*- 1*/);
+			m_pTransformComp->SetXPosition(hitPoint.x - m_pColliderComp->GetRectCollider().width );
+			m_pColliderComp->SetXPosition(hitPoint.x - m_pColliderComp->GetRectCollider().width );
 
 		}
 		else if (colInfo.rightColTopIsHit)
 		{
 			auto hitPoint = colInfo.rightColTop.intersectPoint;
 
-			m_pTransformComp->SetXPosition(hitPoint.x - m_pColliderComp->GetRectCollider().width /*- 1*/);
-			m_pColliderComp->SetXPosition(hitPoint.x - m_pColliderComp->GetRectCollider().width /*- 1*/);
+			m_pTransformComp->SetXPosition(hitPoint.x - m_pColliderComp->GetRectCollider().width );
+			m_pColliderComp->SetXPosition(hitPoint.x - m_pColliderComp->GetRectCollider().width );
 		}
 
 		////vertical
@@ -210,93 +122,37 @@ namespace dae
 		{
 			auto hitPoint = colInfo.botColLeft.intersectPoint;
 
-			m_pTransformComp->SetYPosition(hitPoint.y - m_pColliderComp->GetRectCollider().height /*- 1*/);
-			m_pColliderComp->SetYPosition(hitPoint.y /*- 1*/);
+			m_pTransformComp->SetYPosition(hitPoint.y - m_pColliderComp->GetRectCollider().height );
+			m_pColliderComp->SetYPosition(hitPoint.y );
 
 		}
 		else if (colInfo.botColRightIsHit)
 		{
 			auto hitPoint = colInfo.botColRight.intersectPoint;
 
-			m_pTransformComp->SetYPosition(hitPoint.y - m_pColliderComp->GetRectCollider().height /*- 1*/);
-			m_pColliderComp->SetYPosition(hitPoint.y /*- 1*/);
+			m_pTransformComp->SetYPosition(hitPoint.y - m_pColliderComp->GetRectCollider().height );
+			m_pColliderComp->SetYPosition(hitPoint.y );
 		}
 		else if (colInfo.topColLeftIsHit)
 		{
 			auto hitPoint = colInfo.topColLeft.intersectPoint;
 
-			m_pTransformComp->SetYPosition(hitPoint.y /*+ 1*/);
-			m_pColliderComp->SetYPosition(hitPoint.y + m_pColliderComp->GetRectCollider().height /*+ 1*/);
+			m_pTransformComp->SetYPosition(hitPoint.y );
+			m_pColliderComp->SetYPosition(hitPoint.y + m_pColliderComp->GetRectCollider().height );
 		}
 		else if (colInfo.topColRightIsHit)
 		{
 			auto hitPoint = colInfo.topColRight.intersectPoint;
 
-			m_pTransformComp->SetYPosition(hitPoint.y /*+ 1*/);
-			m_pColliderComp->SetYPosition(hitPoint.y + m_pColliderComp->GetRectCollider().height /*+ 1*/);
+			m_pTransformComp->SetYPosition(hitPoint.y );
+			m_pColliderComp->SetYPosition(hitPoint.y + m_pColliderComp->GetRectCollider().height );
 		}
 
 		return true;
 	}
 
 
-	//bool PhysicsComponent::HandleCollision(Rectf other)
-	//{
-
-	//	auto collider = m_pColliderComp->GetRectCollider();
-
-	//	Point2f newPos{ collider.left, collider.bottom };
-
-
-	//	//collider hits left side of other obj
-	//	if ((collider.left <= other.left + other.width) && (collider.left + collider.width > other.left + other.width) &&
-	//		(((collider.bottom >= other.bottom) && (collider.bottom <= (other.bottom + other.height))) ||
-	//			((collider.bottom + collider.height >= other.bottom) && ((collider.bottom + collider.height) <= other.bottom + other.height)) ||
-	//			((collider.bottom <= other.bottom) && ((collider.bottom + collider.height) >= other.bottom + other.height))))
-	//			
-	//	{
-	//	/*	m_pColliderComp->SetPosition(other.left + other.width, collider.bottom);
-	//		m_pTransformComp->SetPosition(other.left + other.width, collider.bottom);*/
-
-	//		newPos.x = other.left + other.width;
-
-	//		std::cout << "left col";
-	//		//return true;
-	//	}
-	//	
-
-	//
-	//	//right collision
-	//	
-	//	//bot collision
-	//	if ((collider.bottom <= other.bottom + other.height) && (collider.bottom + collider.height > other.bottom + other.height) &&
-	//		(((collider.left >= other.left) && (collider.left <= (other.left + other.width))) ||
-	//			((collider.left + collider.width >= other.left) && ((collider.left + collider.width) <= other.left + other.width)) ||
-	//			((collider.left <= other.left) && ((collider.left + collider.width) >= other.left + other.width))))
-	//	{
-	//	/*	m_pColliderComp->SetPosition(collider.left, other.bottom + other.height);
-	//		m_pTransformComp->SetPosition(collider.left, other.bottom + other.height);*/
-
-	//		newPos.y = other.bottom + other.height;
-
-
-	//		std::cout << "TOP col";
-	//		//return true;
-	//	}
-
-
-	//	//top collision
-
-
-	//	m_pColliderComp->SetPosition(newPos.x, newPos.y);
-	//	m_pTransformComp->SetPosition(newPos.x, newPos.y);
-
-
-
-	//	return false;
-
-
-	//}
+	
 }
 
 

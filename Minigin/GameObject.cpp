@@ -3,8 +3,7 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 #include "RenderComponent.h"
-//#include "BaseColliderComponent.h"
-//#include "RectangleColliderComponent.h"
+
 #include "TileMapComponent.h"
 #include "Scene.h"
 #include "SceneManager.h"
@@ -30,7 +29,7 @@ void dae::GameObject::Update(float deltaTime)
 
 	//update all components
 
-	for (auto& component : m_Components)//error when deleting bullet -> still updates some component after delete. fix in scene
+	for (auto& component : m_Components)
 	{
 		
 		component->Update(deltaTime);
@@ -74,7 +73,7 @@ void dae::GameObject::Render() const
 				{
 
 					Renderer::GetInstance().RenderTexture(*texture, pos.x, pos.y, renderComponent->GetAngle(), renderComponent->GetRotationPoint());
-					//std::cout << renderComponent->GetRotationPoint()->x << "   y: " << renderComponent->GetRotationPoint()->y << "   }";
+					
 				}
 				else
 				{

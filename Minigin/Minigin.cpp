@@ -16,8 +16,7 @@
 #include "TransformComponent.h"
 #include "RenderComponent.h"
 //#include "PlayerComponent.h"
-#include "LivesDisplayComponent.h"
-#include "PointDisplayComponent.h"
+
 
 #include "SoundSystem.h"
 

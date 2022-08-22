@@ -25,9 +25,9 @@ namespace dae
 
 
 
-		std::cout << "EXISsssssssssssssssssssssssssssssssssssssTS";
+		
 
-		//std::cout << "MOVE UPDATE";
+	
 
 
 		
@@ -39,12 +39,12 @@ namespace dae
 		auto distance = glm::distance2(playerCenter, enemyCenter);
 		if (distance <= 15000.0f && distance > 7000)
 		{
-			std::cout << "DIST TO PLAYER between move and shoot" << '\n';;
+			
 			return new MoveAndShootState{ m_pPlayerComponent };
 		}
 		else if (distance <= 7000)
 		{
-			std::cout << "DIST TO PLAYER FROM is shoot" << '\n';;
+			
 			return new ShootState{ m_pPlayerComponent };
 		}
 
@@ -56,7 +56,7 @@ namespace dae
 
 	void MoveState::OnEnter(EnemyComponent* enemyComp, GunComponent* gunComp)
 	{
-		std::cout << "ON ENTER CALLED IN MOVESTATE" << '\n';
+		
 
 		enemyComp; gunComp;
 	}
@@ -91,16 +91,16 @@ namespace dae
 		gunComp->RotateGun();
 		gunComp->Shoot();
 
-		//utils::Raycast()
+		
 
 		if (distance > 15000.0f)
 		{
-			//std::cout << "DIST TO PLAYER FROM AI IS TOO SMALL";
+			
 			return new MoveState{ m_pPlayerComponent };
 		}
 		if (distance <= 15000.0f && distance > 7000)
 		{
-			std::cout << "TRANSITION TO MOVESHOOT" << '\n';
+			
 			return new MoveAndShootState{ m_pPlayerComponent };
 		}
 	
@@ -114,7 +114,7 @@ namespace dae
 
 	void ShootState::OnEnter(EnemyComponent* enemyComp, GunComponent* gunComp)
 	{
-		std::cout << "CALLED ON ENTER IN SHOOT";
+		
 
 
 
@@ -154,17 +154,17 @@ namespace dae
 
 		if (distance > 15000.0f)
 		{
-			//std::cout << "DIST TO PLAYER FROM AI IS TOO SMALL";
+			
 			return new MoveState{ m_pPlayerComponent };
 		}
 		else if (distance <= 7000)
 		{
-			//std::cout << "DIST TO PLAYER FROM AI IS TOO SMALL";
+			
 			return new ShootState{ m_pPlayerComponent };
 		}
 
 
-		std::cout << "MOVEANDSHOOTSTATE UPDATE";
+		
 
 		return nullptr;
 	}

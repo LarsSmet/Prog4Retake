@@ -30,33 +30,26 @@ namespace dae
 			
 
 
-			//	auto yPosCharacter = m_PlayerComp->GetPhysicsComp()->GetColliderComponent()->GetRectCollider().bottom + 17 /*+ 16*/; //plus 16 because bottom is actually left top
-				//yPosCharacter;
-				//std::cout << m_Velocity.y;
+		
 
 
 			auto physComp = m_PlayerComp->GetPhysicsComp();
 
 			if (m_Velocity.y < 0)
 			{
-				//std::cout << "UP";
+			
 			}
 			if (m_Velocity.y > 0)
 			{
-				//std::cout << "down";
+			
 			}
 
 
 
 			
 
-			//m_CharacterComp->SetState(State::Normal);
-			/*if (m_Velocity.y == 0)
-			{*/
 			physComp->SetVelocity(m_Velocity);
-			//}
-
-				//std::cout << m_Velocity.y;
+		
 
 		}
 
@@ -84,7 +77,7 @@ namespace dae
 
 		void Execute()
 		{
-			std::cout << "CALLED THESHOOT COMMAND BY PRESSING ONCE" << '\n';
+			
 			m_GunComp->Shoot();
 		}
 

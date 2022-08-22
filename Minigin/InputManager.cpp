@@ -133,10 +133,6 @@ namespace dae
                     command.second->Execute();
                 }
 
-               /* if (unsigned int(command.first.key))
-                {
-                    command.second->Execute();
-                }*/
 
 
                 break;
@@ -147,10 +143,7 @@ namespace dae
                     command.second->Execute();
                 }
 
-               /* if (unsigned int(command.first.key))
-                {
-                    command.second->Execute();
-                }*/
+            
 
                 break;
             case ActionState::Hold:

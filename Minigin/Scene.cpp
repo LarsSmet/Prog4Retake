@@ -69,7 +69,7 @@ void Scene::Update(float deltaTime)
 
 		for (const auto& objectToRemove : m_LateObjectsToRemove)
 		{
-			//only checks until startpos of the erase, if new element to delete to remove has been found, change teh startpos of the erare
+			//only checks until startpos of the erase, if new element to delete to remove has been found, change the startpos of the erase
 			startOfErase = std::remove_if(m_Objects.begin(), startOfErase, [objectToRemove](const std::shared_ptr<GameObject >& go){return go == objectToRemove;});
 				
 
@@ -119,19 +119,7 @@ void Scene::Render() const
 	}
 }
 
-//void Scene::GetObjectsOfTag(std::vector<std::shared_ptr<GameObject>>& objects, std::string tag)
-//{
-//	objects.clear();
-//
-//	for (const auto& objectToCheck : m_Objects) //todo: replace with find_if later?
-//	{
-//		if (objectToCheck->GetTag() == tag)
-//		{
-//			objects.emplace_back(objectToCheck);
-//		}
-//	}
-//
-//}
+
 
 std::vector<std::shared_ptr<GameObject>> Scene::GetObjectsOfTag( std::string tag)
 {

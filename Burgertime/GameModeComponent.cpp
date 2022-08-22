@@ -29,7 +29,7 @@ namespace dae
 		case Event::BlueTankdied:
 
 		
-			if (SceneManager::GetInstance().GetCurrentScene().GetObjectsOfTag("ENEMY").size() == 1) //if no enemies elft go to next scene
+			if (SceneManager::GetInstance().GetCurrentScene().GetObjectsOfTag("ENEMY").size() == 1) //if no enemies left go to next scene
 			{
 				SceneManager::GetInstance().GoToNextScene();
 			}
@@ -37,7 +37,7 @@ namespace dae
 			break;
 		case Event::RecognizerDied:
 
-			if (SceneManager::GetInstance().GetCurrentScene().GetObjectsOfTag("ENEMY").size() == 1) //if no enemies elft go to next scene
+			if (SceneManager::GetInstance().GetCurrentScene().GetObjectsOfTag("ENEMY").size() == 1) //if no enemies left go to next scene
 			{
 				SceneManager::GetInstance().GoToNextScene();
 			}

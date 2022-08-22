@@ -7,7 +7,7 @@ namespace dae
 
 	class Texture2D;
 
-	class RenderComponent : public BaseComponent
+	class RenderComponent final : public BaseComponent
 	{
 
 	public:
@@ -18,7 +18,7 @@ namespace dae
 		void SetTexture(const std::string& filename);
 		void SetTexture(const std::shared_ptr<Texture2D>& texture);
 
-		std::shared_ptr<Texture2D> GetTexture();
+		std::shared_ptr<Texture2D> GetTexture() const;
 
 		void RotateForward(double angleIncrease);
 
@@ -26,8 +26,8 @@ namespace dae
 		void SetRotation(double angle);
 		void SetRotatePoint(Point2f point);
 
-		bool HasRotation();
-		double GetAngle();
+		bool HasRotation() const;
+		double GetAngle() const;
 		SDL_Point* GetRotationPoint();
 
 	private:

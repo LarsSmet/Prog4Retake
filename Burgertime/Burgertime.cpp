@@ -12,30 +12,24 @@
 #include <RenderComponent.h>
 #include <ResourceManager.h>
 #include <TextComponent.h>
-#include <LivesDisplayComponent.h>
-#include <PointDisplayComponent.h>
+
 #include <InputManager.cpp>
-//#include <RectangleColliderComponent.h>
+
 #include <cmath>
 #include <algorithm>
 #include <iostream>
 #include "SDL_opengl.h"
 #include "utils.h"
-//#include <PhysicsComponent.h>
-//#include "CharacterComponent.h"
+
 #include "Texture2D.h"
-//#include <VerticesCollider.h>
+
 
 #include <TileMapComponent.h>
 #include "PlayerComponent.h"
 #include "GameCommands.h"
 #include "GunComponent.h"
 #include "EnemyComponent.h"
-//#include "GameCommands.h"
-//#include "BurgerPartComponent.h"
-//#include "GameModeComponent.h"
-//#include "GameModeComponent.h"
-//#include "EnemyComponent.h"
+
 #include "EntityManager.h"
 #include "ScoreComponent.h"
 #include "GameModeComponent.h"
@@ -340,10 +334,7 @@ void CreateScene(const std::shared_ptr<GameObject>& player, const std::shared_pt
 	scene.Add(gameMode);
 	scene.AddPrefabToReload(SpawnEnemyPrefabLvl0);
 
-	//EntityManager& entityManager = EntityManager::GetInstance();
 
-	//entityManager.AddPlayer(player);
-	//entityManager.AddEnemy(enemy);
 
 }
 
@@ -415,13 +406,13 @@ void LoadGame()
 	float playerStartX = 50;
 	float playerStartY = 450; //250
 	auto player = std::make_shared<GameObject>(playerStartX, playerStartY, "PLAYER");
-	RenderComponent* renderComponent = new RenderComponent{ player.get() , false,nullptr }; //maybe change to true if we want the player to rotate
+	RenderComponent* renderComponent = new RenderComponent{ player.get() , false,nullptr }; 
 	renderComponent->SetTexture("PlayerTank.png");
 	player->AddComponent(renderComponent);
 	auto texture = renderComponent->GetTexture()->GetSDLTexture();
 	SDL_Point size;
 	SDL_QueryTexture(texture, nullptr, nullptr, &size.x, &size.y);
-	Rectf playerShape{ playerStartX,playerStartY + float(size.y), float(size.x),float(size.y) }; //IMPORTANT! ypos needs to be + SIZE because of rect and render having dif starting points
+	Rectf playerShape{ playerStartX,playerStartY + float(size.y), float(size.x),float(size.y) }; 
 	RectColliderComponent* playerCollider = new RectColliderComponent{ player.get(), playerShape };
 	PhysicsComponent* myPlayerPhysicsComp = new PhysicsComponent{ player.get(), player->GetTransformComp(), playerCollider };
 	player->AddComponent(myPlayerPhysicsComp);
@@ -500,7 +491,6 @@ void LoadGame()
 	std::shared_ptr<SkipLevelCommand> skipLevel = std::make_shared<SkipLevelCommand>();
 	inputManager.BindKey(skipLevelControllerButton, skipLevel);
 
-	
 
 	//KEYBOARD
 
@@ -526,7 +516,8 @@ void LoadGame()
 
 	KeyBoardAction rotateGunKeyKeyBoard{ ActionState::Hold, SDL_SCANCODE_R };
 	inputManager.BindKey(rotateGunKeyKeyBoard, rotate);
-;
+
+	
 
 
 	CreateScene(player, gun, scoreTracker, gameMode);
