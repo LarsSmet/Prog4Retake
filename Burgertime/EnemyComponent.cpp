@@ -4,6 +4,8 @@
 #include <utils.cpp>
 #include "GunComponent.h"
 #include "ScoreComponent.h"
+#include <SoundSystem.h>
+#include "GameModeComponent.h"
 
 
 
@@ -141,11 +143,23 @@ namespace dae
 
 		for (const auto& observer : observers)
 		{
-			auto observerComp = observer->GetComponent<ScoreComponent>();
-			if (observerComp != nullptr)
+			auto scoreComp = observer->GetComponent<ScoreComponent>();
+			
+			if (scoreComp != nullptr)
 			{
-				m_Observers.emplace_back(observerComp);
+				m_Observers.emplace_back(scoreComp);
 			}
+			else
+			{
+				auto gameModeComp = observer->GetComponent<GameModeComponent>();
+
+				if (gameModeComp != nullptr)
+				{
+					m_Observers.emplace_back(gameModeComp);
+				}
+
+			}
+			
 
 			
 		}
@@ -712,6 +726,12 @@ namespace dae
 			Notify(Event::BlueTankdied);
 		}
 
+		auto& ss = ServiceLocator::GetSoundSystem();
+
+
+		const char* path = "../Data/DeathSound.wav";
+		int volume = 10;
+		ss.PlaySoundRequest(SoundRequest{ path, volume });
 
 
 		auto bullets = SceneManager::GetInstance().GetCurrentScene().GetObjectsOfTag("BULLET");
@@ -734,7 +754,7 @@ namespace dae
 	{
 		m_Health -= dmg;
 
-		if (m_Health == 0)
+		if (m_Health <= 0)
 		{
 			Kill();
 		}

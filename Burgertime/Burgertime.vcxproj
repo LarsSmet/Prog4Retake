@@ -198,6 +198,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll $(OutputPath) 
     <ClCompile Include="EnemyComponent.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="GameCommands.cpp" />
+    <ClCompile Include="GameModeComponent.cpp" />
     <ClCompile Include="GunComponent.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -214,6 +215,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll $(OutputPath) 
     <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="GameCommands.h" />
+    <ClInclude Include="GameModeComponent.h" />
     <ClInclude Include="GunComponent.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayerComponent.h" />

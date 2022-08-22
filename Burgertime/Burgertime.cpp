@@ -33,11 +33,12 @@
 #include "EnemyComponent.h"
 //#include "GameCommands.h"
 //#include "BurgerPartComponent.h"
-//#include "GameMode.h"
-//#include "GameMode.h"
+//#include "GameModeComponent.h"
+//#include "GameModeComponent.h"
 //#include "EnemyComponent.h"
 #include "EntityManager.h"
 #include "ScoreComponent.h"
+#include "GameModeComponent.h"
 
 
 using namespace dae;
@@ -310,11 +311,11 @@ void SpawnEnemyPrefabLvl2()
 }
 
 
-void CreateScene(const std::shared_ptr<GameObject>& player, const std::shared_ptr<GameObject>& gun, const std::shared_ptr<GameObject>& score)
+void CreateScene(const std::shared_ptr<GameObject>& player, const std::shared_ptr<GameObject>& gun, const std::shared_ptr<GameObject>& score, const std::shared_ptr<GameObject>& gameMode)
 {
 
 
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	auto& scene = SceneManager::GetInstance().CreateScene("0");
 
 
 
@@ -336,6 +337,7 @@ void CreateScene(const std::shared_ptr<GameObject>& player, const std::shared_pt
 	scene.Add(player); 
 	scene.Add(gun);
 	scene.Add(score);
+	scene.Add(gameMode);
 	scene.AddPrefabToReload(SpawnEnemyPrefabLvl0);
 
 	//EntityManager& entityManager = EntityManager::GetInstance();
@@ -346,11 +348,11 @@ void CreateScene(const std::shared_ptr<GameObject>& player, const std::shared_pt
 }
 
 
-void CreateScene1(const std::shared_ptr<GameObject>& player, const std::shared_ptr<GameObject>& gun, const std::shared_ptr<GameObject>& score)
+void CreateScene1(const std::shared_ptr<GameObject>& player, const std::shared_ptr<GameObject>& gun, const std::shared_ptr<GameObject>& score, const std::shared_ptr<GameObject>& gameMode)
 {
 
 
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	auto& scene = SceneManager::GetInstance().CreateScene("1");
 
 
 
@@ -371,15 +373,15 @@ void CreateScene1(const std::shared_ptr<GameObject>& player, const std::shared_p
 	scene.Add(gun);
 
 	scene.Add(score);
-
+	scene.Add(gameMode);
 	scene.AddPrefabToReload(SpawnEnemyPrefabLvl1);
 }
 
-void CreateScene2(const std::shared_ptr<GameObject>& player, const std::shared_ptr<GameObject>& gun, const std::shared_ptr<GameObject>& score)
+void CreateScene2(const std::shared_ptr<GameObject>& player, const std::shared_ptr<GameObject>& gun, const std::shared_ptr<GameObject>& score,  const std::shared_ptr<GameObject>& gameMode)
 {
 
 
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	auto& scene = SceneManager::GetInstance().CreateScene("2");
 
 
 
@@ -400,7 +402,7 @@ void CreateScene2(const std::shared_ptr<GameObject>& player, const std::shared_p
 	scene.Add(gun);
 
 	scene.Add(score);
-
+	scene.Add(gameMode);
 	scene.AddPrefabToReload(SpawnEnemyPrefabLvl2);
 }
 
@@ -457,6 +459,11 @@ void LoadGame()
 	scoreTracker->AddComponent(renderComponent);
 	//scoreTracker->AddComponent(textComp);
 	scoreTracker->AddComponent(scoreComp);
+
+	auto gameMode = std::make_shared<GameObject>(0.0f, 0.0f, "OBSERVER");
+
+	GameModeComponent* gameModeComp = new GameModeComponent(gameMode.get());
+	gameMode->AddComponent(gameModeComp);
 
 
 	//commands
@@ -516,9 +523,9 @@ void LoadGame()
 
 
 
-	CreateScene(player, gun, scoreTracker);
-	CreateScene1(player, gun, scoreTracker);
-	CreateScene2(player, gun, scoreTracker);
+	CreateScene(player, gun, scoreTracker, gameMode);
+	CreateScene1(player, gun, scoreTracker, gameMode);
+	CreateScene2(player, gun, scoreTracker, gameMode);
 
 
 
